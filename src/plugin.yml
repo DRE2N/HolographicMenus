@@ -1,6 +1,6 @@
 name: HolographicMenus
 main: ml.dre2n.holographicmenus.HolographicMenus
-version: 0.1.1-SNAPSHOT
+version: 0.1.1
 author: Daniel Saukel
 website: http://www.dre2n.ml
 depend: [HolographicDisplays]
