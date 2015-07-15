@@ -86,51 +86,136 @@ public class ManagePageHoloMenuTask implements Runnable {
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
-		}
-		if (page == 2) {
+		} else if (page == 2) {
 			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_2_button1, uuid));
 			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_2_button2, uuid));
 			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_2_button3, uuid));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
-		}
-		if (page == 3) {
+		} else if (page == 3) {
 			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_3_button1, uuid));
 			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_3_button2, uuid));
 			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_3_button3, uuid));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
-		}
-		if (page == 4) {
+		} else if (page == 4) {
 			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_4_button1, uuid));
 			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_4_button2, uuid));
 			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_4_button3, uuid));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
-		}
-		if (page == 5) {
+		} else if (page == 5) {
 			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_5_button1, uuid));
 			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_5_button2, uuid));
 			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_5_button3, uuid));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
-		}
-		if (page == 6) {
+		} else if (page == 6) {
 			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_6_button1, uuid));
 			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_6_button2, uuid));
 			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_6_button3, uuid));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
-		}
-		if (page == 7) {
+		} else if (page == 7) {
 			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_7_button1, uuid));
 			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_7_button2, uuid));
 			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_7_button3, uuid));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
+		} else if (page == 8) {
+			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_8_button1, uuid));
+			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_8_button2, uuid));
+			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_8_button3, uuid));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
+		} else if (page == 9) {
+			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_9_button1, uuid));
+			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_9_button2, uuid));
+			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_9_button3, uuid));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
+		} else if (page == 10) {
+			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_10_button1, uuid));
+			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_10_button2, uuid));
+			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_10_button3, uuid));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
+		} else if (page == 11) {
+			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_11_button1, uuid));
+			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_11_button2, uuid));
+			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_11_button3, uuid));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
+		} else if (page == 12) {
+			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_12_button1, uuid));
+			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_12_button2, uuid));
+			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_12_button3, uuid));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
+		} else if (page == 13) {
+			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_13_button1, uuid));
+			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_13_button2, uuid));
+			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_13_button3, uuid));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
+		} else if (page == 14) {
+			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_14_button1, uuid));
+			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_14_button2, uuid));
+			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_14_button3, uuid));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
+		} else if (page == 15) {
+			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_15_button1, uuid));
+			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_15_button2, uuid));
+			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_15_button3, uuid));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
+		} else if (page == 16) {
+			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_16_button1, uuid));
+			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_16_button2, uuid));
+			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_16_button3, uuid));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
+		} else if (page == 17) {
+			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_17_button1, uuid));
+			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_17_button2, uuid));
+			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_17_button3, uuid));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
+		} else if (page == 18) {
+			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_18_button1, uuid));
+			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_18_button2, uuid));
+			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_18_button3, uuid));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
+		} else if (page == 19) {
+			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_19_button1, uuid));
+			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_19_button2, uuid));
+			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_19_button3, uuid));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
+			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
+		} else if (page == 20) {
+			TextLine textLine1 = hologramLine1.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_20_button1, uuid));
+			TextLine textLine2 = hologramLine2.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_20_button2, uuid));
+			TextLine textLine3 = hologramLine3.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_page_20_button3, uuid));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine1, "line1", player));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine2, "line2", player));
 			Bukkit.getScheduler().runTask(plugin, new ApplyTouchHandlerHoloMenuTask(textLine3, "line3", player));
