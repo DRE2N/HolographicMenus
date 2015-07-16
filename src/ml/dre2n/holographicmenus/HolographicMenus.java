@@ -1,5 +1,6 @@
 package ml.dre2n.holographicmenus;
 
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 import ml.dre2n.holographicmenus.cmd.HolographicMenusCMD;
@@ -9,6 +10,7 @@ import ml.dre2n.holographicmenus.storage.ConfigStorage;
 import ml.dre2n.holographicmenus.storage.DataStorage;
 import ml.dre2n.holographicmenus.storage.LanguageStorage;
 
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,7 +28,12 @@ public class HolographicMenus extends JavaPlugin {
 		return plugin;
 	}
 	
+	public static HashMap<Player, HashMap<String, Integer>> lastPages;
+	public static HashMap<Player, String> inputTypes;
+	
 	public void onEnable() {
+		lastPages = new HashMap<Player, HashMap<String, Integer>>();
+		inputTypes = new HashMap<Player, String>();
 		try {
 			plugin = this;
 			getCommand("holographicmenus").setExecutor(new HolographicMenusCMD());

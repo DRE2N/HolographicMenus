@@ -1,6 +1,6 @@
 name: HolographicMenus
 main: ml.dre2n.holographicmenus.HolographicMenus
-version: 0.1.2-SNAPSHOT
+version: 0.2
 author: Daniel Saukel
 website: http://www.dre2n.ml
 depend: [HolographicDisplays]
@@ -12,8 +12,8 @@ commands:
     description: Command to open a holographic menu.
     aliases: [m]
 permissions:
-  holographicmenus.main:
-    description: Open main menu.
+  holographicmenus.menu.*:
+    description: Open a menu.
     default: true
   holographicmenus.reload:
     description: Reload your files.

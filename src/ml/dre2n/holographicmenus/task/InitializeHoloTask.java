@@ -30,7 +30,10 @@ public class InitializeHoloTask implements Runnable {
 	
 	@Override
 	public void run() {
-		deleteOldMenu();
+		if (!(HolographicMenus.lastPages.get(player).containsKey(type))) {
+			HolographicMenus.lastPages.get(player).put(type, 1);
+		}
+		deleteOldHolos();
 		Location playerLocation = player.getLocation();
 		Location eyeLocation = player.getEyeLocation();
 		Vector vector = player.getLocation().getDirection().multiply(2.0);
@@ -69,11 +72,11 @@ public class InitializeHoloTask implements Runnable {
 		visibilityManagerLine3.setVisibleByDefault(false);
 		visibilityManagerSwitch.setVisibleByDefault(false);
 		visibilityManagerClose.setVisibleByDefault(false);
-		//TODO: Multiple menus
-		Bukkit.getScheduler().runTask(plugin, new ManagePageHoloMenuTask(player, hologramHead, hologramLine1, hologramLine2, hologramLine3, hologramSwitch, hologramClose));
+		Bukkit.getScheduler().runTask(plugin, new ManagePageTask(player, type, hologramHead, hologramLine1, hologramLine2, hologramLine3, hologramSwitch, hologramClose));
 	}
-
-	void deleteOldMenu() {
+	
+	
+	void deleteOldHolos() {
 		Collection<Hologram> allHolograms = HologramsAPI.getHolograms(plugin);
 		//iterate
 	    for (Iterator<Hologram> iterator = allHolograms.iterator(); iterator.hasNext();) {

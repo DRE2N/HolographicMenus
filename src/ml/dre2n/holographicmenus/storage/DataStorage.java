@@ -30,19 +30,14 @@ public class DataStorage extends FileUtil {
 	}
 	
 	public static void initializePlayerData(String uuid) {
-		getData().inputType.put(uuid, "chat");
-		getData().lastPage.put(uuid, 1);
 		getData().style_head.put(uuid, "\u00a76");
 		getData().style_highlight.put(uuid, "\u00a74");
 		getData().style_text.put(uuid, "\u00a73");
 		saveData();
 	}
 	
-	public HashMap<String, String> inputType = new HashMap<String, String>();
-	public HashMap<String, Integer> lastPage = new HashMap<String, Integer>();
 	public HashMap<String, String> style_head = new HashMap<String, String>();
 	public HashMap<String, String> style_highlight = new HashMap<String, String>();
 	public HashMap<String, String> style_text = new HashMap<String, String>();
-
 	
 }

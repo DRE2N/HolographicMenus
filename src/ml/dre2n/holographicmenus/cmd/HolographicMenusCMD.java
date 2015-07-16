@@ -37,8 +37,7 @@ public class HolographicMenusCMD implements CommandExecutor {
 					if (args.length == 1) {
 						sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().inputwanted_head, player));
 						sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().inputwanted_help, player));
-						DataStorage.getData().inputType.put(uuid, "settings_highlight");
-						DataStorage.saveData();
+						HolographicMenus.inputTypes.put(player, "settings_highlight");
 					} else if (args.length == 4) {
 						if (!(args[1].equals(player.getName()) && sender.hasPermission("holographicmenus.settings.others"))) {
 							uuid = OfflinePlayerUtil.getUniqueIdFromName(args[1]).toString();

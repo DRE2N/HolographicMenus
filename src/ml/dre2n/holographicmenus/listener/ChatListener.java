@@ -1,8 +1,6 @@
 package ml.dre2n.holographicmenus.listener;
 
-import java.util.HashMap;
-
-import ml.dre2n.holographicmenus.storage.DataStorage;
+import ml.dre2n.holographicmenus.HolographicMenus;
 import ml.dre2n.holographicmenus.storage.LanguageStorage;
 import ml.dre2n.holographicmenus.util.VariableUtil;
 
@@ -19,33 +17,31 @@ public class ChatListener implements Listener {
 	public void onChat(AsyncPlayerChatEvent event) {
 		String text = event.getMessage();
 		Player player = event.getPlayer();
-		String uuid = player.getUniqueId().toString();
-		HashMap<String, String> inputTypes = DataStorage.getData().inputType;
-		String inputType = inputTypes.get(uuid);
+		String inputType = HolographicMenus.inputTypes.get(player);
 		if (!(inputType.equals("chat"))) {
 			if (text.equalsIgnoreCase("-")) {
-				inputTypes.put(uuid, "chat");
+				HolographicMenus.inputTypes.put(player, "chat");
 				return;
 			} else if (text.equalsIgnoreCase("new") || text.equalsIgnoreCase("n")) {
 				inputText = "";
 			} else if (text.equalsIgnoreCase("+")) {
-				inputTypes.put(uuid, "chat");
+				HolographicMenus.inputTypes.put(player, "chat");
 				if (inputType.equals("settings_head")) {
 					player.performCommand("hm settings " + player.getName() + " highlight " + inputText);
-					inputTypes.put(uuid, "settings_highlight");
+					HolographicMenus.inputTypes.put(player, "settings_highlight");
 					player.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().inputwanted_highlight, player));
 				} else if (inputType.equals("settings_highlight")) {
 					player.performCommand("hm settings " + player.getName() + " highlight " + inputText);
-					inputTypes.put(uuid, "settings_text");
+					HolographicMenus.inputTypes.put(player, "settings_text");
 					player.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().inputwanted_text, player));
 				} else if (inputType.equals("settings_text")) {
 					player.performCommand("hm settings " + player.getName() + " highlight " + inputText);
-					inputTypes.put(uuid, "chat");
+					HolographicMenus.inputTypes.put(player, "chat");
 					player.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().inputwanted_finished, player));
 				}
 				return;
 			} else if (text.equalsIgnoreCase("ok")) {
-				inputTypes.put(uuid, "chat");
+				HolographicMenus.inputTypes.put(player, "chat");
 				if (inputType.equals("settings_head")) {
 					player.performCommand("hm settings " + player.getName() + " highlight " + inputText);
 				} else if (inputType.equals("settings_highlight")) {
