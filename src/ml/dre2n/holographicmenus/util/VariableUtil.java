@@ -1,11 +1,15 @@
 package ml.dre2n.holographicmenus.util;
 
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
 import ml.dre2n.holographicmenus.storage.ConfigStorage;
 import ml.dre2n.holographicmenus.storage.DataStorage;
 
 public class VariableUtil {
 	
-	public static String replaceVariables(String message, String uuid) {
+	public static String replaceVariables(String message, Player player) {
+		String uuid = player.getUniqueId().toString();
 		String message001 = message.replaceAll("%head%", DataStorage.getData().style_head.get(uuid));
 		String message002 = message001.replaceAll("%maxpages%", ConfigStorage.getData().menus_main_pages);
 		String message003 = message002.replaceAll("%highlight%", DataStorage.getData().style_highlight.get(uuid));
@@ -110,7 +114,19 @@ public class VariableUtil {
 		String message219 = message218.replaceAll("&n", "\u00a7n");
 		String message220 = message219.replaceAll("&o", "\u00a7o");
 		String message221 = message220.replaceAll("&r", "\u00a7r");
-		return message221;
+		return commandVariables(message221, player);
+	}
+	
+	public static String commandVariables(String message, Player player) {
+		String name = player.getName();
+		String uuid = player.getUniqueId().toString();
+		String health = String.valueOf(player.getHealth());
+		Location location = player.getLocation();
+		String message001 = message.replaceAll("%name%", name);
+		String message002 = message001.replaceAll("%uuid%", uuid);
+		String message003 = message002.replaceAll("%health%", health);
+		String message004 = message003.replaceAll("%coords%", "X: " + location.getX() + ", Y: " + location.getY() + ". Z: " + location.getZ());
+		return message004;
 	}
 	
 	public static String pageVariable(String message, int page) {

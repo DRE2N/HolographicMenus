@@ -24,19 +24,19 @@ public class HolographicMenusCMD implements CommandExecutor {
 		String uuid = player.getUniqueId().toString();
 		if (commandlabel.equalsIgnoreCase("holographicmenus") || commandlabel.equalsIgnoreCase("hm")) {
 			if (args.length == 0) {
-				sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_welcome, uuid));
+				sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_welcome, player));
 				if (sender.hasPermission("holographicmenus.settings")) {
-					sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_settings, uuid));
+					sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_settings, player));
 				}
-				sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_infos, uuid));
+				sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_infos, player));
 				if (sender.hasPermission("holographicmenus.reload")) {
-					sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_reload, uuid));
+					sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_reload, player));
 				}
 			} else if (args[0].equalsIgnoreCase("settings") || args[0].equalsIgnoreCase("s")) {
 				if (sender.hasPermission("holographicmenus.settings")) {
 					if (args.length == 1) {
-						sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().inputwanted_head, uuid));
-						sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().inputwanted_help, uuid));
+						sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().inputwanted_head, player));
+						sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().inputwanted_help, player));
 						DataStorage.getData().inputType.put(uuid, "settings_highlight");
 						DataStorage.saveData();
 					} else if (args.length == 4) {
@@ -52,47 +52,47 @@ public class HolographicMenusCMD implements CommandExecutor {
 								DataStorage.getData().style_text.put(uuid, args[3]);
 							}
 							DataStorage.saveData();
-							sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_settings_success, uuid).replaceAll("%uuid%", uuid));
+							sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_settings_success, player));
 						} else {
-							sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_settings_chat, uuid));
-							sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_settings_command, uuid));
+							sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_settings_chat, player));
+							sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_settings_command, player));
 						}
 					} else {
-						sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_settings_chat, uuid));
-						sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_settings_command, uuid));
+						sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_settings_chat, player));
+						sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_settings_command, player));
 					}
 				} else {
-					sender.sendMessage(VariableUtil.replaceVariables(ChatColor.RED + LanguageStorage.getData().nopermission, uuid));
+					sender.sendMessage(VariableUtil.replaceVariables(ChatColor.RED + LanguageStorage.getData().nopermission, player));
 				}
 			} else if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("r")) {
 				if (sender.hasPermission("holographicmenus.reload")) {
-					sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_reload_reloading, uuid));
+					sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_reload_reloading, player));
 					try {
 						ConfigStorage.getData().reload();
 					} catch (InvalidConfigurationException e) {
-						sender.sendMessage(VariableUtil.replaceVariables("%highlight%config.yml " + LanguageStorage.getData().hm_reload_fail, uuid));
+						sender.sendMessage(VariableUtil.replaceVariables("%highlight%config.yml " + LanguageStorage.getData().hm_reload_fail, player));
 					}
 					try {
 						DataStorage.getData().reload();
 					} catch (InvalidConfigurationException e) {
-						sender.sendMessage(VariableUtil.replaceVariables("%highlight%data.yml " + LanguageStorage.getData().hm_reload_fail, uuid));
+						sender.sendMessage(VariableUtil.replaceVariables("%highlight%data.yml " + LanguageStorage.getData().hm_reload_fail, player));
 					}
 					try {
 						LanguageStorage.getData().reload();
 					} catch (InvalidConfigurationException e) {
-						sender.sendMessage(VariableUtil.replaceVariables("%highlight%lang.yml " + LanguageStorage.getData().hm_reload_fail, uuid));
+						sender.sendMessage(VariableUtil.replaceVariables("%highlight%lang.yml " + LanguageStorage.getData().hm_reload_fail, player));
 					}
 				} else {
-					sender.sendMessage(VariableUtil.replaceVariables(ChatColor.RED + LanguageStorage.getData().nopermission, uuid));
+					sender.sendMessage(VariableUtil.replaceVariables(ChatColor.RED + LanguageStorage.getData().nopermission, player));
 				}
 			} else if (args[0].equalsIgnoreCase("version") || args[0].equalsIgnoreCase("v")) {
 				sender.sendMessage(ChatColor.DARK_AQUA + "HolographicMenus " + ChatColor.DARK_RED + "v" + version);
 				sender.sendMessage(ChatColor.DARK_AQUA + "(c) 2015 Daniel Saukel, DRE2N-Team");
 				sender.sendMessage(ChatColor.DARK_AQUA + "http://www.dre2n.ml");
 			} else {
-				sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_welcome, uuid));
-				sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_settings, uuid));
-				sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_infos, uuid));
+				sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_welcome, player));
+				sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_settings, player));
+				sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_infos, player));
 			}
 			return true;
 		}
