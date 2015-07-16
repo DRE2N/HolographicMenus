@@ -1,5 +1,6 @@
 package ml.dre2n.holographicmenus.task;
 
+import ml.dre2n.holographicmenus.HolographicMenus;
 import ml.dre2n.holographicmenus.storage.ConfigStorage;
 import ml.dre2n.holographicmenus.storage.DataStorage;
 import ml.dre2n.holographicmenus.util.VariableUtil;
@@ -15,6 +16,8 @@ public class ApplyTouchHandlerHoloMenuTask implements Runnable {
 	String type = null;
 	Player player = null;
 	
+	String command = "";
+	
 	public ApplyTouchHandlerHoloMenuTask(TextLine text, String type, Player player) {
 		this.text = text;
 		this.type = type;
@@ -24,60 +27,58 @@ public class ApplyTouchHandlerHoloMenuTask implements Runnable {
 	@Override
 	public void run() {
 		final String uuid = player.getUniqueId().toString();
+		final int lastPage = DataStorage.getData().lastPage.get(uuid);
 		if (type == "line1") {
 			text.setTouchHandler(new TouchHandler() {
 				@Override
 				public void onTouch(Player player) {
-					int lastPage = DataStorage.getData().lastPage.get(uuid);
 					if (lastPage == 1) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_1_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_1_button1, uuid);
 					} else if (lastPage == 2) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_2_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_2_button1, uuid);
 					} else if (lastPage == 3) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_3_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_3_button1, uuid);
 					} else if (lastPage == 4) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_4_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_4_button1, uuid);
 					} else if (lastPage == 5) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_5_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_5_button1, uuid);
 					} else if (lastPage == 6) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_6_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_6_button1, uuid);
 					} else if (lastPage == 7) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_7_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_7_button1, uuid);
 					} else if (lastPage == 8) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_8_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_8_button1, uuid);
 					} else if (lastPage == 9) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_9_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_9_button1, uuid);
 					} else if (lastPage == 10) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_10_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_10_button1, uuid);
 					} else if (lastPage == 11) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_11_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_11_button1, uuid);
 					} else if (lastPage == 12) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_12_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_12_button1, uuid);
 					} else if (lastPage == 13) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_13_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_13_button1, uuid);
 					} else if (lastPage == 14) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_14_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_14_button1, uuid);
 					} else if (lastPage == 15) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_15_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_15_button1, uuid);
 					} else if (lastPage == 16) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_16_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_16_button1, uuid);
 					} else if (lastPage == 17) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_17_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_17_button1, uuid);
 					} else if (lastPage == 18) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_18_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_18_button1, uuid);
 					} else if (lastPage == 19) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_19_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_19_button1, uuid);
 					} else if (lastPage == 20) {
-						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_20_button1, uuid));
+						command = VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_20_button1, uuid);
 					}
 				}
 			});
-		}
-		if (type == "line2") {
+		} else if (type == "line2") {
 			text.setTouchHandler(new TouchHandler() {
 				@Override
 				public void onTouch(Player player) {
-					int lastPage = DataStorage.getData().lastPage.get(uuid);
 					if (lastPage == 1) {
 						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_1_button2, uuid));
 					} else if (lastPage == 2) {
@@ -121,12 +122,10 @@ public class ApplyTouchHandlerHoloMenuTask implements Runnable {
 					}
 				}
 			});
-		}
-		if (type == "line3") {
+		} else if (type == "line3") {
 			text.setTouchHandler(new TouchHandler() {
 				@Override
 				public void onTouch(Player player) {
-					int lastPage = DataStorage.getData().lastPage.get(uuid);
 					if (lastPage == 1) {
 						player.performCommand(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_commands_page_1_button3, uuid));
 					} else if (lastPage == 2) {
@@ -171,6 +170,8 @@ public class ApplyTouchHandlerHoloMenuTask implements Runnable {
 				}
 			});
 		}
+		player.performCommand(command);
+		HolographicMenus.getPlugin().getLogger().info(player.getName() + " executed command '" + command + "' (page" + lastPage + ", " + type + ").");
 	}
 
 }
