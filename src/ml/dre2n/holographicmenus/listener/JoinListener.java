@@ -17,7 +17,7 @@ public class JoinListener implements Listener {
 	void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		String uuid = player.getUniqueId().toString();
-		if (!(DataStorage.getData().style_head.containsKey(uuid)) || !(DataStorage.getData().style_highlight.containsKey(uuid)) || !(DataStorage.getData().style_text.containsKey(uuid))) {
+		if (!(DataStorage.data.style_head.containsKey(uuid)) || !(DataStorage.data.style_highlight.containsKey(uuid)) || !(DataStorage.data.style_text.containsKey(uuid))) {
 			DataStorage.initializePlayerData(uuid);
 		}
 		if (!(HolographicMenus.lastPages.containsKey(player))) {

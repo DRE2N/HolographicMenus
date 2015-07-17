@@ -21,7 +21,7 @@ public class InitializeHoloTask implements Runnable {
 	Player player = null;
 	String type = null;
 	
-	Plugin plugin = HolographicMenus.getPlugin();
+	Plugin plugin = HolographicMenus.plugin;
 	
 	public InitializeHoloTask(Player player, String type) {
 		this.player = player;
@@ -75,10 +75,8 @@ public class InitializeHoloTask implements Runnable {
 		Bukkit.getScheduler().runTask(plugin, new ManagePageTask(player, type, hologramHead, hologramLine1, hologramLine2, hologramLine3, hologramSwitch, hologramClose));
 	}
 	
-	
 	void deleteOldHolos() {
 		Collection<Hologram> allHolograms = HologramsAPI.getHolograms(plugin);
-		//iterate
 	    for (Iterator<Hologram> iterator = allHolograms.iterator(); iterator.hasNext();) {
 	        Hologram hologram = (Hologram) iterator.next();
 	        if (hologram.getVisibilityManager().isVisibleTo(player)) {

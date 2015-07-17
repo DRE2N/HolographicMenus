@@ -14,13 +14,13 @@ import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 
 public class ManagePageTask implements Runnable {
 	
-	Plugin plugin = HolographicMenus.getPlugin();
+	Plugin plugin = HolographicMenus.plugin;
 	
 	Player player = null;
 	String uuid = null;
 	String type = "main";
 	int page = 1;
-	int pages = Integer.parseInt(ConfigStorage.getData().menus_main_pages);
+	int pages = Integer.parseInt(ConfigStorage.config.menus_main_pages);
 	
 	Hologram hologramHead = null;
 	Hologram hologramLine1 = null;
@@ -45,10 +45,10 @@ public class ManagePageTask implements Runnable {
 	@Override
 	public void run() {
 		@SuppressWarnings("unused")
-		final TextLine textHead = hologramHead.appendTextLine(VariableUtil.replaceVariables(VariableUtil.pageVariable(ConfigStorage.getData().menus_main_texts_head, page), player));
+		final TextLine textHead = hologramHead.appendTextLine(VariableUtil.replaceVariables(VariableUtil.pageVariable(ConfigStorage.config.menus_main_texts_head, page), player));
 		setPage();
-		TextLine textSwitch = hologramSwitch.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_switch, player));
-		TextLine textClose = hologramClose.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.getData().menus_main_texts_close, player));
+		TextLine textSwitch = hologramSwitch.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.config.menus_main_texts_switch, player));
+		TextLine textClose = hologramClose.appendTextLine(VariableUtil.replaceVariables(ConfigStorage.config.menus_main_texts_close, player));
 		textSwitch.setTouchHandler(new TouchHandler() {
 			@Override
 			public void onTouch(Player player) {
@@ -62,7 +62,7 @@ public class ManagePageTask implements Runnable {
 				HolographicMenus.lastPages.get(player).put(type, page + 1);
 				page = HolographicMenus.lastPages.get(player).get(type);
 				@SuppressWarnings("unused")
-				final TextLine textHead = hologramHead.appendTextLine(VariableUtil.replaceVariables(VariableUtil.pageVariable(ConfigStorage.getData().menus_main_texts_head, page), player));
+				final TextLine textHead = hologramHead.appendTextLine(VariableUtil.replaceVariables(VariableUtil.pageVariable(ConfigStorage.config.menus_main_texts_head, page), player));
 				setPage();
 			}
 		});

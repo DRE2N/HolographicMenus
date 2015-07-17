@@ -4,8 +4,11 @@ import java.io.File;
 import java.util.HashMap;
 
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
+import ml.dre2n.holographicmenus.HolographicMenus;
 import ml.dre2n.holographicmenus.file.FileUtil;
 
 public class ConfigStorage extends FileUtil {
@@ -17,18 +20,21 @@ public class ConfigStorage extends FileUtil {
 		CONFIG_HEADER = "HolographicMenus Configuration";
 	}
 	
-	public static ConfigStorage getData() {
+	public static FileConfiguration getData() {
+		File configFile = new File(HolographicMenus.plugin.getDataFolder(), "config.yml");
+		FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 		return config;
 	}
 	
 	public static void saveData() {
 		try {
-			getData().save();
+			config.save();
 		} catch (InvalidConfigurationException exception) {
 			exception.printStackTrace();
 		}
 	}
 	
+	public String defaultLang = "english";
 	public HashMap<String, String> menus_main = new HashMap<String, String>();
 	public String menus_main_pages = "3";
 	public String menus_main_texts_head = "%head%Main Menu - %highlight%%page% / %maxpages%";

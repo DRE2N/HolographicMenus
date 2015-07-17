@@ -1,7 +1,6 @@
 package ml.dre2n.holographicmenus.listener;
 
 import ml.dre2n.holographicmenus.HolographicMenus;
-import ml.dre2n.holographicmenus.storage.LanguageStorage;
 import ml.dre2n.holographicmenus.util.VariableUtil;
 
 import org.bukkit.entity.Player;
@@ -29,15 +28,15 @@ public class ChatListener implements Listener {
 				if (inputType.equals("settings_head")) {
 					player.performCommand("hm settings " + player.getName() + " highlight " + inputText);
 					HolographicMenus.inputTypes.put(player, "settings_highlight");
-					player.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().inputwanted_highlight, player));
+					VariableUtil.sendMessage(("inputwanted.highlight"), player);
 				} else if (inputType.equals("settings_highlight")) {
 					player.performCommand("hm settings " + player.getName() + " highlight " + inputText);
 					HolographicMenus.inputTypes.put(player, "settings_text");
-					player.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().inputwanted_text, player));
+					VariableUtil.sendMessage("inputwanted.text", player);
 				} else if (inputType.equals("settings_text")) {
 					player.performCommand("hm settings " + player.getName() + " highlight " + inputText);
 					HolographicMenus.inputTypes.put(player, "chat");
-					player.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().inputwanted_finished, player));
+					VariableUtil.sendMessage("inputwanted.finished", player);
 				}
 				return;
 			} else if (text.equalsIgnoreCase("ok")) {
@@ -53,7 +52,7 @@ public class ChatListener implements Listener {
 			} else {
 				inputText = inputText + text;
 				player.sendMessage(inputText);
-				player.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().inputwanted_help, player));
+				VariableUtil.sendMessage("inputwanted.help", player);
 			}
 		}
 		event.setCancelled(true);

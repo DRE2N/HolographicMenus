@@ -5,15 +5,16 @@ import org.bukkit.entity.Player;
 
 import ml.dre2n.holographicmenus.storage.ConfigStorage;
 import ml.dre2n.holographicmenus.storage.DataStorage;
+import ml.dre2n.holographicmenus.storage.LanguageStorage;
 
 public class VariableUtil {
 	
 	public static String replaceVariables(String message, Player player) {
 		String uuid = player.getUniqueId().toString();
-		String message001 = message.replaceAll("%head%", DataStorage.getData().style_head.get(uuid));
-		String message002 = message001.replaceAll("%maxpages%", ConfigStorage.getData().menus_main_pages);
-		String message003 = message002.replaceAll("%highlight%", DataStorage.getData().style_highlight.get(uuid));
-		String message004 = message003.replaceAll("%text%", DataStorage.getData().style_text.get(uuid));
+		String message001 = message.replaceAll("%head%", DataStorage.data.style_head.get(uuid));
+		String message002 = message001.replaceAll("%maxpages%", ConfigStorage.config.menus_main_pages);
+		String message003 = message002.replaceAll("%highlight%", DataStorage.data.style_highlight.get(uuid));
+		String message004 = message003.replaceAll("%text%", DataStorage.data.style_text.get(uuid));
 		
 		String message101 = message004.replaceAll("%play%", "\u25b6");
 		String message102 = message101.replaceAll("%copyright%", "\u00a9");
@@ -131,6 +132,26 @@ public class VariableUtil {
 	
 	public static String pageVariable(String message, int page) {
 		return message.replaceAll("%page%", String.valueOf(page));
+	}
+
+	public static void sendMessage(String path, Player player) {
+		String playerLang;
+		if (DataStorage.data.language.containsKey(player.getUniqueId().toString())) {
+			playerLang = DataStorage.data.language.get(player.getUniqueId().toString());
+		} else {
+			playerLang = ConfigStorage.config.defaultLang;
+		}
+		player.sendMessage(LanguageStorage.getData().getString(playerLang + path));
+	}
+
+	public static void sendMessage(String additionalString, String path, Player player) {
+		String playerLang;
+		if (DataStorage.data.language.containsKey(player.getUniqueId().toString())) {
+			playerLang = DataStorage.data.language.get(player.getUniqueId().toString());
+		} else {
+			playerLang = ConfigStorage.config.defaultLang;
+		}
+		player.sendMessage(additionalString + LanguageStorage.getData().getString(playerLang + "." +  path));
 	}
 	
 }

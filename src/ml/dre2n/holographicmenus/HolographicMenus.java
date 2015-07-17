@@ -22,11 +22,7 @@ public class HolographicMenus extends JavaPlugin {
 	    this.logger = Logger.getLogger("Minecraft");
 	}
 	
-	private static Plugin plugin;
-	
-	public static Plugin getPlugin() {
-		return plugin;
-	}
+	public static Plugin plugin;
 	
 	public static HashMap<Player, HashMap<String, Integer>> lastPages;
 	public static HashMap<Player, String> inputTypes;

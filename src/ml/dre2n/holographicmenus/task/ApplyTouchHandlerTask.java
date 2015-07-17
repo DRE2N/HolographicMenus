@@ -1,17 +1,15 @@
 package ml.dre2n.holographicmenus.task;
 
 import ml.dre2n.holographicmenus.HolographicMenus;
+import ml.dre2n.holographicmenus.storage.ConfigStorage;
 import ml.dre2n.holographicmenus.util.VariableUtil;
 
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import com.gmail.filoghost.holographicdisplays.api.handler.TouchHandler;
 import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 
 public class ApplyTouchHandlerTask implements Runnable {
-	
-	Plugin plugin = HolographicMenus.getPlugin();
 	
 	Player player = null;
 	String type = "main";
@@ -31,9 +29,9 @@ public class ApplyTouchHandlerTask implements Runnable {
 		text.setTouchHandler(new TouchHandler() {
 			@Override
 			public void onTouch(Player player) {
-				String command = VariableUtil.commandVariables(plugin.getConfig().getString("menus." + type + ".commands.page." + page + ".button" + line), player);
+				String command = VariableUtil.commandVariables(ConfigStorage.getData().getString("menus." + type + ".commands.page." + page + ".button" + line), player);
 				player.performCommand(command);
-				HolographicMenus.getPlugin().getLogger().info(player.getName() + " executed command '" + command + "' (" + type + "page" + page + ", " + type + ").");
+				HolographicMenus.plugin.getLogger().info(player.getName() + " executed command '" + command + "' (" + type + "page" + page + ", " + type + ").");
 			}
 		});
 	}
