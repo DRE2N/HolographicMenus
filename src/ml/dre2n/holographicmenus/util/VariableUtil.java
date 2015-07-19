@@ -1,6 +1,7 @@
 package ml.dre2n.holographicmenus.util;
 
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import ml.dre2n.holographicmenus.storage.ConfigStorage;
@@ -9,13 +10,21 @@ import ml.dre2n.holographicmenus.storage.LanguageStorage;
 
 public class VariableUtil {
 	
+	static ConfigStorage config = ConfigStorage.config;
+	static DataStorage data = DataStorage.data;
+	static FileConfiguration lang = LanguageStorage.getData();
+	
+	// Replace the standard variables
 	public static String replaceVariables(String message, Player player) {
 		String uuid = player.getUniqueId().toString();
+		
+		// Replace all menu and formatting variables
 		String message001 = message.replaceAll("%head%", DataStorage.data.style_head.get(uuid));
 		String message002 = message001.replaceAll("%maxpages%", ConfigStorage.config.menus_main_pages);
 		String message003 = message002.replaceAll("%highlight%", DataStorage.data.style_highlight.get(uuid));
 		String message004 = message003.replaceAll("%text%", DataStorage.data.style_text.get(uuid));
 		
+		// Replace symbol variables
 		String message101 = message004.replaceAll("%play%", "\u25b6");
 		String message102 = message101.replaceAll("%copyright%", "\u00a9");
 		String message103 = message102.replaceAll("%registered%", "\u00ae");
@@ -94,6 +103,7 @@ public class VariableUtil {
 		String message176 = message175.replaceAll("%quaver%", "\u266a");
 		String message177 = message176.replaceAll("%2quavers%", "\u266b");
 		
+		// Replace colour codes
 		String message201 = message177.replaceAll("&1", "\u00a71");
 		String message202 = message201.replaceAll("&2", "\u00a72");
 		String message203 = message202.replaceAll("&3", "\u00a73");
@@ -115,43 +125,83 @@ public class VariableUtil {
 		String message219 = message218.replaceAll("&n", "\u00a7n");
 		String message220 = message219.replaceAll("&o", "\u00a7o");
 		String message221 = message220.replaceAll("&r", "\u00a7r");
-		return commandVariables(message221, player);
+		
+		// Replace command variables
+		String message301 = commandVariables(message221, player);
+		
+		return message301;
 	}
 	
+	// Replace command variables
 	public static String commandVariables(String message, Player player) {
+		// Get replacement strings / numbers
 		String name = player.getName();
 		String uuid = player.getUniqueId().toString();
 		String health = String.valueOf(player.getHealth());
+		
 		Location location = player.getLocation();
+		
+		double x = location.getX();
+		double y = location.getY();
+		double z = location.getZ();
+		
 		String message001 = message.replaceAll("%name%", name);
 		String message002 = message001.replaceAll("%uuid%", uuid);
 		String message003 = message002.replaceAll("%health%", health);
-		String message004 = message003.replaceAll("%coords%", "X: " + location.getX() + ", Y: " + location.getY() + ". Z: " + location.getZ());
+		String message004 = message003.replaceAll("%coords%", "X: " + x + ", Y: " + y + ". Z: " + z);
+		
 		return message004;
 	}
 	
-	public static String pageVariable(String message, int page) {
-		return message.replaceAll("%page%", String.valueOf(page));
+	// Replace page variable
+	public static String pageVariable(String message, Player player, int page) {
+		// Replace page variable
+		String message001 = message.replaceAll("%page%", String.valueOf(page));
+		
+		// Replace other variables
+		String message101 = replaceVariables(message001, player);
+		
+		return message101;
 	}
-
+	
+	// This is a custom method to send a message to the player. It replaces variables automatically and selects the correct language
 	public static void sendMessage(String path, Player player) {
-		String playerLang;
-		if (DataStorage.data.language.containsKey(player.getUniqueId().toString())) {
-			playerLang = DataStorage.data.language.get(player.getUniqueId().toString());
-		} else {
-			playerLang = ConfigStorage.config.defaultLang;
+		String uuid = player.getUniqueId().toString();
+		String playerLang = config.defaultLang;
+		
+		// Check whether the player has set a per user language
+		if (data.language.containsKey(uuid)) {
+			// Set language to per user language
+			playerLang = data.language.get(uuid);
 		}
-		player.sendMessage(LanguageStorage.getData().getString(playerLang + path));
+		
+		// Form the message
+		String messageRaw = lang.getString(playerLang + "." +  path);
+		
+		String messageEdited = replaceVariables(messageRaw, player);
+		
+		// Send the message
+		player.sendMessage(messageEdited);
 	}
-
+	
+	// This is a custom method to send a message to the player. It replaces variables automatically
 	public static void sendMessage(String additionalString, String path, Player player) {
-		String playerLang;
-		if (DataStorage.data.language.containsKey(player.getUniqueId().toString())) {
-			playerLang = DataStorage.data.language.get(player.getUniqueId().toString());
-		} else {
-			playerLang = ConfigStorage.config.defaultLang;
+		String uuid = player.getUniqueId().toString();
+		String playerLang = config.defaultLang;
+		
+		// Check whether the player has set a per user language
+		if (data.language.containsKey(uuid)) {
+			// Set language to per user language
+			playerLang = data.language.get(uuid);
 		}
-		player.sendMessage(additionalString + LanguageStorage.getData().getString(playerLang + "." +  path));
+		
+		// Form the message
+		String messageRaw = additionalString + lang.getString(playerLang + "." +  path);
+		
+		String messageEdited = replaceVariables(messageRaw, player);
+		
+		// Send the message
+		player.sendMessage(messageEdited);
 	}
 	
 }
