@@ -12,6 +12,8 @@ import ml.dre2n.holographicmenus.file.FileUtil;
 
 public class LanguageStorage extends FileUtil {
 	
+	static Plugin plugin = HolographicMenus.plugin;
+	
 	// Easily get variables
 	public static LanguageStorage lang;
 	
@@ -23,7 +25,7 @@ public class LanguageStorage extends FileUtil {
 	
 	// To get data by path, not by the variable listed here
 	public static FileConfiguration getData() {
-		File langFile = new File(HolographicMenus.plugin.getDataFolder(), "lang.yml");
+		File langFile = new File(plugin.getDataFolder(), "lang.yml");
 		FileConfiguration lang = YamlConfiguration.loadConfiguration(langFile);
 		return lang;
 	}

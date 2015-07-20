@@ -70,8 +70,7 @@ public class ManagePageTask implements Runnable {
 		this.uuid = player.getUniqueId().toString();
 		
 		this.type = type;
-		this.page = lastPages.get(player).get(type);
-		this.pages = config.getInt("menus." + type + ".pages");
+		this.pages = Integer.parseInt(config.getString("menus." + type + ".pages"));
 		
 		this.hologramHead = hologramHead;
 		this.hologramLine1 = hologramLine1;
@@ -80,30 +79,21 @@ public class ManagePageTask implements Runnable {
 		this.hologramSwitch = hologramSwitch;
 		this.hologramClose = hologramClose;
 		
-		// TEXT LINES
+		// TEXT LINES that don't depend on the page
 		// Config path
-		this.textHeadPath = "menus." + type + ".texts.head";
-		this.textLine1Path = "menus." + type + ".texts.page." + page + ".button1";
-		this.textLine2Path = "menus." + type + ".texts.page." + page + ".button2";
-		this.textLine3Path = "menus." + type + ".texts.page." + page + ".button3";
 		this.textSwitchPath = "menus." + type + ".texts.switch";
 		this.textClosePath = "menus." + type + ".texts.close";
 		
 		// Get raw message from config
-		this.textHeadRaw = config.getString(textHeadPath);
-		this.textLine1Raw = config.getString(textLine1Path);
-		this.textLine2Raw = config.getString(textLine2Path);
-		this.textLine3Raw = config.getString(textLine3Path);
 		this.textSwitchRaw = config.getString(textSwitchPath);
 		this.textCloseRaw = config.getString(textClosePath);
 		
 		// Replace variables
-		this.textHeadEdited = VariableUtil.pageVariable(textHeadRaw, player, page);
-		this.textLine1Edited = VariableUtil.replaceVariables(textLine1Raw, player);
-		this.textLine2Edited = VariableUtil.replaceVariables(textLine2Raw, player);
-		this.textLine3Edited = VariableUtil.replaceVariables(textLine3Raw, player);
 		this.textSwitchEdited = VariableUtil.replaceVariables(textSwitchRaw, player);
 		this.textCloseEdited = VariableUtil.replaceVariables(textCloseRaw, player);
+		
+		// TEXT LINES that DO depend on the page
+		setVariables();
 	}
 	
 	// Task
@@ -142,8 +132,8 @@ public class ManagePageTask implements Runnable {
 				// Increase page number by one
 				lastPages.get(player).put(type, page + 1);
 				
-				// Update page variable
-				page = lastPages.get(player).get(type);
+				// Update variables
+				setVariables();
 				
 				// Setup the hologram head once again with the updated page number
 				@SuppressWarnings("unused")
@@ -168,6 +158,30 @@ public class ManagePageTask implements Runnable {
 				hologramClose.delete();
 			}
 		});
+	}
+	
+	void setVariables() {
+		// Current page
+		this.page = lastPages.get(player).get(type);
+		
+		// TEXT LINES
+		// Config path
+		this.textHeadPath = "menus." + type + ".texts.head";
+		this.textLine1Path = "menus." + type + ".texts.page." + page + ".button1";
+		this.textLine2Path = "menus." + type + ".texts.page." + page + ".button2";
+		this.textLine3Path = "menus." + type + ".texts.page." + page + ".button3";
+		
+		// Get raw message from config
+		this.textHeadRaw = config.getString(textHeadPath);
+		this.textLine1Raw = config.getString(textLine1Path);
+		this.textLine2Raw = config.getString(textLine2Path);
+		this.textLine3Raw = config.getString(textLine3Path);
+		
+		// Replace variables
+		this.textHeadEdited = VariableUtil.pageVariable(textHeadRaw, player, page);
+		this.textLine1Edited = VariableUtil.replaceVariables(textLine1Raw, player);
+		this.textLine2Edited = VariableUtil.replaceVariables(textLine2Raw, player);
+		this.textLine3Edited = VariableUtil.replaceVariables(textLine3Raw, player);
 	}
 	
 	// Setup the content of the page

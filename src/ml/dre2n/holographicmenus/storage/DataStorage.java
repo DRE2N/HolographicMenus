@@ -13,6 +13,8 @@ import ml.dre2n.holographicmenus.file.FileUtil;
 
 public class DataStorage extends FileUtil {
 	
+	static Plugin plugin = HolographicMenus.plugin;
+	
 	// Easily get variables
 	public static DataStorage data;
 	
@@ -24,7 +26,7 @@ public class DataStorage extends FileUtil {
 	
 	// To get data by path, not by the variable listed here
 	public static FileConfiguration getData() {
-		File dataFile = new File(HolographicMenus.plugin.getDataFolder(), "data.yml");
+		File dataFile = new File(plugin.getDataFolder(), "data.yml");
 		FileConfiguration data = YamlConfiguration.loadConfiguration(dataFile);
 		return data;
 	}

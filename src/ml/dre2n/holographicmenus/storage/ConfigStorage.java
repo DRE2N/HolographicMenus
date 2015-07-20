@@ -12,6 +12,8 @@ import ml.dre2n.holographicmenus.file.FileUtil;
 
 public class ConfigStorage extends FileUtil {
 	
+	static Plugin plugin = HolographicMenus.plugin;
+	
 	// Easily get variables
 	public static ConfigStorage config;
 	
@@ -23,7 +25,7 @@ public class ConfigStorage extends FileUtil {
 	
 	// To get data by path, not by the variable listed here
 	public static FileConfiguration getData() {
-		File configFile = new File(HolographicMenus.plugin.getDataFolder(), "config.yml");
+		File configFile = new File(plugin.getDataFolder(), "config.yml");
 		FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 		return config;
 	}
@@ -38,7 +40,7 @@ public class ConfigStorage extends FileUtil {
 	}
 	
 	// ~~~ GLOBAL CONFIGURATION ~~~
-	// The languaged used if no personal language is set.
+	// The language used if no personal language is set.
 	public String defaultLang = "english";
 	
 	// Whether a menu shall follow the player or not.

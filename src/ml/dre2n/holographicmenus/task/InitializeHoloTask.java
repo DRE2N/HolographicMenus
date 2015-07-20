@@ -22,6 +22,7 @@ public class InitializeHoloTask implements Runnable {
 	Plugin plugin = HolographicMenus.plugin;
 	
 	HashMap<Player, HashMap<String, Integer>> lastPages = HolographicMenus.lastPages;
+	HashMap<Player, String> menuTypes = HolographicMenus.menuTypes;
 	
 	// Variables
 	Player player;
@@ -32,6 +33,7 @@ public class InitializeHoloTask implements Runnable {
 		this.player = player;
 		
 		this.type = type;
+		menuTypes.put(player, type);
 	}
 	
 	// Task
@@ -106,7 +108,7 @@ public class InitializeHoloTask implements Runnable {
 	}
 	
 	// Delete the player's old menu
-	private void deleteOldHolos() {
+	void deleteOldHolos() {
 		// All holograms created by this plugin
 		Collection<Hologram> allHolograms = HologramsAPI.getHolograms(plugin);
 		

@@ -22,7 +22,8 @@ public class HolographicMenus extends JavaPlugin {
 	// Store data that doesn't need to be stored permanently
 	public static HashMap<Player, HashMap<String, Integer>> lastPages;
 	public static HashMap<Player, String> inputTypes;
-	
+	public static HashMap<Player, String> menuTypes;
+
 	// When the server starts
 	@Override
 	public void onEnable() {
@@ -31,6 +32,7 @@ public class HolographicMenus extends JavaPlugin {
 		
 		lastPages = new HashMap<Player, HashMap<String, Integer>>();
 		inputTypes = new HashMap<Player, String>();
+		menuTypes = new HashMap<Player, String>();
 		
 		// Initialize files
 		try {

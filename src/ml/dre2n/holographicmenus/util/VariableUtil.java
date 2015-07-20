@@ -1,14 +1,19 @@
 package ml.dre2n.holographicmenus.util;
 
+import java.util.HashMap;
+
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import ml.dre2n.holographicmenus.HolographicMenus;
 import ml.dre2n.holographicmenus.storage.ConfigStorage;
 import ml.dre2n.holographicmenus.storage.DataStorage;
 import ml.dre2n.holographicmenus.storage.LanguageStorage;
 
 public class VariableUtil {
+	
+	static HashMap<Player, String> menuTypes = HolographicMenus.menuTypes;
 	
 	static ConfigStorage config = ConfigStorage.config;
 	static DataStorage data = DataStorage.data;
@@ -19,10 +24,10 @@ public class VariableUtil {
 		String uuid = player.getUniqueId().toString();
 		
 		// Replace all menu and formatting variables
-		String message001 = message.replaceAll("%head%", DataStorage.data.style_head.get(uuid));
-		String message002 = message001.replaceAll("%maxpages%", ConfigStorage.config.menus_main_pages);
-		String message003 = message002.replaceAll("%highlight%", DataStorage.data.style_highlight.get(uuid));
-		String message004 = message003.replaceAll("%text%", DataStorage.data.style_text.get(uuid));
+		String message001 = message.replaceAll("%head%", data.style_head.get(uuid));
+		String message002 = message001.replaceAll("%maxpages%", ConfigStorage.getData().getString("menus." + menuTypes.get(player) + ".pages"));//TODO
+		String message003 = message002.replaceAll("%highlight%", data.style_highlight.get(uuid));
+		String message004 = message003.replaceAll("%text%", data.style_text.get(uuid));
 		
 		// Replace symbol variables
 		String message101 = message004.replaceAll("%play%", "\u25b6");
