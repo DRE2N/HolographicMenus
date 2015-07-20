@@ -1,5 +1,7 @@
 package ml.dre2n.holographicmenus.cmd;
 
+import java.util.HashMap;
+
 import ml.dre2n.holographicmenus.HolographicMenus;
 import ml.dre2n.holographicmenus.storage.ConfigStorage;
 import ml.dre2n.holographicmenus.storage.DataStorage;
@@ -7,91 +9,137 @@ import ml.dre2n.holographicmenus.storage.LanguageStorage;
 import ml.dre2n.holographicmenus.util.OfflinePlayerUtil;
 import ml.dre2n.holographicmenus.util.VariableUtil;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 public class HolographicMenusCMD implements CommandExecutor {
 	
-	String version = HolographicMenus.getPlugin().getDescription().getVersion();
+	Plugin plugin = HolographicMenus.plugin;
+	String version = plugin.getDescription().getVersion();
 	
+	FileConfiguration data = DataStorage.getData();
+	
+	HashMap<Player, String> inputTypes = HolographicMenus.inputTypes;
+	
+	// This will be fired if our command is executed.
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String commandlabel, String[] args) {
+		// Let's get a player entity from the command sender.
 		Player player = (Player) sender;
 		String uuid = player.getUniqueId().toString();
+		
 		if (commandlabel.equalsIgnoreCase("holographicmenus") || commandlabel.equalsIgnoreCase("hm")) {
+			
+			// Check if no arguments are entered
 			if (args.length == 0) {
-				sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_welcome, player));
+				// This is a custom method to send a message to the player, check ml.dre2n.holographicmenus.util.VariableUtil.
+				VariableUtil.sendMessage("hm.main.welcome", player);
+				
+				// Some information are only needed if the sender has the permission to use them.
 				if (sender.hasPermission("holographicmenus.settings")) {
-					sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_settings, player));
+					VariableUtil.sendMessage("hm.main.settings", player);
 				}
-				sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_infos, player));
+				
+				VariableUtil.sendMessage("hm.main.infos", player);
+				
 				if (sender.hasPermission("holographicmenus.reload")) {
-					sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_reload, player));
+					VariableUtil.sendMessage("hm.main.reload", player);
 				}
+			// Check for /hm settings command
 			} else if (args[0].equalsIgnoreCase("settings") || args[0].equalsIgnoreCase("s")) {
+				
+				// Check if the sender has permission to use the command
 				if (sender.hasPermission("holographicmenus.settings")) {
+					
+					// Nothing but /hm s?
 					if (args.length == 1) {
-						sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().inputwanted_head, player));
-						sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().inputwanted_help, player));
-						HolographicMenus.inputTypes.put(player, "settings_highlight");
+						// So, the player wants to use the chat feature to set up his style step by step.
+						// First of all, we give him the instructions how to do so.
+						VariableUtil.sendMessage("inputwanted.head", player);
+						VariableUtil.sendMessage("inputwanted.help", player);
+						
+						// And of course, we change his input type from chat to settings.
+						inputTypes.put(player, "settings_highlight");
+						
+					// The right amount of arguments for direct setup?
 					} else if (args.length == 4) {
+						
+						// What, he tries to modify another player's settings and doesn't have the right to do so?
 						if (!(args[1].equals(player.getName()) && sender.hasPermission("holographicmenus.settings.others"))) {
+							// Let's ignore what he typed in and make him modify his own style instead.
 							uuid = OfflinePlayerUtil.getUniqueIdFromName(args[1]).toString();
 						}
+						
+						// Check if the sender used a valid style
 						if (args[2].equalsIgnoreCase("head") || args[2].equalsIgnoreCase("highlight") || args[2].equalsIgnoreCase("text")) {
-							if (args[2].equalsIgnoreCase("head")) {
-								DataStorage.getData().style_head.put(uuid, args[3]);
-							} else if (args[2].equalsIgnoreCase("highlight")) {
-								DataStorage.getData().style_highlight.put(uuid, args[3]);
-							} else if (args[2].equalsIgnoreCase("text")) {
-								DataStorage.getData().style_text.put(uuid, args[3]);
-							}
+							
+							// Write the new stile to data.yml and save it
+							data.set("style." + args[2] + "." + uuid, args[3]);
 							DataStorage.saveData();
-							sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_settings_success, player));
+							
+							VariableUtil.sendMessage("hm.settings.success", player);
+							
+						// Oooouuuuuh nooooouuuuuu, you're doin' it so wrong >:[]
 						} else {
-							sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_settings_chat, player));
-							sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_settings_command, player));
+							VariableUtil.sendMessage("hm.settings.chat", player);
+							VariableUtil.sendMessage("hm.settings.command", player);
 						}
+						
 					} else {
-						sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_settings_chat, player));
-						sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_settings_command, player));
+						VariableUtil.sendMessage("hm.settings.chat", player);
+						VariableUtil.sendMessage("hm.settings.command", player);
 					}
+					
+				// If the first permission check of "settings" failed
 				} else {
-					sender.sendMessage(VariableUtil.replaceVariables(ChatColor.RED + LanguageStorage.getData().nopermission, player));
+					VariableUtil.sendMessage("error.noPermission", player);
 				}
+				
+			// Check for Reload command
 			} else if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("r")) {
+				// If the sender has permission to do it...
 				if (sender.hasPermission("holographicmenus.reload")) {
-					sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_reload_reloading, player));
+					VariableUtil.sendMessage("hm.reload.reloading", player);
+					// tackle it...
 					try {
-						ConfigStorage.getData().reload();
-					} catch (InvalidConfigurationException e) {
-						sender.sendMessage(VariableUtil.replaceVariables("%highlight%config.yml " + LanguageStorage.getData().hm_reload_fail, player));
+						ConfigStorage.config.reload();
+					} catch (InvalidConfigurationException exception) {
+						VariableUtil.sendMessage("%highlight%config.yml ", "hm.reload.fail", player);
 					}
+					
 					try {
-						DataStorage.getData().reload();
-					} catch (InvalidConfigurationException e) {
-						sender.sendMessage(VariableUtil.replaceVariables("%highlight%data.yml " + LanguageStorage.getData().hm_reload_fail, player));
+						DataStorage.data.reload();
+					} catch (InvalidConfigurationException exception) {
+						VariableUtil.sendMessage("%highlight%data.yml ", "hm.reload.fail", player);
 					}
+					
 					try {
-						LanguageStorage.getData().reload();
-					} catch (InvalidConfigurationException e) {
-						sender.sendMessage(VariableUtil.replaceVariables("%highlight%lang.yml " + LanguageStorage.getData().hm_reload_fail, player));
+						LanguageStorage.lang.reload();
+					} catch (InvalidConfigurationException exception) {
+						VariableUtil.sendMessage("%highlight%lang.yml ", "hm.reload.fail", player);
 					}
+					
+				// Permission check failed
 				} else {
-					sender.sendMessage(VariableUtil.replaceVariables(ChatColor.RED + LanguageStorage.getData().nopermission, player));
+					VariableUtil.sendMessage("error.noPermission", player);
 				}
+				
+			//Check for /hm v
 			} else if (args[0].equalsIgnoreCase("version") || args[0].equalsIgnoreCase("v")) {
-				sender.sendMessage(ChatColor.DARK_AQUA + "HolographicMenus " + ChatColor.DARK_RED + "v" + version);
-				sender.sendMessage(ChatColor.DARK_AQUA + "(c) 2015 Daniel Saukel, DRE2N-Team");
-				sender.sendMessage(ChatColor.DARK_AQUA + "http://www.dre2n.ml");
+				sender.sendMessage(VariableUtil.replaceVariables("%text%HolographicMenus %highlight%v" + version, player));
+				sender.sendMessage(VariableUtil.replaceVariables("%text%%copyright% 2015 Daniel Saukel, DRE2N-Team", player));// <= That's me :)
+				sender.sendMessage(VariableUtil.replaceVariables("&e&mhttp://www.dre2n.ml", player));
+				
+			// Handle command syntax errors
 			} else {
-				sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_welcome, player));
-				sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_settings, player));
-				sender.sendMessage(VariableUtil.replaceVariables(LanguageStorage.getData().hm_main_infos, player));
+				VariableUtil.sendMessage("hm.main.welcome", player);
+				VariableUtil.sendMessage("hm.main.settings", player);
+				VariableUtil.sendMessage("hm.main.infos", player);
 			}
 			return true;
 		}

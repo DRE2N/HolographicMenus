@@ -1,9 +1,10 @@
 name: HolographicMenus
 main: ml.dre2n.holographicmenus.HolographicMenus
-version: 0.2
+version: 0.3-SNAPSHOT
 author: Daniel Saukel
 website: http://www.dre2n.ml
 depend: [HolographicDisplays]
+softdepend: [ProtocolLib]
 commands:
   holographicmenus:
     description: HolographicMenus core command.
