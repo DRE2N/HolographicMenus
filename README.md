@@ -17,6 +17,10 @@ UUIDs: Supported.
 Known incompatibilities: Should work with everything that works with the dependencies.
 
 #### Dependencies
+[ProtocolLib](http://dev.bukkit.org/bukkit-plugins/protocollib/)
+
+It runs without ProtocolLib as well, but it's required to make holograms invisible for other players.
+
 [HolographicDisplays](http://dev.bukkit.org/bukkit-plugins/holographic-displays/)
 
 Please note that this plugin is not an official addon written by filoghost, the author of HolographicDisplays.
