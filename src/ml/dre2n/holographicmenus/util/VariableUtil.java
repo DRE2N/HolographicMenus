@@ -3,6 +3,7 @@ package ml.dre2n.holographicmenus.util;
 import java.util.HashMap;
 
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -20,14 +21,36 @@ public class VariableUtil {
 	static FileConfiguration lang = LanguageStorage.getData();
 	
 	// Replace the standard variables
-	public static String replaceVariables(String message, Player player) {
-		String uuid = player.getUniqueId().toString();
+	public static String replaceVariables(String message, CommandSender sender) {
+		Player player = null;
+		String uuid = "console";
+		if (sender instanceof Player) {
+			player = (Player) sender;
+			uuid = player.getUniqueId().toString();
+		}
+		
+		// Replacers
+		String headReplacer;
+		String maxPagesReplacer;
+		String highlightReplacer;
+		String textReplacer;
+		if (sender instanceof Player) {
+			headReplacer = data.style_head.get(uuid);
+			maxPagesReplacer = ConfigStorage.getData().getString("menus." + menuTypes.get(player) + ".pages");//TODO
+			highlightReplacer = data.style_highlight.get(uuid);
+			textReplacer = data.style_text.get(uuid);
+		} else {
+			headReplacer = "";
+			maxPagesReplacer = "";
+			highlightReplacer = "";
+			textReplacer = "";
+		}
 		
 		// Replace all menu and formatting variables
-		String message001 = message.replaceAll("%head%", data.style_head.get(uuid));
-		String message002 = message001.replaceAll("%maxpages%", ConfigStorage.getData().getString("menus." + menuTypes.get(player) + ".pages"));//TODO
-		String message003 = message002.replaceAll("%highlight%", data.style_highlight.get(uuid));
-		String message004 = message003.replaceAll("%text%", data.style_text.get(uuid));
+		String message001 = message.replaceAll("%head%", headReplacer);
+		String message002 = message001.replaceAll("%maxpages%", maxPagesReplacer);
+		String message003 = message002.replaceAll("%highlight%", highlightReplacer);
+		String message004 = message003.replaceAll("%text%", textReplacer);
 		
 		// Replace symbol variables
 		String message101 = message004.replaceAll("%play%", "\u25b6");
@@ -170,12 +193,17 @@ public class VariableUtil {
 	}
 	
 	// This is a custom method to send a message to the player. It replaces variables automatically and selects the correct language
-	public static void sendMessage(String path, Player player) {
-		String uuid = player.getUniqueId().toString();
+	public static void sendMessage(String path, CommandSender sender) {
+		Player player = null;
+		String uuid = null;
+		if (sender instanceof Player) {
+			player = (Player) sender;
+			uuid = player.getUniqueId().toString();
+		}
 		String playerLang = config.defaultLang;
 		
 		// Check whether the player has set a per user language
-		if (data.language.containsKey(uuid)) {
+		if (data.language.containsKey(uuid) && sender instanceof Player) {
 			// Set language to per user language
 			playerLang = data.language.get(uuid);
 		}
@@ -186,16 +214,21 @@ public class VariableUtil {
 		String messageEdited = replaceVariables(messageRaw, player);
 		
 		// Send the message
-		player.sendMessage(messageEdited);
+		sender.sendMessage(messageEdited);
 	}
 	
 	// This is a custom method to send a message to the player. It replaces variables automatically
-	public static void sendMessage(String additionalString, String path, Player player) {
-		String uuid = player.getUniqueId().toString();
+	public static void sendMessage(String additionalString, String path, CommandSender sender) {
+		Player player = null;
+		String uuid = null;
+		if (sender instanceof Player) {
+			player = (Player) sender;
+			uuid = player.getUniqueId().toString();
+		}
 		String playerLang = config.defaultLang;
 		
 		// Check whether the player has set a per user language
-		if (data.language.containsKey(uuid)) {
+		if (data.language.containsKey(uuid) && sender instanceof Player) {
 			// Set language to per user language
 			playerLang = data.language.get(uuid);
 		}
@@ -206,7 +239,7 @@ public class VariableUtil {
 		String messageEdited = replaceVariables(messageRaw, player);
 		
 		// Send the message
-		player.sendMessage(messageEdited);
+		sender.sendMessage(messageEdited);
 	}
 	
 }
