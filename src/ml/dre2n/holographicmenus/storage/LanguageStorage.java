@@ -55,7 +55,7 @@ public class LanguageStorage extends FileUtil {
 	public String english_hm_reload_reloading = "%text%Reloading files...";
 	
 	public String english_hm_settings_chat = "%text%Enter %highlight%/hm settings,s %text%to change your settings step by step.";
-	public String english_hm_settings_command = "%text%Enter %highlight%/hm settings,s [player] [head|highlight|text] [colour code] %text%to setup the settings directly.";
+	public String english_hm_settings_command = "%text%Enter %highlight%/hm settings,s [player] [head|highlight|text|language] [colour code|language name] %text%to setup the settings directly.";
 	public String english_hm_settings_success = "%text%Settings successfully changed for UUID %highlight%%uuid%%text%.";
 	
 	public String english_error_noPermission = "%text%Sorry, but you do not have permission to do this.";
@@ -77,7 +77,7 @@ public class LanguageStorage extends FileUtil {
 	public String german_hm_reload_reloading = "%text%Lade Files...";
 	
 	public String german_hm_settings_chat = "%text%Gebe %highlight%/hm settings,s %text%ein, um Deine Einstellungen Schritt f%uuml%r Schritt zu bearbeiten.";
-	public String german_hm_settings_command = "%text%Gebe %highlight%/hm settings,s [player] [head|highlight|text] [colour code] %text%ein, um die Einstellungen direkt zu bearbeiten.";
+	public String german_hm_settings_command = "%text%Gebe %highlight%/hm settings,s [player] [head|highlight|text|language] [Colour-Code|Name der Sprache] %text%ein, um die Einstellungen direkt zu bearbeiten.";
 	public String german_hm_settings_success = "%text%Einstellungen f%uuml% die UUID %highlight%%uuid%%text% erfolgreich angepasst.";
 	
 	public String german_error_noPermission = "%text%Tut mir leid, aber Du hast nicht die Rechte, das zu tun.";
@@ -99,7 +99,7 @@ public class LanguageStorage extends FileUtil {
 	public String french_hm_reload_reloading = "%text%Reloading files...";
 	
 	public String french_hm_settings_chat = "%text%Enter %highlight%/hm settings,s %text%to change your settings step by step.";
-	public String french_hm_settings_command = "%text%Enter %highlight%/hm settings,s [player] [head|highlight|text] [colour code] %text%to setup the settings directly.";
+	public String french_hm_settings_command = "%text%Enter %highlight%/hm settings,s [player] [head|highlight|text|language] [colour code|language name] %text%to setup the settings directly.";
 	public String french_hm_settings_success = "%text%Settings successfully changed for UUID %highlight%%uuid%%text%.";
 	
 	public String french_error_noPermission = "%text%Sorry, but you do not have permission to do this.";

@@ -23,6 +23,7 @@ public class HolographicMenusCMD implements CommandExecutor {
 	String version = plugin.getDescription().getVersion();
 	
 	FileConfiguration data = DataStorage.getData();
+	FileConfiguration lang = LanguageStorage.getData();
 	
 	HashMap<Player, String> inputTypes = HolographicMenus.inputTypes;
 	
@@ -82,12 +83,16 @@ public class HolographicMenusCMD implements CommandExecutor {
 						
 						// Check if the sender used a valid style
 						if (args[2].equalsIgnoreCase("head") || args[2].equalsIgnoreCase("highlight") || args[2].equalsIgnoreCase("text")) {
-							
-							// Write the new stile to data.yml and save it
+							// Write the new style to data.yml and save it
 							data.set("style." + args[2] + "." + uuid, args[3]);
 							DataStorage.saveData();
 							
 							VariableUtil.sendMessage("hm.settings.success", sender);
+							
+						// Check if the user wants to change his language
+						} else if (args[2].equalsIgnoreCase("lang") && lang.contains(args[3].toLowerCase())) {
+							// Write the new language to data.yml and save it
+							data.set("language." + args[2] + "." + uuid, args[3]);
 							
 						// Oooouuuuuh nooooouuuuuu, you're doin' it so wrong >:[]
 						} else {

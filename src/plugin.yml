@@ -13,6 +13,9 @@ commands:
     description: Command to open a holographic menu.
     aliases: [m]
 permissions:
+  holographicmenus.lang:
+    description: Select a personal language.
+    default: true
   holographicmenus.menu.*:
     description: Open a menu.
     default: true
