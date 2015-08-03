@@ -13,11 +13,11 @@ commands:
     description: Command to open a holographic menu.
     aliases: [m]
 permissions:
-  holographicmenus.lang:
-    description: Select a personal language.
-    default: true
   holographicmenus.menu.*:
     description: Open a menu.
+    default: true
+  holographicmenus.openclose:
+    description: Open / close a menu for another player.
     default: true
   holographicmenus.reload:
     description: Reload your files.
