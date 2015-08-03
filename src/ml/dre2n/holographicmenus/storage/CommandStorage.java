@@ -10,22 +10,22 @@ import org.bukkit.plugin.Plugin;
 import ml.dre2n.holographicmenus.HolographicMenus;
 import ml.dre2n.holographicmenus.file.FileUtil;
 
-public class ConfigStorage extends FileUtil {
+public class CommandStorage extends FileUtil {
 	
 	static Plugin plugin = HolographicMenus.plugin;
 	
 	// Easily get variables
-	public static ConfigStorage config;
+	public static CommandStorage commands;
 	
 	// Set header and file name
-	public ConfigStorage(Plugin plugin) {
-		CONFIG_FILE = new File(plugin.getDataFolder(), "config.yml");
-		CONFIG_HEADER = "HolographicMenus Configuration";
+	public CommandStorage(Plugin plugin) {
+		CONFIG_FILE = new File(plugin.getDataFolder(), "commands.yml");
+		CONFIG_HEADER = "HolographicMenus Commands";
 	}
 	
 	// To get data by path, not by the variable listed here
 	public static FileConfiguration getData() {
-		File configFile = new File(plugin.getDataFolder(), "config.yml");
+		File configFile = new File(plugin.getDataFolder(), "commands.yml");
 		FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 		return config;
 	}
@@ -33,16 +33,10 @@ public class ConfigStorage extends FileUtil {
 	// Easily save file
 	public static void saveData() {
 		try {
-			config.save();
+			commands.save();
 		} catch (InvalidConfigurationException exception) {
 			exception.printStackTrace();
 		}
 	}
-	
-	// The language used if no personal language is set.
-	public String defaultLang = "english";
-	
-	// Whether a menu shall follow the player or not.
-	public boolean followOnMove = false;
 	
 }

@@ -7,9 +7,11 @@ import ml.dre2n.holographicmenus.cmd.MenuCMD;
 import ml.dre2n.holographicmenus.listener.ChatListener;
 import ml.dre2n.holographicmenus.listener.JoinListener;
 import ml.dre2n.holographicmenus.listener.MoveListener;
+import ml.dre2n.holographicmenus.storage.CommandStorage;
 import ml.dre2n.holographicmenus.storage.ConfigStorage;
 import ml.dre2n.holographicmenus.storage.DataStorage;
 import ml.dre2n.holographicmenus.storage.LanguageStorage;
+import ml.dre2n.holographicmenus.storage.MenuStorage;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -23,7 +25,14 @@ public class HolographicMenus extends JavaPlugin {
 	public static HashMap<Player, HashMap<String, Integer>> lastPages;
 	public static HashMap<Player, String> inputTypes;
 	public static HashMap<Player, String> menuTypes;
-
+	
+	// Files
+	CommandStorage commands = CommandStorage.commands;
+	ConfigStorage config = ConfigStorage.config;
+	DataStorage data = DataStorage.data;
+	LanguageStorage lang = LanguageStorage.lang;
+	MenuStorage menus = MenuStorage.menus;
+	
 	// When the server starts
 	@Override
 	public void onEnable() {
@@ -36,13 +45,17 @@ public class HolographicMenus extends JavaPlugin {
 		
 		// Initialize files
 		try {
-			ConfigStorage.config = new ConfigStorage(this);
-			DataStorage.data = new DataStorage(this);
-			LanguageStorage.lang = new LanguageStorage(this);
+			commands = new CommandStorage(this);
+			config = new ConfigStorage(this);
+			data = new DataStorage(this);
+			lang = new LanguageStorage(this);
+			menus = new MenuStorage(this);
 			
-			ConfigStorage.config.init();
-			DataStorage.data.init();
-			LanguageStorage.lang.init();
+			commands.init();
+			config.init();
+			data.init();
+			lang.init();
+			menus.init();
 		} catch(Exception exception) {
 			exception.printStackTrace();
 		}
