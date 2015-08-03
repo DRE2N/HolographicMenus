@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 
 import ml.dre2n.holographicmenus.HolographicMenus;
-import ml.dre2n.holographicmenus.storage.ConfigStorage;
+import ml.dre2n.holographicmenus.storage.MenuStorage;
 import ml.dre2n.holographicmenus.util.VariableUtil;
 
 import org.bukkit.configuration.file.FileConfiguration;
@@ -19,7 +19,7 @@ public class ApplyTouchHandlerTask implements Runnable {
 	Plugin plugin = HolographicMenus.plugin;
 	Logger logger = plugin.getLogger();
 	
-	FileConfiguration config = ConfigStorage.getData();
+	FileConfiguration menus = MenuStorage.getData();
 	
 	HashMap<Player, HashMap<String, Integer>> lastPages = HolographicMenus.lastPages;
 	
@@ -56,10 +56,10 @@ public class ApplyTouchHandlerTask implements Runnable {
 		
 		// COMMMAND
 		// Config path
-		commandPath = "menus." + type + ".commands.page." + page + ".button" + line;
+		commandPath = type + ".commands.page." + page + ".button" + line;
 		
 		// Get raw command from config
-		commandRaw = config.getString(commandPath);
+		commandRaw = menus.getString(commandPath);
 		
 		// Replace variables
 		commandEdited = VariableUtil.commandVariables(commandRaw, player);

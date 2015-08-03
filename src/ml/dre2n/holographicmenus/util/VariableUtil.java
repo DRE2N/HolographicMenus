@@ -11,6 +11,7 @@ import ml.dre2n.holographicmenus.HolographicMenus;
 import ml.dre2n.holographicmenus.storage.ConfigStorage;
 import ml.dre2n.holographicmenus.storage.DataStorage;
 import ml.dre2n.holographicmenus.storage.LanguageStorage;
+import ml.dre2n.holographicmenus.storage.MenuStorage;
 
 public class VariableUtil {
 	
@@ -19,6 +20,7 @@ public class VariableUtil {
 	static ConfigStorage config = ConfigStorage.config;
 	static DataStorage data = DataStorage.data;
 	static FileConfiguration lang = LanguageStorage.getData();
+	static FileConfiguration menus = MenuStorage.getData();
 	
 	// Replace the standard variables
 	public static String replaceVariables(String message, CommandSender sender) {
@@ -34,9 +36,10 @@ public class VariableUtil {
 		String maxPagesReplacer;
 		String highlightReplacer;
 		String textReplacer;
+		
 		if (sender instanceof Player) {
 			headReplacer = data.style_head.get(uuid);
-			maxPagesReplacer = ConfigStorage.getData().getString("menus." + menuTypes.get(player) + ".pages");//TODO
+			maxPagesReplacer = menus.getString(menuTypes.get(player) + ".pages");
 			highlightReplacer = data.style_highlight.get(uuid);
 			textReplacer = data.style_text.get(uuid);
 		} else {

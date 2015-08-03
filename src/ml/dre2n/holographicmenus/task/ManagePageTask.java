@@ -3,7 +3,7 @@ package ml.dre2n.holographicmenus.task;
 import java.util.HashMap;
 
 import ml.dre2n.holographicmenus.HolographicMenus;
-import ml.dre2n.holographicmenus.storage.ConfigStorage;
+import ml.dre2n.holographicmenus.storage.MenuStorage;
 import ml.dre2n.holographicmenus.util.VariableUtil;
 
 import org.bukkit.Bukkit;
@@ -19,7 +19,7 @@ public class ManagePageTask implements Runnable {
 	
 	Plugin plugin = HolographicMenus.plugin;
 	
-	FileConfiguration config = ConfigStorage.getData();
+	FileConfiguration menus = MenuStorage.getData();
 	
 	HashMap<Player, HashMap<String, Integer>> lastPages = HolographicMenus.lastPages;
 	
@@ -70,7 +70,7 @@ public class ManagePageTask implements Runnable {
 		this.uuid = player.getUniqueId().toString();
 		
 		this.type = type;
-		this.pages = Integer.parseInt(config.getString("menus." + type + ".pages"));
+		this.pages = Integer.parseInt(menus.getString(type + ".pages"));
 		
 		this.hologramHead = hologramHead;
 		this.hologramLine1 = hologramLine1;
@@ -81,12 +81,12 @@ public class ManagePageTask implements Runnable {
 		
 		// TEXT LINES that don't depend on the page
 		// Config path
-		this.textSwitchPath = "menus." + type + ".texts.switch";
-		this.textClosePath = "menus." + type + ".texts.close";
+		this.textSwitchPath = type + ".texts.switch";
+		this.textClosePath = type + ".texts.close";
 		
 		// Get raw message from config
-		this.textSwitchRaw = config.getString(textSwitchPath);
-		this.textCloseRaw = config.getString(textClosePath);
+		this.textSwitchRaw = menus.getString(textSwitchPath);
+		this.textCloseRaw = menus.getString(textClosePath);
 		
 		// Replace variables
 		this.textSwitchEdited = VariableUtil.replaceVariables(textSwitchRaw, player);
@@ -166,16 +166,16 @@ public class ManagePageTask implements Runnable {
 		
 		// TEXT LINES
 		// Config path
-		this.textHeadPath = "menus." + type + ".texts.head";
-		this.textLine1Path = "menus." + type + ".texts.page." + page + ".button1";
-		this.textLine2Path = "menus." + type + ".texts.page." + page + ".button2";
-		this.textLine3Path = "menus." + type + ".texts.page." + page + ".button3";
+		this.textHeadPath = type + ".texts.head";
+		this.textLine1Path = type + ".texts.page." + page + ".button1";
+		this.textLine2Path = type + ".texts.page." + page + ".button2";
+		this.textLine3Path = type + ".texts.page." + page + ".button3";
 		
 		// Get raw message from config
-		this.textHeadRaw = config.getString(textHeadPath);
-		this.textLine1Raw = config.getString(textLine1Path);
-		this.textLine2Raw = config.getString(textLine2Path);
-		this.textLine3Raw = config.getString(textLine3Path);
+		this.textHeadRaw = menus.getString(textHeadPath);
+		this.textLine1Raw = menus.getString(textLine1Path);
+		this.textLine2Raw = menus.getString(textLine2Path);
+		this.textLine3Raw = menus.getString(textLine3Path);
 		
 		// Replace variables
 		this.textHeadEdited = VariableUtil.pageVariable(textHeadRaw, player, page);

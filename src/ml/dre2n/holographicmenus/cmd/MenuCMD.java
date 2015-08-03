@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import ml.dre2n.holographicmenus.HolographicMenus;
-import ml.dre2n.holographicmenus.storage.ConfigStorage;
+import ml.dre2n.holographicmenus.storage.MenuStorage;
 import ml.dre2n.holographicmenus.task.InitializeHoloTask;
 import ml.dre2n.holographicmenus.util.VariableUtil;
 
@@ -13,6 +13,7 @@ import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -23,6 +24,8 @@ public class MenuCMD implements CommandExecutor {
 	
 	Plugin plugin = HolographicMenus.plugin;
 	Server server = Bukkit.getServer();
+	
+	FileConfiguration menus = MenuStorage.getData();
 	
 	Player player;
 	String type;
@@ -72,7 +75,7 @@ public class MenuCMD implements CommandExecutor {
 	void openMenu() {
 		
 		// Check if menu exists
-		if (ConfigStorage.getData().getString("menus." + type + ".pages") != null) {
+		if (menus.getString(type + ".pages") != null) {
 			Bukkit.getScheduler().runTask(plugin, new InitializeHoloTask(player, type));
 			
 		// Menu doesn't exist
