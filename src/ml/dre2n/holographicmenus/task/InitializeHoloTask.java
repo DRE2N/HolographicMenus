@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import ml.dre2n.holographicmenus.HolographicMenus;
+import ml.dre2n.holographicmenus.storage.MenuStorage;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
@@ -23,6 +25,8 @@ public class InitializeHoloTask implements Runnable {
 	
 	HashMap<Player, HashMap<String, Integer>> lastPages = HolographicMenus.lastPages;
 	HashMap<Player, String> menuTypes = HolographicMenus.menuTypes;
+	
+	FileConfiguration menus = MenuStorage.getData();
 	
 	// Variables
 	Player player;
@@ -39,10 +43,20 @@ public class InitializeHoloTask implements Runnable {
 	// Task
 	@Override
 	public void run() {
+		// Variables
+		HashMap<String, Integer> lastPage = lastPages.get(player);
+		
+		double menuPositionDistance = menus.getDouble(type + ".positions.distance");
+		double menuPositionHead = menus.getDouble(type + ".positions.head");
+		double menuPositionLine1 = menus.getDouble(type + ".positions.button1");
+		double menuPositionLine2 = menus.getDouble(type + ".positions.button2");
+		double menuPositionLine3 = menus.getDouble(type + ".positions.button3");
+		double menuPositionSwitch = menus.getDouble(type + ".positions.switch");
+		double menuPositionClose = menus.getDouble(type + ".positions.close");
 		
 		// Prevent NullPointerException: Add a last page value to the opened menu if it doesn't exist
-		if (!(lastPages.get(player).containsKey(type))) {
-			lastPages.get(player).put(type, 1);
+		if (!(lastPage.containsKey(type))) {
+			lastPage.put(type, 1);
 		}
 		
 		// Delete the player's old menus
@@ -50,7 +64,7 @@ public class InitializeHoloTask implements Runnable {
 		
 		// Get vector
 		Location playerLocation = player.getLocation();
-		Vector vector = playerLocation.getDirection().multiply(2.0);
+		Vector vector = playerLocation.getDirection().multiply(menuPositionDistance);
 		
 		// Get menu location in front of the player's eyes
 		Location eyeLocation = player.getEyeLocation();
@@ -63,12 +77,12 @@ public class InitializeHoloTask implements Runnable {
 		double menuZ = menuLocation.getZ();
 		
 		// Set locations for each menu with a different height
-		Location menuHead = new Location(menuWorld, menuX, menuY + 3, menuZ);
-		Location menuLine1 = new Location(menuWorld, menuX, menuY + 2.6, menuZ);
-		Location menuLine2 = new Location(menuWorld, menuX, menuY + 2.2, menuZ);
-		Location menuLine3 = new Location(menuWorld, menuX, menuY + 1.8, menuZ);
-		Location menuSwitch = new Location(menuWorld, menuX, menuY + 1.2, menuZ);
-		Location menuClose = new Location(menuWorld, menuX, menuY + 0.6, menuZ);
+		Location menuHead = new Location(menuWorld, menuX, menuY + menuPositionHead, menuZ);
+		Location menuLine1 = new Location(menuWorld, menuX, menuY + menuPositionLine1, menuZ);
+		Location menuLine2 = new Location(menuWorld, menuX, menuY + menuPositionLine2, menuZ);
+		Location menuLine3 = new Location(menuWorld, menuX, menuY + menuPositionLine3, menuZ);
+		Location menuSwitch = new Location(menuWorld, menuX, menuY + menuPositionSwitch, menuZ);
+		Location menuClose = new Location(menuWorld, menuX, menuY + menuPositionClose, menuZ);
 		
 		// Finally, create the menus
 		final Hologram hologramHead = HologramsAPI.createHologram(plugin, menuHead);

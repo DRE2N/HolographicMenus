@@ -74,4 +74,15 @@ public class MenuStorage extends FileUtil {
 	public String main_commands_page_3_button2 = "say Button 2";
 	public String main_commands_page_3_button3 = "say Button 3";
 	
+	// Positions
+	public double main_positions_distance = 2;
+	
+	public double main_positions_head = 3;
+	public double main_positions_switch = 1.2;
+	public double main_positions_close = 0.6;
+	
+	public double main_positions_button1 = 2.6;
+	public double main_positions_button2 = 2.2;
+	public double main_positions_button3 = 1.8;
+	
 }
