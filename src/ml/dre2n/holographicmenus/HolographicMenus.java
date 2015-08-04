@@ -3,6 +3,7 @@ package ml.dre2n.holographicmenus;
 import java.util.HashMap;
 
 import ml.dre2n.holographicmenus.cmd.HolographicMenusCMD;
+import ml.dre2n.holographicmenus.cmd.LinkedCMD;
 import ml.dre2n.holographicmenus.cmd.MenuCMD;
 import ml.dre2n.holographicmenus.listener.ChatListener;
 import ml.dre2n.holographicmenus.listener.JoinListener;
@@ -62,6 +63,7 @@ public class HolographicMenus extends JavaPlugin {
 		
 		// Register commands
 		getCommand("holographicmenus").setExecutor(new HolographicMenusCMD());
+		getCommand("linked").setExecutor(new LinkedCMD());
 		getCommand("menu").setExecutor(new MenuCMD());
 		
 		// Register listeners
@@ -69,7 +71,7 @@ public class HolographicMenus extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new JoinListener(), this);
 		
 		// Register MoveListener if enabled
-		if (ConfigStorage.config.followOnMove) {
+		if (config.followOnMove) {
 			getServer().getPluginManager().registerEvents(new MoveListener(), this);
 			getLogger().info("Warning: You enabled that his menu follows the player whenever he moves. This will probably cause lags.");
 		}

@@ -9,10 +9,19 @@ commands:
   holographicmenus:
     description: HolographicMenus core command.
     aliases: [hm]
+  linked:
+    description: Custom linked command.
+    aliases: [li,l,hml]
   menu:
     description: Command to open a holographic menu.
     aliases: [m]
 permissions:
+  holographicmenus.linked.op.*:
+    description: Execute a linked command as an operator.
+    default: op
+  holographicmenus.linked.console.*:
+    description: Execute a linked command as the console.
+    default: op
   holographicmenus.menu.*:
     description: Open a menu.
     default: true

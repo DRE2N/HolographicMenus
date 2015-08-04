@@ -20,7 +20,7 @@ public class CommandStorage extends FileUtil {
 	// Set header and file name
 	public CommandStorage(Plugin plugin) {
 		CONFIG_FILE = new File(plugin.getDataFolder(), "commands.yml");
-		CONFIG_HEADER = "HolographicMenus Commands";
+		CONFIG_HEADER = "HolographicMenus Commands\n\n\nexample:\n  - hm v\n  - version";
 	}
 	
 	// To get data by path, not by the variable listed here
