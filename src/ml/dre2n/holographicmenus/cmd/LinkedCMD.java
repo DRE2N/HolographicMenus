@@ -19,11 +19,6 @@ public class LinkedCMD implements CommandExecutor {
 	
 	FileConfiguration commands = CommandStorage.getData();
 	
-	String id;
-	
-	@SuppressWarnings("unchecked")
-	List<String> commandList = (List<String>) commands.getList(id);
-	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String commandlabel, String[] args) {
 		Player player = (Player) sender;
@@ -37,6 +32,8 @@ public class LinkedCMD implements CommandExecutor {
 					
 					// Check command
 					if (commands.contains(args[1])) {
+						@SuppressWarnings("unchecked")
+						List<String> commandList = (List<String>) commands.getList(args[1]);
 						
 						// Console command
 						if (args[0].equalsIgnoreCase("console")) {

@@ -25,9 +25,9 @@ public class MenuStorage extends FileUtil {
 	
 	// To get data by path, not by the variable listed here
 	public static FileConfiguration getData() {
-		File configFile = new File(plugin.getDataFolder(), "menus.yml");
-		FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
-		return config;
+		File menuFile = new File(plugin.getDataFolder(), "menus.yml");
+		FileConfiguration menus = YamlConfiguration.loadConfiguration(menuFile);
+		return menus;
 	}
 	
 	// Easily save file

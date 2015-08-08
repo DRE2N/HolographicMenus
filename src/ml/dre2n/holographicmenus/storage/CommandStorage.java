@@ -25,9 +25,9 @@ public class CommandStorage extends FileUtil {
 	
 	// To get data by path, not by the variable listed here
 	public static FileConfiguration getData() {
-		File configFile = new File(plugin.getDataFolder(), "commands.yml");
-		FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
-		return config;
+		File commandFile = new File(plugin.getDataFolder(), "commands.yml");
+		FileConfiguration commands = YamlConfiguration.loadConfiguration(commandFile);
+		return commands;
 	}
 	
 	// Easily save file

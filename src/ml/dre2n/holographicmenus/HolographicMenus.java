@@ -27,13 +27,6 @@ public class HolographicMenus extends JavaPlugin {
 	public static HashMap<Player, String> inputTypes;
 	public static HashMap<Player, String> menuTypes;
 	
-	// Files
-	CommandStorage commands = CommandStorage.commands;
-	ConfigStorage config = ConfigStorage.config;
-	DataStorage data = DataStorage.data;
-	LanguageStorage lang = LanguageStorage.lang;
-	MenuStorage menus = MenuStorage.menus;
-	
 	// When the server starts
 	@Override
 	public void onEnable() {
@@ -46,17 +39,17 @@ public class HolographicMenus extends JavaPlugin {
 		
 		// Initialize files
 		try {
-			commands = new CommandStorage(this);
-			config = new ConfigStorage(this);
-			data = new DataStorage(this);
-			lang = new LanguageStorage(this);
-			menus = new MenuStorage(this);
+			CommandStorage.commands = new CommandStorage(this);
+			ConfigStorage.config = new ConfigStorage(this);
+			DataStorage.data = new DataStorage(this);
+			LanguageStorage.lang = new LanguageStorage(this);
+			MenuStorage.menus = new MenuStorage(this);
 			
-			commands.init();
-			config.init();
-			data.init();
-			lang.init();
-			menus.init();
+			CommandStorage.commands.init();
+			ConfigStorage.config.init();
+			DataStorage.data.init();
+			LanguageStorage.lang.init();
+			MenuStorage.menus.init();
 		} catch(Exception exception) {
 			exception.printStackTrace();
 		}
@@ -71,7 +64,7 @@ public class HolographicMenus extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new JoinListener(), this);
 		
 		// Register MoveListener if enabled
-		if (config.followOnMove) {
+		if (ConfigStorage.config.followOnMove) {
 			getServer().getPluginManager().registerEvents(new MoveListener(), this);
 			getLogger().info("Warning: You enabled that his menu follows the player whenever he moves. This will probably cause lags.");
 		}
