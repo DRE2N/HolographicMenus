@@ -3,9 +3,11 @@ package ml.dre2n.holographicmenus.cmd;
 import java.util.HashMap;
 
 import ml.dre2n.holographicmenus.HolographicMenus;
+import ml.dre2n.holographicmenus.storage.CommandStorage;
 import ml.dre2n.holographicmenus.storage.ConfigStorage;
 import ml.dre2n.holographicmenus.storage.DataStorage;
 import ml.dre2n.holographicmenus.storage.LanguageStorage;
+import ml.dre2n.holographicmenus.storage.MenuStorage;
 import ml.dre2n.holographicmenus.util.OfflinePlayerUtil;
 import ml.dre2n.holographicmenus.util.VariableUtil;
 
@@ -117,6 +119,12 @@ public class HolographicMenusCMD implements CommandExecutor {
 					VariableUtil.sendMessage("hm.reload.reloading", sender);
 					// tackle it...
 					try {
+						CommandStorage.commands.reload();
+					} catch (InvalidConfigurationException exception) {
+						VariableUtil.sendMessage("%highlight%commands.yml ", "hm.reload.fail", sender);
+					}
+					
+					try {
 						ConfigStorage.config.reload();
 					} catch (InvalidConfigurationException exception) {
 						VariableUtil.sendMessage("%highlight%config.yml ", "hm.reload.fail", sender);
@@ -126,6 +134,12 @@ public class HolographicMenusCMD implements CommandExecutor {
 						DataStorage.data.reload();
 					} catch (InvalidConfigurationException exception) {
 						VariableUtil.sendMessage("%highlight%data.yml ", "hm.reload.fail", sender);
+					}
+					
+					try {
+						MenuStorage.menus.reload();
+					} catch (InvalidConfigurationException exception) {
+						VariableUtil.sendMessage("%highlight%menus.yml ", "hm.reload.fail", sender);
 					}
 					
 					try {
