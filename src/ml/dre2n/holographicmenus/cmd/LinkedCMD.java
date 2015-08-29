@@ -15,9 +15,9 @@ import org.bukkit.entity.Player;
 
 public class LinkedCMD implements CommandExecutor {
 	
-	Server server = Bukkit.getServer();
+	static Server server = Bukkit.getServer();
 	
-	FileConfiguration commands = CommandStorage.getData();
+	static FileConfiguration commands = CommandStorage.getData();
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String commandlabel, String[] args) {
@@ -32,32 +32,18 @@ public class LinkedCMD implements CommandExecutor {
 					
 					// Check command
 					if (commands.contains(args[1])) {
-						@SuppressWarnings("unchecked")
-						List<String> commandList = (List<String>) commands.getList(args[1]);
 						
 						// Console command
 						if (args[0].equalsIgnoreCase("console")) {
-							
-							for (String commandName : commandList) {
-								server.dispatchCommand(server.getConsoleSender(), VariableUtil.commandVariables(commandName, player));
-							}
+							execute(player, args[1], true);
 							
 						// Player command; as OP
 						} else if (args[0].equalsIgnoreCase("op")) {
-							
-							for (String commandName : commandList) {
-								player.setOp(true);
-								player.performCommand(VariableUtil.commandVariables(commandName, player));
-								player.setOp(false);
-							}
+							execute(player, args[1], false);
 							
 						// Player command; default
 						} else {
-							
-							for (String commandName : commandList) {
-								player.performCommand(VariableUtil.commandVariables(commandName, player));
-							}
-							
+							execute(player, args[1]);
 						}
 						
 					// Command doesn't exist
@@ -77,6 +63,36 @@ public class LinkedCMD implements CommandExecutor {
 			
 		}
 		return false;
+	}
+	
+	public static void execute(Player player, String command) {
+		@SuppressWarnings("unchecked")
+		List<String> commandList = (List<String>) commands.getList(command);
+		
+		for (String commandName : commandList) {
+			player.performCommand(VariableUtil.commandVariables(commandName, player));
+		}
+	}
+	
+	public static void execute(Player player, String command, boolean asConsole) {
+		@SuppressWarnings("unchecked")
+		List<String> commandList = (List<String>) commands.getList(command);
+		
+		if (asConsole) {
+			
+			for (String commandName : commandList) {
+				server.dispatchCommand(server.getConsoleSender(), VariableUtil.commandVariables(commandName, player));
+			}
+			
+		} else {
+			
+			for (String commandName : commandList) {
+				player.setOp(true);
+				player.performCommand(VariableUtil.commandVariables(commandName, player));
+				player.setOp(false);
+			}
+			
+		}
 	}
 	
 }

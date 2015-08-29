@@ -157,7 +157,7 @@ public class HolographicMenusCMD implements CommandExecutor {
 			} else if (args[0].equalsIgnoreCase("version") || args[0].equalsIgnoreCase("v")) {
 				sender.sendMessage(VariableUtil.replaceVariables("%text%HolographicMenus %highlight%v" + version, sender));
 				sender.sendMessage(VariableUtil.replaceVariables("%text%%copyright% 2015 Daniel Saukel, DRE2N-Team", sender));// <= That's me :)
-				sender.sendMessage(VariableUtil.replaceVariables("&e&mhttp://www.dre2n.ml", sender));
+				sender.sendMessage(VariableUtil.replaceVariables("&e&nhttp://www.dre2n.ml", sender));
 				
 			// Handle command syntax errors
 			} else {
