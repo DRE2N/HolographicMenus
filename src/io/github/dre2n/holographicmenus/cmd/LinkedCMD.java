@@ -1,9 +1,9 @@
-package ml.dre2n.holographicmenus.cmd;
+package io.github.dre2n.holographicmenus.cmd;
 
 import java.util.List;
 
-import ml.dre2n.holographicmenus.storage.CommandStorage;
-import ml.dre2n.holographicmenus.util.VariableUtil;
+import io.github.dre2n.holographicmenus.storage.CommandStorage;
+import io.github.dre2n.holographicmenus.util.VariableUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Server;

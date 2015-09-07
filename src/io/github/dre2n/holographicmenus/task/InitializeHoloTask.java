@@ -1,11 +1,11 @@
-package ml.dre2n.holographicmenus.task;
+package io.github.dre2n.holographicmenus.task;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import ml.dre2n.holographicmenus.HolographicMenus;
-import ml.dre2n.holographicmenus.storage.MenuStorage;
+import io.github.dre2n.holographicmenus.HolographicMenus;
+import io.github.dre2n.holographicmenus.storage.MenuStorage;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

@@ -1,9 +1,9 @@
-package ml.dre2n.holographicmenus.listener;
+package io.github.dre2n.holographicmenus.listener;
 
 import java.util.HashMap;
 
-import ml.dre2n.holographicmenus.HolographicMenus;
-import ml.dre2n.holographicmenus.storage.DataStorage;
+import io.github.dre2n.holographicmenus.HolographicMenus;
+import io.github.dre2n.holographicmenus.storage.DataStorage;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

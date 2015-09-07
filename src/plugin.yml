@@ -1,5 +1,5 @@
 name: HolographicMenus
-main: ml.dre2n.holographicmenus.HolographicMenus
+main: io.github.dre2n.holographicmenus.HolographicMenus
 version: 0.3
 author: Daniel Saukel
 website: http://www.dre2n.ml

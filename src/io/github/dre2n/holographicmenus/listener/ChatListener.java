@@ -1,9 +1,9 @@
 // WORK IN PROGRESS!
 
-package ml.dre2n.holographicmenus.listener;
+package io.github.dre2n.holographicmenus.listener;
 
-import ml.dre2n.holographicmenus.HolographicMenus;
-import ml.dre2n.holographicmenus.util.VariableUtil;
+import io.github.dre2n.holographicmenus.HolographicMenus;
+import io.github.dre2n.holographicmenus.util.VariableUtil;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

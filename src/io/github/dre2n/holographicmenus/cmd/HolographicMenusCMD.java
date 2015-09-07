@@ -1,15 +1,15 @@
-package ml.dre2n.holographicmenus.cmd;
+package io.github.dre2n.holographicmenus.cmd;
 
 import java.util.HashMap;
 
-import ml.dre2n.holographicmenus.HolographicMenus;
-import ml.dre2n.holographicmenus.storage.CommandStorage;
-import ml.dre2n.holographicmenus.storage.ConfigStorage;
-import ml.dre2n.holographicmenus.storage.DataStorage;
-import ml.dre2n.holographicmenus.storage.LanguageStorage;
-import ml.dre2n.holographicmenus.storage.MenuStorage;
-import ml.dre2n.holographicmenus.util.OfflinePlayerUtil;
-import ml.dre2n.holographicmenus.util.VariableUtil;
+import io.github.dre2n.holographicmenus.HolographicMenus;
+import io.github.dre2n.holographicmenus.storage.CommandStorage;
+import io.github.dre2n.holographicmenus.storage.ConfigStorage;
+import io.github.dre2n.holographicmenus.storage.DataStorage;
+import io.github.dre2n.holographicmenus.storage.LanguageStorage;
+import io.github.dre2n.holographicmenus.storage.MenuStorage;
+import io.github.dre2n.holographicmenus.util.OfflinePlayerUtil;
+import io.github.dre2n.holographicmenus.util.VariableUtil;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -45,7 +45,7 @@ public class HolographicMenusCMD implements CommandExecutor {
 			
 			// Check if no arguments are entered
 			if (args.length == 0) {
-				// This is a custom method to send a message to the player, check ml.dre2n.holographicmenus.util.VariableUtil.
+				// This is a custom method to send a message to the player, check io.github.dre2n.holographicmenus.util.VariableUtil.
 				VariableUtil.sendMessage("hm.main.welcome", sender);
 				
 				// Some information are only needed if the sender has the permission to use them.
@@ -65,7 +65,7 @@ public class HolographicMenusCMD implements CommandExecutor {
 				if (sender.hasPermission("holographicmenus.settings")) {
 					
 					// Nothing but /hm s?
-					if (args.length == 1) {
+					if (args.length == 1 && sender instanceof Player) {
 						// So, the player wants to use the chat feature to set up his style step by step.
 						// First of all, we give him the instructions how to do so.
 						VariableUtil.sendMessage("inputwanted.head", sender);
@@ -77,9 +77,8 @@ public class HolographicMenusCMD implements CommandExecutor {
 					// The right amount of arguments for direct setup?
 					} else if (args.length == 4) {
 						
-						// What, he tries to modify another player's settings and doesn't have the right to do so?
-						if (!(args[1].equals(player.getName()) && sender.hasPermission("holographicmenus.settings.others"))) {
-							// Let's ignore what he typed in and make him modify his own style instead.
+						// Overwrite uuid
+						if (OfflinePlayerUtil.getUniqueIdFromName(args[1]) != null && sender.hasPermission("holographicmenus.settings.others")) {
 							uuid = OfflinePlayerUtil.getUniqueIdFromName(args[1]).toString();
 						}
 						
@@ -92,10 +91,12 @@ public class HolographicMenusCMD implements CommandExecutor {
 							VariableUtil.sendMessage("hm.settings.success", sender);
 							
 						// Check if the user wants to change his language
-						} else if (args[2].equalsIgnoreCase("lang") && lang.contains(args[3].toLowerCase())) {
+						} else if (args[2].equalsIgnoreCase("language") && lang.contains(args[3].toLowerCase())) {
 							// Write the new language to data.yml and save it
-							data.set("language." + args[2] + "." + uuid, args[3]);
+							data.set("language." + uuid, args[3]);
+							DataStorage.saveData();
 							
+							VariableUtil.sendMessage("hm.settings.success", sender);
 						// Oooouuuuuh nooooouuuuuu, you're doin' it so wrong >:[]
 						} else {
 							VariableUtil.sendMessage("hm.settings.chat", sender);
@@ -157,7 +158,7 @@ public class HolographicMenusCMD implements CommandExecutor {
 			} else if (args[0].equalsIgnoreCase("version") || args[0].equalsIgnoreCase("v")) {
 				sender.sendMessage(VariableUtil.replaceVariables("%text%HolographicMenus %highlight%v" + version, sender));
 				sender.sendMessage(VariableUtil.replaceVariables("%text%%copyright% 2015 Daniel Saukel, DRE2N-Team", sender));// <= That's me :)
-				sender.sendMessage(VariableUtil.replaceVariables("&e&nhttp://www.dre2n.ml", sender));
+				sender.sendMessage(VariableUtil.replaceVariables("&e&nhttp://dre2n.github.io", sender));
 				
 			// Handle command syntax errors
 			} else {

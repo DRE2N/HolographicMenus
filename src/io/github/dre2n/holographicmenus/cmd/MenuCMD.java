@@ -1,12 +1,12 @@
-package ml.dre2n.holographicmenus.cmd;
+package io.github.dre2n.holographicmenus.cmd;
 
 import java.util.Collection;
 import java.util.Iterator;
 
-import ml.dre2n.holographicmenus.HolographicMenus;
-import ml.dre2n.holographicmenus.storage.MenuStorage;
-import ml.dre2n.holographicmenus.task.InitializeHoloTask;
-import ml.dre2n.holographicmenus.util.VariableUtil;
+import io.github.dre2n.holographicmenus.HolographicMenus;
+import io.github.dre2n.holographicmenus.storage.MenuStorage;
+import io.github.dre2n.holographicmenus.task.InitializeHoloTask;
+import io.github.dre2n.holographicmenus.util.VariableUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Server;

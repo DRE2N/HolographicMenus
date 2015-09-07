@@ -1,4 +1,4 @@
-package ml.dre2n.holographicmenus.storage;
+package io.github.dre2n.holographicmenus.storage;
 
 import java.io.File;
 
@@ -7,8 +7,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
-import ml.dre2n.holographicmenus.HolographicMenus;
-import ml.dre2n.holographicmenus.file.FileUtil;
+import io.github.dre2n.holographicmenus.HolographicMenus;
+import io.github.dre2n.holographicmenus.file.FileUtil;
 
 public class CommandStorage extends FileUtil {
 	

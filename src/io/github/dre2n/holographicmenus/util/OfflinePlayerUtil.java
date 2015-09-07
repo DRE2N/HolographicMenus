@@ -1,4 +1,4 @@
-package ml.dre2n.holographicmenus.util;
+package io.github.dre2n.holographicmenus.util;
 
 import java.util.UUID;
 

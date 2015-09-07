@@ -1,4 +1,4 @@
-package ml.dre2n.holographicmenus.util;
+package io.github.dre2n.holographicmenus.util;
 
 import java.util.HashMap;
 
@@ -7,11 +7,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import ml.dre2n.holographicmenus.HolographicMenus;
-import ml.dre2n.holographicmenus.storage.ConfigStorage;
-import ml.dre2n.holographicmenus.storage.DataStorage;
-import ml.dre2n.holographicmenus.storage.LanguageStorage;
-import ml.dre2n.holographicmenus.storage.MenuStorage;
+import io.github.dre2n.holographicmenus.HolographicMenus;
+import io.github.dre2n.holographicmenus.storage.ConfigStorage;
+import io.github.dre2n.holographicmenus.storage.DataStorage;
+import io.github.dre2n.holographicmenus.storage.LanguageStorage;
+import io.github.dre2n.holographicmenus.storage.MenuStorage;
 
 public class VariableUtil {
 	
@@ -164,17 +164,29 @@ public class VariableUtil {
 	}
 	
 	// Replace command variables
-	public static String commandVariables(String message, Player player) {
+	public static String commandVariables(String message, CommandSender sender) {
 		// Get replacement strings / numbers
-		String name = player.getName();
-		String uuid = player.getUniqueId().toString();
-		String health = String.valueOf(player.getHealth());
+		String name = "console";
+		String uuid = "console";
+		String health = "console";
 		
-		Location location = player.getLocation();
+		double x = 0;
+		double y = 0;
+		double z = 0;
 		
-		double x = location.getX();
-		double y = location.getY();
-		double z = location.getZ();
+		if (sender instanceof Player) {
+			Player player = (Player) sender;
+			
+			name = player.getName();
+			uuid = player.getUniqueId().toString();
+			health = String.valueOf(player.getHealth());
+			
+			Location location = player.getLocation();
+			
+			x = location.getX();
+			y = location.getY();
+			z = location.getZ();
+		}
 		
 		String message001 = message.replaceAll("%name%", name);
 		String message002 = message001.replaceAll("%uuid%", uuid);

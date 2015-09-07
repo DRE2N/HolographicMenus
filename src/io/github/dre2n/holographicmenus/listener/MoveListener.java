@@ -1,9 +1,9 @@
-package ml.dre2n.holographicmenus.listener;
+package io.github.dre2n.holographicmenus.listener;
 
 import java.util.Collection;
 import java.util.Iterator;
 
-import ml.dre2n.holographicmenus.HolographicMenus;
+import io.github.dre2n.holographicmenus.HolographicMenus;
 
 import org.bukkit.Location;
 import org.bukkit.World;

@@ -1,18 +1,18 @@
-package ml.dre2n.holographicmenus;
+package io.github.dre2n.holographicmenus;
 
 import java.util.HashMap;
 
-import ml.dre2n.holographicmenus.cmd.HolographicMenusCMD;
-import ml.dre2n.holographicmenus.cmd.LinkedCMD;
-import ml.dre2n.holographicmenus.cmd.MenuCMD;
-import ml.dre2n.holographicmenus.listener.ChatListener;
-import ml.dre2n.holographicmenus.listener.JoinListener;
-import ml.dre2n.holographicmenus.listener.MoveListener;
-import ml.dre2n.holographicmenus.storage.CommandStorage;
-import ml.dre2n.holographicmenus.storage.ConfigStorage;
-import ml.dre2n.holographicmenus.storage.DataStorage;
-import ml.dre2n.holographicmenus.storage.LanguageStorage;
-import ml.dre2n.holographicmenus.storage.MenuStorage;
+import io.github.dre2n.holographicmenus.cmd.HolographicMenusCMD;
+import io.github.dre2n.holographicmenus.cmd.LinkedCMD;
+import io.github.dre2n.holographicmenus.cmd.MenuCMD;
+import io.github.dre2n.holographicmenus.listener.ChatListener;
+import io.github.dre2n.holographicmenus.listener.JoinListener;
+import io.github.dre2n.holographicmenus.listener.MoveListener;
+import io.github.dre2n.holographicmenus.storage.CommandStorage;
+import io.github.dre2n.holographicmenus.storage.ConfigStorage;
+import io.github.dre2n.holographicmenus.storage.DataStorage;
+import io.github.dre2n.holographicmenus.storage.LanguageStorage;
+import io.github.dre2n.holographicmenus.storage.MenuStorage;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;

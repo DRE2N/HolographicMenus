@@ -1,4 +1,4 @@
-package ml.dre2n.holographicmenus.file;
+package io.github.dre2n.holographicmenus.file;
 
 import java.io.BufferedWriter;
 import java.io.File;
