@@ -87,7 +87,7 @@ public class HolographicMenusCMD implements CommandExecutor {
 						// Overwrite uuid
 						if (OfflinePlayerUtil.getUniqueIdFromName(args[1]) != null
 								&& sender
-										.hasPermission("holographicmenus.settings.others")) {
+								.hasPermission("holographicmenus.settings.others")) {
 							uuid = OfflinePlayerUtil.getUniqueIdFromName(
 									args[1]).toString();
 						}
@@ -116,7 +116,7 @@ public class HolographicMenusCMD implements CommandExecutor {
 							// >:[]
 						} else {
 							VariableUtil
-									.sendMessage("hm.settings.chat", sender);
+							.sendMessage("hm.settings.chat", sender);
 							VariableUtil.sendMessage("hm.settings.command",
 									sender);
 						}

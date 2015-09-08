@@ -68,14 +68,14 @@ public class HolographicMenus extends JavaPlugin {
 			getServer().getPluginManager().registerEvents(new MoveListener(),
 					this);
 			getLogger()
-					.info("Warning: You enabled that his menu follows the player whenever he moves. This will probably cause lags.");
+			.info("Warning: You enabled that his menu follows the player whenever he moves. This will probably cause lags.");
 		}
 
 		// I'm alive!
 		getLogger()
-				.info("HolographicMenus "
-						+ getDescription().getVersion()
-						+ " for HolographicDisplays 2.x and Bukkit 1.7.9+ loaded succesfully!");
+		.info("HolographicMenus "
+				+ getDescription().getVersion()
+				+ " for HolographicDisplays 2.x and Bukkit 1.7.9+ loaded succesfully!");
 	}
 
 	// When the server shuts down

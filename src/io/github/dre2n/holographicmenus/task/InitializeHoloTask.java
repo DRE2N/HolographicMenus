@@ -93,18 +93,13 @@ public class InitializeHoloTask implements Runnable {
 				+ menuPositionClose, menuZ);
 
 		// Finally, create the menus
-		final Hologram hologramHead = HologramsAPI.createHologram(plugin,
-				menuHead);
-		final Hologram hologramLine1 = HologramsAPI.createHologram(plugin,
-				menuLine1);
-		final Hologram hologramLine2 = HologramsAPI.createHologram(plugin,
-				menuLine2);
-		final Hologram hologramLine3 = HologramsAPI.createHologram(plugin,
-				menuLine3);
-		final Hologram hologramSwitch = HologramsAPI.createHologram(plugin,
+		Hologram hologramHead = HologramsAPI.createHologram(plugin, menuHead);
+		Hologram hologramLine1 = HologramsAPI.createHologram(plugin, menuLine1);
+		Hologram hologramLine2 = HologramsAPI.createHologram(plugin, menuLine2);
+		Hologram hologramLine3 = HologramsAPI.createHologram(plugin, menuLine3);
+		Hologram hologramSwitch = HologramsAPI.createHologram(plugin,
 				menuSwitch);
-		final Hologram hologramClose = HologramsAPI.createHologram(plugin,
-				menuClose);
+		Hologram hologramClose = HologramsAPI.createHologram(plugin, menuClose);
 
 		// Get visibility managers of each menu
 		VisibilityManager visibilityManagerHead = hologramHead

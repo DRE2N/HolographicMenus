@@ -103,7 +103,7 @@ public class ManagePageTask implements Runnable {
 	public void run() {
 		// Set text to the head line
 		@SuppressWarnings("unused")
-		final TextLine textHead = hologramHead.appendTextLine(textHeadEdited);
+		TextLine textHead = hologramHead.appendTextLine(textHeadEdited);
 
 		// Setup the content of the page
 		setPage();
@@ -140,8 +140,7 @@ public class ManagePageTask implements Runnable {
 				// Setup the hologram head once again with the updated page
 				// number
 				@SuppressWarnings("unused")
-				final TextLine textHead = hologramHead
-						.appendTextLine(textHeadEdited);
+				TextLine textHead = hologramHead.appendTextLine(textHeadEdited);
 
 				// Setup the new page
 				setPage();
