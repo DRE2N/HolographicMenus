@@ -31,4 +31,4 @@ SpigotMC.org resource: [LINK](https://www.spigotmc.org/resources/holographicmenu
 #### Dev Builds
 I compiled the source using nothing but Eclipse.
 
-Compiled dev builds can be found at the [homepage](http://dre2n.ml/).
+Compiled dev builds can be found at the [homepage](http://dre2n.github.io/dev.html).

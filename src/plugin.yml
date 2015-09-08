@@ -1,6 +1,6 @@
 name: HolographicMenus
-main: ml.dre2n.holographicmenus.HolographicMenus
-version: 0.3-SNAPSHOT
+main: io.github.dre2n.holographicmenus.HolographicMenus
+version: 0.3
 author: Daniel Saukel
 website: http://www.dre2n.ml
 depend: [HolographicDisplays]
@@ -9,12 +9,24 @@ commands:
   holographicmenus:
     description: HolographicMenus core command.
     aliases: [hm]
+  linked:
+    description: Custom linked command.
+    aliases: [li,l,hml]
   menu:
     description: Command to open a holographic menu.
     aliases: [m]
 permissions:
+  holographicmenus.linked.op.*:
+    description: Execute a linked command as an operator.
+    default: op
+  holographicmenus.linked.console.*:
+    description: Execute a linked command as the console.
+    default: op
   holographicmenus.menu.*:
     description: Open a menu.
+    default: true
+  holographicmenus.openclose:
+    description: Open / close a menu for another player.
     default: true
   holographicmenus.reload:
     description: Reload your files.

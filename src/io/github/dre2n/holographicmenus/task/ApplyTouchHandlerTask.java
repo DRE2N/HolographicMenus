@@ -1,11 +1,11 @@
-package ml.dre2n.holographicmenus.task;
+package io.github.dre2n.holographicmenus.task;
+
+import io.github.dre2n.holographicmenus.HolographicMenus;
+import io.github.dre2n.holographicmenus.storage.MenuStorage;
+import io.github.dre2n.holographicmenus.util.VariableUtil;
 
 import java.util.HashMap;
 import java.util.logging.Logger;
-
-import ml.dre2n.holographicmenus.HolographicMenus;
-import ml.dre2n.holographicmenus.storage.ConfigStorage;
-import ml.dre2n.holographicmenus.util.VariableUtil;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -15,56 +15,57 @@ import com.gmail.filoghost.holographicdisplays.api.handler.TouchHandler;
 import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 
 public class ApplyTouchHandlerTask implements Runnable {
-	
+
 	Plugin plugin = HolographicMenus.plugin;
 	Logger logger = plugin.getLogger();
-	
-	FileConfiguration config = ConfigStorage.getData();
-	
+
+	FileConfiguration menus = MenuStorage.getData();
+
 	HashMap<Player, HashMap<String, Integer>> lastPages = HolographicMenus.lastPages;
-	
+
 	// Variables
 	Player player;
-	
+
 	String type;
-	
+
 	TextLine text;
 	String line;
-	
+
 	int page;
-	
+
 	// COMMAND
 	// Config path
 	String commandPath;
-	
+
 	// Get raw command from config
 	String commandRaw;
-	
+
 	// Replace variables
 	String commandEdited;
-	
+
 	// Apply variables to this class
-	public ApplyTouchHandlerTask(Player player, String type, TextLine text, String line) {
+	public ApplyTouchHandlerTask(Player player, String type, TextLine text,
+			String line) {
 		this.player = player;
-		
+
 		this.type = type;
-		
+
 		this.text = text;
 		this.line = line;
-		
+
 		page = lastPages.get(player).get(type);
-		
+
 		// COMMMAND
 		// Config path
-		commandPath = "menus." + type + ".commands.page." + page + ".button" + line;
-		
+		commandPath = type + ".commands.page." + page + ".button" + line;
+
 		// Get raw command from config
-		commandRaw = config.getString(commandPath);
-		
+		commandRaw = menus.getString(commandPath);
+
 		// Replace variables
 		commandEdited = VariableUtil.commandVariables(commandRaw, player);
 	}
-	
+
 	// Task
 	@Override
 	public void run() {
@@ -75,12 +76,14 @@ public class ApplyTouchHandlerTask implements Runnable {
 			public void onTouch(Player player) {
 				// Force the player to execute the command
 				player.performCommand(commandEdited);
-				
+
 				// Log
-				logger.info(player.getName() + " executed command '" + commandEdited + "' (" + type + ", page" + page + ", button" + line + ").");
+				logger.info(player.getName() + " executed command '"
+						+ commandEdited + "' (" + type + ", page" + page
+						+ ", button" + line + ").");
 			}
 		});
-		
+
 	}
-	
+
 }

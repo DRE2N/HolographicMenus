@@ -1,34 +1,63 @@
-package ml.dre2n.holographicmenus.util;
+package io.github.dre2n.holographicmenus.util;
+
+import io.github.dre2n.holographicmenus.HolographicMenus;
+import io.github.dre2n.holographicmenus.storage.ConfigStorage;
+import io.github.dre2n.holographicmenus.storage.DataStorage;
+import io.github.dre2n.holographicmenus.storage.LanguageStorage;
+import io.github.dre2n.holographicmenus.storage.MenuStorage;
 
 import java.util.HashMap;
 
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import ml.dre2n.holographicmenus.HolographicMenus;
-import ml.dre2n.holographicmenus.storage.ConfigStorage;
-import ml.dre2n.holographicmenus.storage.DataStorage;
-import ml.dre2n.holographicmenus.storage.LanguageStorage;
-
 public class VariableUtil {
-	
+
 	static HashMap<Player, String> menuTypes = HolographicMenus.menuTypes;
-	
+
 	static ConfigStorage config = ConfigStorage.config;
 	static DataStorage data = DataStorage.data;
 	static FileConfiguration lang = LanguageStorage.getData();
-	
+	static FileConfiguration menus = MenuStorage.getData();
+
 	// Replace the standard variables
-	public static String replaceVariables(String message, Player player) {
-		String uuid = player.getUniqueId().toString();
-		
+	public static String replaceVariables(String message, CommandSender sender) {
+		Player player = null;
+		String uuid = "console";
+		if (sender instanceof Player) {
+			player = (Player) sender;
+			uuid = player.getUniqueId().toString();
+		}
+
+		// Replacers
+		String headReplacer;
+		String maxPagesReplacer;
+		String highlightReplacer;
+		String textReplacer;
+
+		if (sender instanceof Player) {
+			headReplacer = data.style_head.get(uuid);
+			maxPagesReplacer = menus
+					.getString(menuTypes.get(player) + ".pages");
+			highlightReplacer = data.style_highlight.get(uuid);
+			textReplacer = data.style_text.get(uuid);
+		} else {
+			headReplacer = "";
+			maxPagesReplacer = "";
+			highlightReplacer = "";
+			textReplacer = "";
+		}
+
 		// Replace all menu and formatting variables
-		String message001 = message.replaceAll("%head%", data.style_head.get(uuid));
-		String message002 = message001.replaceAll("%maxpages%", ConfigStorage.getData().getString("menus." + menuTypes.get(player) + ".pages"));//TODO
-		String message003 = message002.replaceAll("%highlight%", data.style_highlight.get(uuid));
-		String message004 = message003.replaceAll("%text%", data.style_text.get(uuid));
-		
+		String message001 = message.replaceAll("%head%", headReplacer);
+		String message002 = message001.replaceAll("%maxpages%",
+				maxPagesReplacer);
+		String message003 = message002.replaceAll("%highlight%",
+				highlightReplacer);
+		String message004 = message003.replaceAll("%text%", textReplacer);
+
 		// Replace symbol variables
 		String message101 = message004.replaceAll("%play%", "\u25b6");
 		String message102 = message101.replaceAll("%copyright%", "\u00a9");
@@ -79,8 +108,10 @@ public class VariableUtil {
 		String message147 = message146.replaceAll("%boxfull%", "\u2588");
 		String message148 = message147.replaceAll("%squareblack%", "\u25a0");
 		String message149 = message148.replaceAll("%squarewhite%", "\u25a1");
-		String message150 = message149.replaceAll("%squareblacktiny%", "\u25aa");
-		String message151 = message150.replaceAll("%squarewhitetiny%", "\u25ab");
+		String message150 = message149
+				.replaceAll("%squareblacktiny%", "\u25aa");
+		String message151 = message150
+				.replaceAll("%squarewhitetiny%", "\u25ab");
 		String message152 = message151.replaceAll("%left%", "\u2190");
 		String message153 = message152.replaceAll("%up%", "\u2191");
 		String message154 = message153.replaceAll("%right%", "\u2192");
@@ -107,7 +138,7 @@ public class VariableUtil {
 		String message175 = message174.replaceAll("%diamonds%", "\u2666");
 		String message176 = message175.replaceAll("%quaver%", "\u266a");
 		String message177 = message176.replaceAll("%2quavers%", "\u266b");
-		
+
 		// Replace colour codes
 		String message201 = message177.replaceAll("&1", "\u00a71");
 		String message202 = message201.replaceAll("&2", "\u00a72");
@@ -130,83 +161,110 @@ public class VariableUtil {
 		String message219 = message218.replaceAll("&n", "\u00a7n");
 		String message220 = message219.replaceAll("&o", "\u00a7o");
 		String message221 = message220.replaceAll("&r", "\u00a7r");
-		
+
 		// Replace command variables
 		String message301 = commandVariables(message221, player);
-		
+
 		return message301;
 	}
-	
+
 	// Replace command variables
-	public static String commandVariables(String message, Player player) {
+	public static String commandVariables(String message, CommandSender sender) {
 		// Get replacement strings / numbers
-		String name = player.getName();
-		String uuid = player.getUniqueId().toString();
-		String health = String.valueOf(player.getHealth());
-		
-		Location location = player.getLocation();
-		
-		double x = location.getX();
-		double y = location.getY();
-		double z = location.getZ();
-		
+		String name = "console";
+		String uuid = "console";
+		String health = "console";
+
+		double x = 0;
+		double y = 0;
+		double z = 0;
+
+		if (sender instanceof Player) {
+			Player player = (Player) sender;
+
+			name = player.getName();
+			uuid = player.getUniqueId().toString();
+			health = String.valueOf(player.getHealth());
+
+			Location location = player.getLocation();
+
+			x = location.getX();
+			y = location.getY();
+			z = location.getZ();
+		}
+
 		String message001 = message.replaceAll("%name%", name);
 		String message002 = message001.replaceAll("%uuid%", uuid);
 		String message003 = message002.replaceAll("%health%", health);
-		String message004 = message003.replaceAll("%coords%", "X: " + x + ", Y: " + y + ". Z: " + z);
-		
+		String message004 = message003.replaceAll("%coords%", "X: " + x
+				+ ", Y: " + y + ". Z: " + z);
+
 		return message004;
 	}
-	
+
 	// Replace page variable
 	public static String pageVariable(String message, Player player, int page) {
 		// Replace page variable
 		String message001 = message.replaceAll("%page%", String.valueOf(page));
-		
+
 		// Replace other variables
 		String message101 = replaceVariables(message001, player);
-		
+
 		return message101;
 	}
-	
-	// This is a custom method to send a message to the player. It replaces variables automatically and selects the correct language
-	public static void sendMessage(String path, Player player) {
-		String uuid = player.getUniqueId().toString();
+
+	// This is a custom method to send a message to the player. It replaces
+	// variables automatically and selects the correct language
+	public static void sendMessage(String path, CommandSender sender) {
+		Player player = null;
+		String uuid = null;
+		if (sender instanceof Player) {
+			player = (Player) sender;
+			uuid = player.getUniqueId().toString();
+		}
 		String playerLang = config.defaultLang;
-		
+
 		// Check whether the player has set a per user language
-		if (data.language.containsKey(uuid)) {
+		if (data.language.containsKey(uuid) && sender instanceof Player) {
 			// Set language to per user language
 			playerLang = data.language.get(uuid);
 		}
-		
+
 		// Form the message
-		String messageRaw = lang.getString(playerLang + "." +  path);
-		
+		String messageRaw = lang.getString(playerLang + "." + path);
+
 		String messageEdited = replaceVariables(messageRaw, player);
-		
+
 		// Send the message
-		player.sendMessage(messageEdited);
+		sender.sendMessage(messageEdited);
 	}
-	
-	// This is a custom method to send a message to the player. It replaces variables automatically
-	public static void sendMessage(String additionalString, String path, Player player) {
-		String uuid = player.getUniqueId().toString();
+
+	// This is a custom method to send a message to the player. It replaces
+	// variables automatically
+	public static void sendMessage(String additionalString, String path,
+			CommandSender sender) {
+		Player player = null;
+		String uuid = null;
+		if (sender instanceof Player) {
+			player = (Player) sender;
+			uuid = player.getUniqueId().toString();
+		}
 		String playerLang = config.defaultLang;
-		
+
 		// Check whether the player has set a per user language
-		if (data.language.containsKey(uuid)) {
+		if (data.language.containsKey(uuid) && sender instanceof Player) {
 			// Set language to per user language
 			playerLang = data.language.get(uuid);
 		}
-		
+
 		// Form the message
-		String messageRaw = additionalString + lang.getString(playerLang + "." +  path);
-		
+		String messageRaw = additionalString
+				+ lang.getString(playerLang + "." + path);
+
 		String messageEdited = replaceVariables(messageRaw, player);
-		
+
 		// Send the message
-		player.sendMessage(messageEdited);
+		sender.sendMessage(messageEdited);
 	}
-	
+
 }
