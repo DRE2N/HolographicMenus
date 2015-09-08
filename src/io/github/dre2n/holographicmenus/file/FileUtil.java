@@ -11,16 +11,16 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 /*
  * SuperEasyConfig - Config
- * 
+ *
  * Based off of codename_Bs EasyConfig v2.1
  * which was inspired by md_5
- * 
+ *
  * An even awesomer super-duper-lazy Config lib!
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- * 
+ *
  * @author MrFigg
  * @version 1.2
  */
@@ -28,73 +28,99 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public abstract class FileUtil extends FileObject {
 	protected transient File CONFIG_FILE = null;
 	protected transient String CONFIG_HEADER = null;
-	
+
 	public FileUtil() {
 		CONFIG_HEADER = null;
 	}
-	
+
 	public FileUtil load(File file) throws InvalidConfigurationException {
-		if(file==null) throw new InvalidConfigurationException(new NullPointerException());
-		if(!file.exists()) throw new InvalidConfigurationException(new IOException("File doesn't exist"));
+		if (file == null) {
+			throw new InvalidConfigurationException(new NullPointerException());
+		}
+		if (!file.exists()) {
+			throw new InvalidConfigurationException(new IOException(
+					"File doesn't exist"));
+		}
 		CONFIG_FILE = file;
 		return reload();
 	}
-	
+
 	public FileUtil reload() throws InvalidConfigurationException {
-		if(CONFIG_FILE==null) throw new InvalidConfigurationException(new NullPointerException());
-		if(!CONFIG_FILE.exists()) throw new InvalidConfigurationException(new IOException("File doesn't exist"));
-		YamlConfiguration yamlConfig = YamlConfiguration.loadConfiguration(CONFIG_FILE);
+		if (CONFIG_FILE == null) {
+			throw new InvalidConfigurationException(new NullPointerException());
+		}
+		if (!CONFIG_FILE.exists()) {
+			throw new InvalidConfigurationException(new IOException(
+					"File doesn't exist"));
+		}
+		YamlConfiguration yamlConfig = YamlConfiguration
+				.loadConfiguration(CONFIG_FILE);
 		try {
 			onLoad(yamlConfig);
 			yamlConfig.save(CONFIG_FILE);
-		} catch(Exception ex) {
+		} catch (Exception ex) {
 			throw new InvalidConfigurationException(ex);
 		}
 		return this;
 	}
-	
+
 	public FileUtil save(File file) throws InvalidConfigurationException {
-		if(file==null) throw new InvalidConfigurationException(new NullPointerException());
+		if (file == null) {
+			throw new InvalidConfigurationException(new NullPointerException());
+		}
 		CONFIG_FILE = file;
 		return save();
 	}
-	
+
 	public FileUtil save() throws InvalidConfigurationException {
-		if(CONFIG_FILE==null) throw new InvalidConfigurationException(new NullPointerException());
-		if(!CONFIG_FILE.exists()) {
+		if (CONFIG_FILE == null) {
+			throw new InvalidConfigurationException(new NullPointerException());
+		}
+		if (!CONFIG_FILE.exists()) {
 			try {
-				if(CONFIG_FILE.getParentFile() != null) CONFIG_FILE.getParentFile().mkdirs();
+				if (CONFIG_FILE.getParentFile() != null) {
+					CONFIG_FILE.getParentFile().mkdirs();
+				}
 				CONFIG_FILE.createNewFile();
-				if(CONFIG_HEADER!=null) {
-					Writer newConfig = new BufferedWriter(new FileWriter(CONFIG_FILE));
-					for(String line : CONFIG_HEADER.split("\n")) {
-						newConfig.write("# "+line+"\n");
+				if (CONFIG_HEADER != null) {
+					Writer newConfig = new BufferedWriter(new FileWriter(
+							CONFIG_FILE));
+					for (String line : CONFIG_HEADER.split("\n")) {
+						newConfig.write("# " + line + "\n");
 					}
 					newConfig.close();
 				}
-			} catch(Exception ex) {
+			} catch (Exception ex) {
 				throw new InvalidConfigurationException(ex);
 			}
 		}
-		YamlConfiguration yamlConfig = YamlConfiguration.loadConfiguration(CONFIG_FILE);
+		YamlConfiguration yamlConfig = YamlConfiguration
+				.loadConfiguration(CONFIG_FILE);
 		try {
 			onSave(yamlConfig);
 			yamlConfig.save(CONFIG_FILE);
-		} catch(Exception ex) {
+		} catch (Exception ex) {
 			throw new InvalidConfigurationException(ex);
 		}
 		return this;
 	}
-	
+
 	public FileUtil init(File file) throws InvalidConfigurationException {
-		if(file==null) throw new InvalidConfigurationException(new NullPointerException());
+		if (file == null) {
+			throw new InvalidConfigurationException(new NullPointerException());
+		}
 		CONFIG_FILE = file;
 		return init();
 	}
-	
+
 	public FileUtil init() throws InvalidConfigurationException {
-		if(CONFIG_FILE==null) throw new InvalidConfigurationException(new NullPointerException());
-		if(CONFIG_FILE.exists()) return reload();
-		else return save();
+		if (CONFIG_FILE == null) {
+			throw new InvalidConfigurationException(new NullPointerException());
+		}
+		if (CONFIG_FILE.exists()) {
+			return reload();
+		} else {
+			return save();
+		}
 	}
 }
