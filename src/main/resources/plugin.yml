@@ -1,0 +1,11 @@
+name: HolographicMenus
+main: io.github.dre2n.holographicmenus.HolographicMenus
+version: ${project.version}
+author: Daniel Saukel
+description: ${project.description}
+website: ${project.url}
+softdepend: [BlueRoseCommons, CommandsXL, HolographicDisplays, ProtocolLib]
+commands:
+  holographicmenus:
+    description: Reference command for Holographic Menus.
+    aliases: [hm,m,menu]
