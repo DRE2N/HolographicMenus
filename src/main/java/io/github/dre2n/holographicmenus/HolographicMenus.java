@@ -19,17 +19,16 @@ package io.github.dre2n.holographicmenus;
 import io.github.dre2n.commons.compatibility.Internals;
 import io.github.dre2n.commons.javaplugin.BRPlugin;
 import io.github.dre2n.commons.javaplugin.BRPluginSettings;
-import io.github.dre2n.commons.util.FileUtil;
 import io.github.dre2n.commons.util.messageutil.MessageUtil;
 import io.github.dre2n.holographicmenus.hologram.HologramProvider;
 import io.github.dre2n.holographicmenus.hologram.HologramWrapper;
 import io.github.dre2n.holographicmenus.menu.HButton;
 import io.github.dre2n.holographicmenus.menu.HMenu;
 import io.github.dre2n.holographicmenus.menu.HMenuPage;
+import io.github.dre2n.holographicmenus.menu.HMenus;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Set;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -44,7 +43,7 @@ public class HolographicMenus extends BRPlugin {
     public static File HOLOGRAM_FOLDER;
 
     private HologramProvider hologramProvider;
-    private Set<HMenu> menus = new HashSet<>();
+    private HMenus menus;
 
     public HolographicMenus() {
         /*
@@ -60,7 +59,7 @@ public class HolographicMenus extends BRPlugin {
          * ##########################
          */
 
-        settings = new BRPluginSettings(false, false, false, false, true, Internals.INDEPENDENT);
+        settings = new BRPluginSettings(false, false, false, false, true, 9389, Internals.INDEPENDENT);
     }
 
     @Override
@@ -68,7 +67,7 @@ public class HolographicMenus extends BRPlugin {
         super.onEnable();
 
         instance = this;
-        HOLOGRAM_FOLDER = new File(getDataFolder() + "/menus");
+        HOLOGRAM_FOLDER = new File(getDataFolder(), "menus");
         HOLOGRAM_FOLDER.mkdirs();
 
         if (!loadHologramProvider()) {
@@ -105,10 +104,10 @@ public class HolographicMenus extends BRPlugin {
     }
 
     /**
-     * @return
-     * the menus
+     * return
+     * the loaded instance of HMenus
      */
-    public Set<HMenu> getMenus() {
+    public HMenus getHMenus() {
         return menus;
     }
 
@@ -116,24 +115,12 @@ public class HolographicMenus extends BRPlugin {
      * load / reload the menus
      */
     public void loadMenus() {
-        for (File file : FileUtil.getFilesForFolder(HOLOGRAM_FOLDER)) {
-            menus.add(new HMenu(file));
-        }
-    }
-
-    public HMenu getByName(String name) {
-        for (HMenu menu : menus) {
-            if (menu.getName().equalsIgnoreCase(name)) {
-                return menu;
-            }
-        }
-
-        return null;
+        menus = new HMenus(HOLOGRAM_FOLDER);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        new HMenu("TEST", HMenu.Type.PRIVATE, Arrays.asList(new HMenuPage(new HashSet<>(Arrays.asList(new HButton("BUTTON 1", HButton.Type.TITLE, null, 0.2, 0.7), new HButton("BUTTON 2", HButton.Type.TITLE, null, -0.2, 0.4))))), 2.0).open((Player) sender);
+        new HMenu("TEST", HMenu.Type.PRIVATE, Arrays.asList(new HMenuPage(new HashSet<>(Arrays.asList(new HButton("BUTTON 1", HButton.Type.TITLE, null, 0.4, 0.7), new HButton("BUTTON 2", HButton.Type.TITLE, null, -0.4, 0.4))))), 2.0).open((Player) sender);
         return true;
     }
 
