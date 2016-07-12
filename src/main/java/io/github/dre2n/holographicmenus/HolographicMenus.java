@@ -17,21 +17,16 @@
 package io.github.dre2n.holographicmenus;
 
 import io.github.dre2n.commons.compatibility.Internals;
+import io.github.dre2n.commons.config.MessageConfig;
 import io.github.dre2n.commons.javaplugin.BRPlugin;
 import io.github.dre2n.commons.javaplugin.BRPluginSettings;
 import io.github.dre2n.commons.util.messageutil.MessageUtil;
+import io.github.dre2n.holographicmenus.command.HCommands;
+import io.github.dre2n.holographicmenus.config.HMessages;
 import io.github.dre2n.holographicmenus.hologram.HologramProvider;
 import io.github.dre2n.holographicmenus.hologram.HologramWrapper;
-import io.github.dre2n.holographicmenus.menu.HButton;
-import io.github.dre2n.holographicmenus.menu.HMenu;
-import io.github.dre2n.holographicmenus.menu.HMenuPage;
 import io.github.dre2n.holographicmenus.menu.HMenus;
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 /**
  * @author Daniel Saukel
@@ -40,10 +35,13 @@ public class HolographicMenus extends BRPlugin {
 
     private static HolographicMenus instance;
 
-    public static File HOLOGRAM_FOLDER;
+    public static File LANGUAGES;
+    public static File MENUS;
 
     private HologramProvider hologramProvider;
+    private MessageConfig messageConfig;
     private HMenus menus;
+    private HCommands hCommands;
 
     public HolographicMenus() {
         /*
@@ -65,18 +63,29 @@ public class HolographicMenus extends BRPlugin {
     @Override
     public void onEnable() {
         super.onEnable();
-
         instance = this;
-        HOLOGRAM_FOLDER = new File(getDataFolder(), "menus");
-        HOLOGRAM_FOLDER.mkdirs();
+        initFolders();
 
         if (!loadHologramProvider()) {
             MessageUtil.log(this, "&4[SEVERE] No hologram provider found! Disabling plugin...");
             instance = null;
             getServer().getPluginManager().disablePlugin(this);
         }
-
+        loadMessageConfig(new File(LANGUAGES, "english.yml"));
         loadMenus();
+        loadHCommands();
+    }
+
+    public void initFolders() {
+        LANGUAGES = new File(getDataFolder(), "languages");
+        if (!LANGUAGES.exists()) {
+            LANGUAGES.mkdir();
+        }
+
+        MENUS = new File(getDataFolder(), "menus");
+        if (!MENUS.exists()) {
+            MENUS.mkdir();
+        }
     }
 
     /* Getters and loaders */
@@ -104,6 +113,36 @@ public class HolographicMenus extends BRPlugin {
     }
 
     /**
+     * @return the loaded instance of MessageConfig
+     */
+    public MessageConfig getMessageConfig() {
+        return messageConfig;
+    }
+
+    /**
+     * load / reload a new instance of MessageConfig
+     */
+    public void loadMessageConfig(File file) {
+        messageConfig = new MessageConfig(HMessages.class, file);
+    }
+
+    /**
+     * @return the loaded instance of HCommands
+     */
+    @Override
+    public HCommands getCommands() {
+        return hCommands;
+    }
+
+    /**
+     * load / reload a new instance of HCommands
+     */
+    public void loadHCommands() {
+        hCommands = new HCommands(this);
+        hCommands.register(this);
+    }
+
+    /**
      * return
      * the loaded instance of HMenus
      */
@@ -115,13 +154,7 @@ public class HolographicMenus extends BRPlugin {
      * load / reload the menus
      */
     public void loadMenus() {
-        menus = new HMenus(HOLOGRAM_FOLDER);
-    }
-
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        new HMenu("TEST", HMenu.Type.PRIVATE, Arrays.asList(new HMenuPage(new HashSet<>(Arrays.asList(new HButton("BUTTON 1", HButton.Type.TITLE, null, 0.4, 0.7), new HButton("BUTTON 2", HButton.Type.TITLE, null, -0.4, 0.4))))), 2.0).open((Player) sender);
-        return true;
+        menus = new HMenus(MENUS);
     }
 
 }
