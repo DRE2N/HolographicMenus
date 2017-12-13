@@ -1,10 +1,10 @@
 name: HolographicMenus
-main: io.github.dre2n.holographicmenus.HolographicMenus
+main: de.erethon.holographicmenus.HolographicMenus
 version: ${project.version}${buildNo}
 author: Daniel Saukel
 description: ${project.description}
 website: ${project.url}
-softdepend: [BlueRoseCommons, CommandsXL, HolographicDisplays, ProtocolLib]
+softdepend: [CommandsXL, HolographicDisplays, ProtocolLib]
 commands:
   holographicmenus:
     description: Reference command for Holographic Menus.
