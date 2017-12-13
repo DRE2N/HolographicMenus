@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Daniel Saukel
+ * Copyright (C) 2016-2017 Daniel Saukel
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,11 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package io.github.dre2n.holographicmenus.menu;
+package de.erethon.holographicmenus.menu;
 
-import io.github.dre2n.commons.util.EnumUtil;
-import io.github.dre2n.holographicmenus.HolographicMenus;
-import io.github.dre2n.holographicmenus.hologram.HologramWrapper;
+import io.github.dre2n.commons.misc.EnumUtil;
+import de.erethon.holographicmenus.HolographicMenus;
+import de.erethon.holographicmenus.hologram.HologramWrapper;
+import java.util.Set;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -31,10 +32,9 @@ import org.bukkit.util.Vector;
  */
 public class HButton {
 
-    protected static HologramWrapper hologramWrapper = HolographicMenus.getInstance().getHologramWrapper();
+    HologramWrapper hologramWrapper = HolographicMenus.getInstance().getHologramWrapper();
 
     public enum Type {
-
         TITLE,
         BUTTON,
         FIRST_PAGE,
@@ -42,7 +42,6 @@ public class HButton {
         NEXT_PAGE,
         LAST_PAGE,
         CLOSE
-
     }
 
     private String label;
@@ -169,7 +168,7 @@ public class HButton {
      * @return
      * the button as a ConfigurationSection
      */
-    public ConfigurationSection toConfig() {
+    public ConfigurationSection serialize() {
         YamlConfiguration config = new YamlConfiguration();
 
         config.set("label", label);
@@ -182,16 +181,18 @@ public class HButton {
     }
 
     /**
+     * @param viewers
+     * the players that can see the holograms
      * @param location
      * the location where the menu will open
      * @param direction
      * the facing direction
      */
-    public void open(Location anchor, Vector direction) {
+    public int open(Set<Player> viewers, Location anchor, Vector direction) {
         Vector orthogonal = direction.getCrossProduct(new Vector(0, 1, 0)).multiply(x);
         Vector position = direction.setY(0).add(orthogonal);
         Location location = anchor.clone().add(0, y, 0).add(position);
-        hologramWrapper.createHologram(null, location, getLabel());
+        return hologramWrapper.createHologram(viewers, location, getLabel());
     }
 
     /**

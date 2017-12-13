@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Daniel Saukel
+ * Copyright (C) 2016-2017 Daniel Saukel
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package io.github.dre2n.holographicmenus.menu;
+package de.erethon.holographicmenus.menu;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -22,6 +22,7 @@ import java.util.Set;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 /**
@@ -68,12 +69,12 @@ public class HMenuPage {
     }
 
     /* Actions */
-    public ConfigurationSection toConfig() {
+    public ConfigurationSection serialize() {
         YamlConfiguration config = new YamlConfiguration();
 
         HashSet<ConfigurationSection> buttons = new HashSet<>();
         for (HButton button : this.buttons) {
-            buttons.add(button.toConfig());
+            buttons.add(button.serialize());
         }
         config.set("buttons", buttons);
 
@@ -81,14 +82,16 @@ public class HMenuPage {
     }
 
     /**
+     * @param viewers
+     * the players that can see the holograms
      * @param location
      * the Location to open the menu
      * @param direction
      * the direction to set the buttons
      */
-    public void open(Location location, Vector direction) {
+    public void open(Set<Player> viewers, Location location, Vector direction) {
         for (HButton button : buttons) {
-            button.open(location, direction);
+            button.open(viewers, location, direction);
         }
     }
 

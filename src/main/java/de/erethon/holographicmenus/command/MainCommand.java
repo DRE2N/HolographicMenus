@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Daniel Saukel
+ * Copyright (C) 2016-2017 Daniel Saukel
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,14 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package io.github.dre2n.holographicmenus.command;
+package de.erethon.holographicmenus.command;
 
-import io.github.dre2n.commons.command.BRCommand;
-import static io.github.dre2n.commons.util.messageutil.FatLetters.*;
-import io.github.dre2n.commons.util.messageutil.MessageUtil;
-import io.github.dre2n.holographicmenus.HolographicMenus;
-import io.github.dre2n.holographicmenus.config.HMessages;
-import io.github.dre2n.holographicmenus.player.HPermissions;
+import static io.github.dre2n.commons.chat.FatLetter.*;
+import io.github.dre2n.commons.chat.MessageUtil;
+import io.github.dre2n.commons.command.DRECommand;
+import de.erethon.holographicmenus.HolographicMenus;
+import de.erethon.holographicmenus.config.HMessage;
+import de.erethon.holographicmenus.player.HPermission;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
@@ -29,14 +29,14 @@ import org.bukkit.plugin.PluginManager;
 /**
  * @author Daniel Saukel
  */
-public class MainCommand extends BRCommand {
+public class MainCommand extends DRECommand {
 
     HolographicMenus plugin = HolographicMenus.getInstance();
 
     public MainCommand() {
         setCommand("main");
-        setHelp(HMessages.HELP_CMD_MAIN.getMessage());
-        setPermission(HPermissions.MAIN.getNode());
+        setHelp(HMessage.HELP_CMD_MAIN.getMessage());
+        setPermission(HPermission.MAIN.getNode());
         setPlayerCommand(true);
         setConsoleCommand(true);
     }
@@ -55,10 +55,10 @@ public class MainCommand extends BRCommand {
         MessageUtil.sendCenteredMessage(sender, "&6" + H[2] + M[4]);
         MessageUtil.sendCenteredMessage(sender, "&6" + H[3] + M[4]);
         MessageUtil.sendCenteredMessage(sender, "&6" + H[4] + M[4]);
-        MessageUtil.sendCenteredMessage(sender, "&b&l###### " + HMessages.CMD_MAIN_WELCOME.getMessage() + "&7 v" + plugin.getDescription().getVersion() + " &b&l######");
-        MessageUtil.sendCenteredMessage(sender, HMessages.CMD_MAIN_LOADED.getMessage(holographicdisplays));
-        MessageUtil.sendCenteredMessage(sender, HMessages.CMD_MAIN_HELP.getMessage());
-        MessageUtil.sendCenteredMessage(sender, "&7\u00a92016 Daniel Saukel; lcsd. under GPLv3.");
+        MessageUtil.sendCenteredMessage(sender, "&b&l###### " + HMessage.CMD_MAIN_WELCOME.getMessage() + "&7 v" + plugin.getDescription().getVersion() + " &b&l######");
+        MessageUtil.sendCenteredMessage(sender, HMessage.CMD_MAIN_LOADED.getMessage(holographicdisplays));
+        MessageUtil.sendCenteredMessage(sender, HMessage.CMD_MAIN_HELP.getMessage());
+        MessageUtil.sendCenteredMessage(sender, "&7\u00a92016-2017 Daniel Saukel; lcsd. under GPLv3.");
     }
 
 }

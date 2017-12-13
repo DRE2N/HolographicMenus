@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Daniel Saukel
+ * Copyright (C) 2016-2017 Daniel Saukel
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package io.github.dre2n.holographicmenus.menu;
+package de.erethon.holographicmenus.menu;
 
-import io.github.dre2n.commons.util.EnumUtil;
+import io.github.dre2n.commons.misc.EnumUtil;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,10 +35,8 @@ import org.bukkit.util.Vector;
 public class HMenu {
 
     public enum Type {
-
         PUBLIC,
         PRIVATE
-
     }
 
     private String name;
@@ -184,19 +182,19 @@ public class HMenu {
      * @return
      * the menuPage as a ConfigurationSection
      */
-    public ConfigurationSection toConfig() {
+    public ConfigurationSection serialize() {
         YamlConfiguration config = new YamlConfiguration();
 
         config.set("type", type);
         config.set("distance", distance);
 
         for (HMenuPage page : menuPages) {
-            config.set("menuPages." + menuPages.indexOf(page), page.toConfig());
+            config.set("menuPages." + menuPages.indexOf(page), page.serialize());
         }
 
         HashSet<ConfigurationSection> buttons = new HashSet<>();
         for (HButton button : this.buttons) {
-            buttons.add(button.toConfig());
+            buttons.add(button.serialize());
         }
         config.set("staticButtons", buttons);
 
@@ -206,23 +204,41 @@ public class HMenu {
     /**
      * @param player
      * the opener
+     * @param page
+     * the page to open
      */
     public void open(Player player) {
-        open(player.getEyeLocation(), player.getEyeLocation().getDirection().multiply(distance));
+        open(player, 1);
     }
 
     /**
+     * @param player
+     * the opener
+     * @param page
+     * the page to open
+     */
+    public void open(Player player, int page) {
+        open(new HashSet<>(Arrays.asList(player)), page, player.getEyeLocation(), player.getEyeLocation().getDirection().multiply(distance));
+    }
+
+    /**
+     * @param viewers
+     * the players that can see the holograms
+     * @param page
+     * the page to open
      * @param location
      * the Location where the menu will be opened
      * @param direction
      * the direction to set the buttons
      */
-    public void open(Location location, Vector direction) {
+    public void open(Set<Player> viewers, int page, Location location, Vector direction) {
         for (HButton button : buttons) {
-            button.open(location, direction);
+            button.open(type == Type.PRIVATE ? viewers : null, location, direction);
         }
 
-        menuPages.get(0).open(location, direction);
+        if (menuPages.size() >= page) {
+            menuPages.get(page - 1).open(viewers, location, direction);
+        }
     }
 
 }

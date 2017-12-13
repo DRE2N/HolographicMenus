@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Daniel Saukel
+ * Copyright (C) 2016-2017 Daniel Saukel
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package io.github.dre2n.holographicmenus.player;
+package de.erethon.holographicmenus.player;
 
-import io.github.dre2n.commons.util.EnumUtil;
+import io.github.dre2n.commons.misc.EnumUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +29,7 @@ import static org.bukkit.permissions.PermissionDefault.*;
 /**
  * @author Daniel Saukel
  */
-public enum HPermissions {
+public enum HPermission {
 
     // Main nodes
     HELP("help", TRUE),
@@ -40,18 +40,18 @@ public enum HPermissions {
     ADMINISTRATOR("*", OP),
     PLAYER("player", TRUE, HELP, MAIN);
 
-    public static final String PREFIX = "dxl.";
+    public static final String PREFIX = "holographicmenus.";
 
     private String node;
     private PermissionDefault isDefault;
-    private List<HPermissions> children = new ArrayList<>();
+    private List<HPermission> children = new ArrayList<>();
 
-    HPermissions(String node, PermissionDefault isDefault) {
+    HPermission(String node, PermissionDefault isDefault) {
         this.node = node;
         this.isDefault = isDefault;
     }
 
-    HPermissions(String node, PermissionDefault isDefault, HPermissions... children) {
+    HPermission(String node, PermissionDefault isDefault, HPermission... children) {
         this(node, isDefault);
         this.children = Arrays.asList(children);
     }
@@ -80,7 +80,7 @@ public enum HPermissions {
     /**
      * @return the child permissions
      */
-    public List<HPermissions> getChildren() {
+    public List<HPermission> getChildren() {
         return children;
     }
 
@@ -90,8 +90,8 @@ public enum HPermissions {
      * @return
      * the DPermissions value
      */
-    public static HPermissions getByNode(String node) {
-        for (HPermissions permission : values()) {
+    public static HPermission getByNode(String node) {
+        for (HPermission permission : values()) {
             if (permission.getNode().equals(node) || permission.node.equals(node)) {
                 return permission;
             }
@@ -105,12 +105,12 @@ public enum HPermissions {
      * the permission to check
      * @return if the player has the permission
      */
-    public static boolean hasPermission(CommandSender sender, HPermissions permission) {
+    public static boolean hasPermission(CommandSender sender, HPermission permission) {
         if (sender.hasPermission(permission.getNode())) {
             return true;
         }
 
-        for (HPermissions parent : HPermissions.values()) {
+        for (HPermission parent : HPermission.values()) {
             if (parent.getChildren().contains(permission) && sender.hasPermission(parent.getNode())) {
                 return true;
             }
@@ -129,19 +129,19 @@ public enum HPermissions {
             return true;
         }
 
-        HPermissions dPermission = null;
-        if (EnumUtil.isValidEnum(HPermissions.class, permission)) {
-            dPermission = HPermissions.valueOf(permission);
+        HPermission dPermission = null;
+        if (EnumUtil.isValidEnum(HPermission.class, permission)) {
+            dPermission = HPermission.valueOf(permission);
 
-        } else if (HPermissions.getByNode(permission) != null) {
-            dPermission = HPermissions.getByNode(permission);
+        } else if (HPermission.getByNode(permission) != null) {
+            dPermission = HPermission.getByNode(permission);
         }
 
         if (dPermission == null) {
             return false;
         }
 
-        for (HPermissions parent : HPermissions.values()) {
+        for (HPermission parent : HPermission.values()) {
             if (parent.getChildren().contains(dPermission) && sender.hasPermission(parent.getNode())) {
                 return true;
             }
@@ -154,7 +154,7 @@ public enum HPermissions {
      * Registers the permissions.
      */
     public static void register() {
-        for (HPermissions permission : values()) {
+        for (HPermission permission : values()) {
             Bukkit.getPluginManager().addPermission(new Permission(permission.getNode(), permission.isDefault()));
         }
     }

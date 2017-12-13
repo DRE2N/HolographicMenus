@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Daniel Saukel
+ * Copyright (C) 2016-2017 Daniel Saukel
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package io.github.dre2n.holographicmenus.config;
+package de.erethon.holographicmenus.config;
 
-import io.github.dre2n.commons.config.Messages;
-import io.github.dre2n.commons.util.messageutil.MessageUtil;
-import io.github.dre2n.holographicmenus.HolographicMenus;
+import io.github.dre2n.commons.chat.MessageUtil;
+import io.github.dre2n.commons.config.Message;
+import de.erethon.holographicmenus.HolographicMenus;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -26,7 +26,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 /**
  * @author Daniel Saukel
  */
-public enum HMessages implements Messages {
+public enum HMessage implements Message {
 
     CMD_MAIN_HELP("Cmd_Main_Help", "&7Type in &o/hm help&r&7 for further information."),
     CMD_MAIN_LOADED("Cmd_Main_Loaded", "&eHolographicDisplays: &o[&v1]"),
@@ -39,7 +39,7 @@ public enum HMessages implements Messages {
     private String identifier;
     private String message;
 
-    HMessages(String identifier, String message) {
+    HMessage(String identifier, String message) {
         this.identifier = identifier;
         this.message = message;
     }
@@ -78,8 +78,8 @@ public enum HMessages implements Messages {
      * @param identifer
      * the identifer to set
      */
-    public static Messages getByIdentifier(String identifier) {
-        for (Messages message : values()) {
+    public static Message getByIdentifier(String identifier) {
+        for (Message message : values()) {
             if (message.getIdentifier().equals(identifier)) {
                 return message;
             }
@@ -93,7 +93,7 @@ public enum HMessages implements Messages {
      */
     public static FileConfiguration toConfig() {
         FileConfiguration config = new YamlConfiguration();
-        for (HMessages message : values()) {
+        for (HMessage message : values()) {
             config.set(message.getIdentifier(), message.message);
         }
 
