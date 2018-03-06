@@ -27,7 +27,7 @@ import java.util.Set;
 import org.bukkit.command.CommandSender;
 
 /**
- * @author Frank Baumann, Daniel Saukel
+ * @author Daniel Saukel
  */
 public class HelpCommand extends DRECommand {
 
@@ -38,7 +38,7 @@ public class HelpCommand extends DRECommand {
         setCommand("help");
         setMinArgs(0);
         setMaxArgs(1);
-        setHelp(HMessage.HELP_CMD_HELP.getMessage());
+        setHelp(HMessage.HELP_HELP.getMessage());
         setPermission(HPermission.HELP.getNode());
         setPlayerCommand(true);
         setConsoleCommand(true);

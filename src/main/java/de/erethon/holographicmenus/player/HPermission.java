@@ -33,12 +33,12 @@ public enum HPermission {
 
     // Main nodes
     HELP("help", TRUE),
-    MAIN("main", TRUE),
-    PORTAL("portal", OP),
+    INFO("info", TRUE),
+    MENU("menu", TRUE),
     RELOAD("reload", OP),
     // Kits
     ADMINISTRATOR("*", OP),
-    PLAYER("player", TRUE, HELP, MAIN);
+    PLAYER("player", TRUE, HELP, INFO, MENU);
 
     public static final String PREFIX = "holographicmenus.";
 

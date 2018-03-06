@@ -4,7 +4,7 @@ version: ${project.version}${buildNo}
 author: Daniel Saukel
 description: ${project.description}
 website: ${project.url}
-softdepend: [CommandsXL, HolographicDisplays, ProtocolLib]
+softdepend: [HolographicDisplays, ProtocolLib]
 commands:
   holographicmenus:
     description: Reference command for Holographic Menus.
