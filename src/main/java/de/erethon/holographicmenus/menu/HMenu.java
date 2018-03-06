@@ -68,8 +68,8 @@ public class HMenu {
         }
 
         if (config.contains("menuPages")) {
-            for (String button : config.getConfigurationSection("menuPages").getKeys(false)) {
-                menuPages.add(new HMenuPage(config.getConfigurationSection("menuPages." + button)));
+            for (String page : config.getConfigurationSection("menuPages").getKeys(false)) {
+                menuPages.add(new HMenuPage(config.getConfigurationSection("menuPages." + page)));
             }
         }
 

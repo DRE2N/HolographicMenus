@@ -166,7 +166,7 @@ public class HolographicMenus extends DREPlugin {
      * load / reload the menus
      */
     public void loadMenuCache() {
-        menus = new HMenuCache(MENUS);
+        menus = new HMenuCache(this, MENUS);
     }
 
 }

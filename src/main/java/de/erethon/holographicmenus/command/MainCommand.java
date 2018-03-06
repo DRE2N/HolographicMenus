@@ -16,15 +16,15 @@
  */
 package de.erethon.holographicmenus.command;
 
-import static de.erethon.commons.chat.FatLetter.*;
 import de.erethon.commons.chat.MessageUtil;
 import de.erethon.commons.command.DRECommand;
 import de.erethon.holographicmenus.HolographicMenus;
 import de.erethon.holographicmenus.config.HMessage;
+import de.erethon.holographicmenus.menu.HMenu;
+import de.erethon.holographicmenus.menu.HMenuCache;
 import de.erethon.holographicmenus.player.HPermission;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.PluginManager;
+import org.bukkit.entity.Player;
 
 /**
  * @author Daniel Saukel
@@ -32,34 +32,33 @@ import org.bukkit.plugin.PluginManager;
 public class MainCommand extends DRECommand {
 
     private HolographicMenus plugin;
+    private HMenuCache menus;
 
     public MainCommand(HolographicMenus plugin) {
         this.plugin = plugin;
+        menus = plugin.getHMenuCache();
         setCommand("main");
-        setHelp(HMessage.HELP_CMD_MAIN.getMessage());
-        setPermission(HPermission.MAIN.getNode());
+        setMinArgs(0);
+        setMaxArgs(1);
+        setHelp(HMessage.HELP_MENU.getMessage());
+        setPermission(HPermission.MENU.getNode());
         setPlayerCommand(true);
         setConsoleCommand(true);
     }
 
     @Override
     public void onExecute(String[] args, CommandSender sender) {
-        PluginManager plugins = Bukkit.getServer().getPluginManager();
-
-        String holographicdisplays = new String();
-        if (plugins.getPlugin("HolographicDisplays") != null) {
-            holographicdisplays = plugins.getPlugin("HolographicDisplays").getDescription().getVersion();
+        HMenu menu = null;
+        if (args.length == 1) {
+            menu = menus.getByName(args[0]);
+        } else {
+            menu = menus.getMainMenu();
         }
-
-        MessageUtil.sendCenteredMessage(sender, "&6" + H[0] + M[4]);
-        MessageUtil.sendCenteredMessage(sender, "&6" + H[1] + M[4]);
-        MessageUtil.sendCenteredMessage(sender, "&6" + H[2] + M[4]);
-        MessageUtil.sendCenteredMessage(sender, "&6" + H[3] + M[4]);
-        MessageUtil.sendCenteredMessage(sender, "&6" + H[4] + M[4]);
-        MessageUtil.sendCenteredMessage(sender, "&b&l###### " + HMessage.CMD_MAIN_WELCOME.getMessage() + "&7 v" + plugin.getDescription().getVersion() + " &b&l######");
-        MessageUtil.sendCenteredMessage(sender, HMessage.CMD_MAIN_LOADED.getMessage(holographicdisplays));
-        MessageUtil.sendCenteredMessage(sender, HMessage.CMD_MAIN_HELP.getMessage());
-        MessageUtil.sendCenteredMessage(sender, "&7\u00a92016-2018 Daniel Saukel; lcsd. under GPLv3.");
+        if (menu != null) {
+            menu.open((Player) sender);
+        } else {
+            MessageUtil.sendMessage(sender, HMessage.ERROR_NO_SUCH_MENU.getMessage(args.length == 1 ? args[0] : plugin.getHConfig().getMainMenuName()));
+        }
     }
 
 }
