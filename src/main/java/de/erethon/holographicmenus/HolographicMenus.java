@@ -22,6 +22,7 @@ import de.erethon.commons.config.MessageConfig;
 import de.erethon.commons.javaplugin.DREPlugin;
 import de.erethon.commons.javaplugin.DREPluginSettings;
 import de.erethon.holographicmenus.command.HCommandCache;
+import de.erethon.holographicmenus.config.HConfig;
 import de.erethon.holographicmenus.config.HMessage;
 import de.erethon.holographicmenus.hologram.HologramProvider;
 import de.erethon.holographicmenus.hologram.HologramWrapper;
@@ -38,6 +39,7 @@ public class HolographicMenus extends DREPlugin {
     public static File LANGUAGES;
     public static File MENUS;
 
+    private HConfig hConfig;
     private HologramProvider hologramProvider;
     private HMenuCache menus;
     private HCommandCache hCommands;
@@ -53,6 +55,7 @@ public class HolographicMenus extends DREPlugin {
          * #~~Economy~~##~~~false~~~#
          * #Permissions##~~~false~~~#
          * #~~Metrics~~##~~~true~~~~#
+         * #Resource ID##~~~~9389~~~#
          * ##########################
          */
 
@@ -71,6 +74,8 @@ public class HolographicMenus extends DREPlugin {
             getServer().getPluginManager().disablePlugin(this);
         }
         loadMessageConfig(new File(LANGUAGES, "english.yml"));
+        loadHConfig(new File(getDataFolder(), "config.yml"));
+        loadMessageConfig(new File(LANGUAGES, hConfig.getLanguage() + ".yml"));
         loadMenuCache();
         loadHCommands();
     }
@@ -93,6 +98,21 @@ public class HolographicMenus extends DREPlugin {
      */
     public static HolographicMenus getInstance() {
         return instance;
+    }
+
+    /**
+     * @return
+     * the loaded instance of HConfig
+     */
+    public HConfig getHConfig() {
+        return hConfig;
+    }
+
+    /**
+     * load / reload a new instance of HConfig
+     */
+    public void loadHConfig(File file) {
+        hConfig = new HConfig(file);
     }
 
     /**

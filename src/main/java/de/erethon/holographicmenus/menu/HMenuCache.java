@@ -17,6 +17,7 @@
 package de.erethon.holographicmenus.menu;
 
 import de.erethon.commons.misc.FileUtil;
+import de.erethon.holographicmenus.HolographicMenus;
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,9 +27,12 @@ import java.util.Set;
  */
 public class HMenuCache {
 
+    private HolographicMenus plugin;
+
     private Set<HMenu> menus = new HashSet<>();
 
-    public HMenuCache(File folder) {
+    public HMenuCache(HolographicMenus plugin, File folder) {
+        this.plugin = plugin;
         for (File file : FileUtil.getFilesForFolder(folder)) {
             menus.add(new HMenu(file));
         }
@@ -40,6 +44,14 @@ public class HMenuCache {
      */
     public Set<HMenu> getMenus() {
         return menus;
+    }
+
+    /**
+     * @return
+     * the menu that opens by default if no menu is specified
+     */
+    public HMenu getMainMenu() {
+        return getByName(plugin.getHConfig().getMainMenuName());
     }
 
     /**
