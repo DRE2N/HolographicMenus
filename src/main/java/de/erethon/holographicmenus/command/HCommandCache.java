@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 Daniel Saukel
+ * Copyright (C) 2016-2018 Daniel Saukel
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
  */
 package de.erethon.holographicmenus.command;
 
-import io.github.dre2n.commons.command.DRECommandCache;
-import io.github.dre2n.commons.javaplugin.DREPlugin;
+import de.erethon.commons.command.DRECommandCache;
+import de.erethon.holographicmenus.HolographicMenus;
 
 /**
  * An enumeration of all command instances.
@@ -26,13 +26,15 @@ import io.github.dre2n.commons.javaplugin.DREPlugin;
  */
 public class HCommandCache extends DRECommandCache {
 
-    public static HelpCommand HELP = new HelpCommand();
-    public static MainCommand MAIN = new MainCommand();
+    public HelpCommand help;
+    public MainCommand main;
 
-    public HCommandCache(DREPlugin plugin) {
+    public HCommandCache(HolographicMenus plugin) {
         super("holographicmenus", plugin);
-        addCommand(HELP);
-        addCommand(MAIN);
+        help = new HelpCommand(plugin);
+        main = new MainCommand(plugin);
+        addCommand(help);
+        addCommand(main);
     }
 
 }

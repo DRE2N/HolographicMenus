@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 Daniel Saukel
+ * Copyright (C) 2016-2018 Daniel Saukel
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,9 +16,9 @@
  */
 package de.erethon.holographicmenus.command;
 
-import static io.github.dre2n.commons.chat.FatLetter.*;
-import io.github.dre2n.commons.chat.MessageUtil;
-import io.github.dre2n.commons.command.DRECommand;
+import static de.erethon.commons.chat.FatLetter.*;
+import de.erethon.commons.chat.MessageUtil;
+import de.erethon.commons.command.DRECommand;
 import de.erethon.holographicmenus.HolographicMenus;
 import de.erethon.holographicmenus.config.HMessage;
 import de.erethon.holographicmenus.player.HPermission;
@@ -31,9 +31,10 @@ import org.bukkit.plugin.PluginManager;
  */
 public class MainCommand extends DRECommand {
 
-    HolographicMenus plugin = HolographicMenus.getInstance();
+    private HolographicMenus plugin;
 
-    public MainCommand() {
+    public MainCommand(HolographicMenus plugin) {
+        this.plugin = plugin;
         setCommand("main");
         setHelp(HMessage.HELP_CMD_MAIN.getMessage());
         setPermission(HPermission.MAIN.getNode());
@@ -45,7 +46,7 @@ public class MainCommand extends DRECommand {
     public void onExecute(String[] args, CommandSender sender) {
         PluginManager plugins = Bukkit.getServer().getPluginManager();
 
-        String holographicdisplays = "";
+        String holographicdisplays = new String();
         if (plugins.getPlugin("HolographicDisplays") != null) {
             holographicdisplays = plugins.getPlugin("HolographicDisplays").getDescription().getVersion();
         }
@@ -58,7 +59,7 @@ public class MainCommand extends DRECommand {
         MessageUtil.sendCenteredMessage(sender, "&b&l###### " + HMessage.CMD_MAIN_WELCOME.getMessage() + "&7 v" + plugin.getDescription().getVersion() + " &b&l######");
         MessageUtil.sendCenteredMessage(sender, HMessage.CMD_MAIN_LOADED.getMessage(holographicdisplays));
         MessageUtil.sendCenteredMessage(sender, HMessage.CMD_MAIN_HELP.getMessage());
-        MessageUtil.sendCenteredMessage(sender, "&7\u00a92016-2017 Daniel Saukel; lcsd. under GPLv3.");
+        MessageUtil.sendCenteredMessage(sender, "&7\u00a92016-2018 Daniel Saukel; lcsd. under GPLv3.");
     }
 
 }

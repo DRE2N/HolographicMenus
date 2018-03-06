@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 Daniel Saukel
+ * Copyright (C) 2016-2018 Daniel Saukel
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,16 +16,16 @@
  */
 package de.erethon.holographicmenus;
 
-import io.github.dre2n.commons.chat.MessageUtil;
-import io.github.dre2n.commons.compatibility.Internals;
-import io.github.dre2n.commons.config.MessageConfig;
-import io.github.dre2n.commons.javaplugin.DREPlugin;
-import io.github.dre2n.commons.javaplugin.DREPluginSettings;
+import de.erethon.commons.chat.MessageUtil;
+import de.erethon.commons.compatibility.Internals;
+import de.erethon.commons.config.MessageConfig;
+import de.erethon.commons.javaplugin.DREPlugin;
+import de.erethon.commons.javaplugin.DREPluginSettings;
 import de.erethon.holographicmenus.command.HCommandCache;
 import de.erethon.holographicmenus.config.HMessage;
 import de.erethon.holographicmenus.hologram.HologramProvider;
 import de.erethon.holographicmenus.hologram.HologramWrapper;
-import de.erethon.holographicmenus.menu.HMenus;
+import de.erethon.holographicmenus.menu.HMenuCache;
 import java.io.File;
 
 /**
@@ -39,8 +39,7 @@ public class HolographicMenus extends DREPlugin {
     public static File MENUS;
 
     private HologramProvider hologramProvider;
-    private MessageConfig messageConfig;
-    private HMenus menus;
+    private HMenuCache menus;
     private HCommandCache hCommands;
 
     public HolographicMenus() {
@@ -72,7 +71,7 @@ public class HolographicMenus extends DREPlugin {
             getServer().getPluginManager().disablePlugin(this);
         }
         loadMessageConfig(new File(LANGUAGES, "english.yml"));
-        loadMenus();
+        loadMenuCache();
         loadHCommands();
     }
 
@@ -113,13 +112,6 @@ public class HolographicMenus extends DREPlugin {
     }
 
     /**
-     * @return the loaded instance of MessageConfig
-     */
-    public MessageConfig getMessageConfig() {
-        return messageConfig;
-    }
-
-    /**
      * load / reload a new instance of MessageConfig
      */
     public void loadMessageConfig(File file) {
@@ -144,17 +136,17 @@ public class HolographicMenus extends DREPlugin {
 
     /**
      * return
-     * the loaded instance of HMenus
+     * the loaded instance of HMenuCache
      */
-    public HMenus getHMenus() {
+    public HMenuCache getHMenuCache() {
         return menus;
     }
 
     /**
      * load / reload the menus
      */
-    public void loadMenus() {
-        menus = new HMenus(MENUS);
+    public void loadMenuCache() {
+        menus = new HMenuCache(MENUS);
     }
 
 }

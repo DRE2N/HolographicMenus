@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 Daniel Saukel
+ * Copyright (C) 2016-2018 Daniel Saukel
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@ package de.erethon.holographicmenus.hologram;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import de.erethon.holographicmenus.HolographicMenus;
 import java.util.Set;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -47,7 +48,7 @@ public class HolographicDisplaysWrapper extends HologramWrapper {
     }
 
     public Hologram createHologram(Set<Player> viewers, Location location) {
-        Hologram hologram = HologramsAPI.createHologram(plugin, location);
+        Hologram hologram = HologramsAPI.createHologram(HolographicMenus.getInstance(), location);
         if (viewers != null) {
             hologram.getVisibilityManager().setVisibleByDefault(false);
             for (Player player : viewers) {

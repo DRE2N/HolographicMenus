@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 Daniel Saukel
+ * Copyright (C) 2016-2018 Daniel Saukel
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  */
 package de.erethon.holographicmenus.menu;
 
-import io.github.dre2n.commons.misc.FileUtil;
+import de.erethon.commons.misc.FileUtil;
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,11 +24,11 @@ import java.util.Set;
 /**
  * @author Daniel Saukel
  */
-public class HMenus {
+public class HMenuCache {
 
     private Set<HMenu> menus = new HashSet<>();
 
-    public HMenus(File folder) {
+    public HMenuCache(File folder) {
         for (File file : FileUtil.getFilesForFolder(folder)) {
             menus.add(new HMenu(file));
         }

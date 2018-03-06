@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 Daniel Saukel
+ * Copyright (C) 2016-2018 Daniel Saukel
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
  */
 package de.erethon.holographicmenus.config;
 
-import io.github.dre2n.commons.chat.MessageUtil;
-import io.github.dre2n.commons.config.Message;
+import de.erethon.commons.chat.MessageUtil;
+import de.erethon.commons.config.Message;
 import de.erethon.holographicmenus.HolographicMenus;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;

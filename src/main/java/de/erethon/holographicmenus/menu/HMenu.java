@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 Daniel Saukel
+ * Copyright (C) 2016-2018 Daniel Saukel
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  */
 package de.erethon.holographicmenus.menu;
 
-import io.github.dre2n.commons.misc.EnumUtil;
+import de.erethon.commons.misc.EnumUtil;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;

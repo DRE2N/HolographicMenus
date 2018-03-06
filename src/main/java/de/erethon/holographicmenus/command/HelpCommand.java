@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 Daniel Saukel
+ * Copyright (C) 2016-2018 Daniel Saukel
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,9 +16,9 @@
  */
 package de.erethon.holographicmenus.command;
 
-import io.github.dre2n.commons.command.DRECommand;
-import io.github.dre2n.commons.misc.NumberUtil;
-import io.github.dre2n.commons.chat.MessageUtil;
+import de.erethon.commons.chat.MessageUtil;
+import de.erethon.commons.command.DRECommand;
+import de.erethon.commons.misc.NumberUtil;
 import de.erethon.holographicmenus.HolographicMenus;
 import de.erethon.holographicmenus.config.HMessage;
 import de.erethon.holographicmenus.player.HPermission;
@@ -31,9 +31,10 @@ import org.bukkit.command.CommandSender;
  */
 public class HelpCommand extends DRECommand {
 
-    HolographicMenus plugin = HolographicMenus.getInstance();
+    private HolographicMenus plugin;
 
-    public HelpCommand() {
+    public HelpCommand(HolographicMenus plugin) {
+        this.plugin = plugin;
         setCommand("help");
         setMinArgs(0);
         setMaxArgs(1);

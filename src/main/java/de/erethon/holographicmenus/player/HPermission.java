@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 Daniel Saukel
+ * Copyright (C) 2016-2018 Daniel Saukel
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  */
 package de.erethon.holographicmenus.player;
 
-import io.github.dre2n.commons.misc.EnumUtil;
+import de.erethon.commons.misc.EnumUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -88,7 +88,7 @@ public enum HPermission {
      * @param node
      * the node String, with or without "dxl."
      * @return
-     * the DPermissions value
+     * the HPermissions value
      */
     public static HPermission getByNode(String node) {
         for (HPermission permission : values()) {
@@ -129,20 +129,20 @@ public enum HPermission {
             return true;
         }
 
-        HPermission dPermission = null;
+        HPermission hPermission = null;
         if (EnumUtil.isValidEnum(HPermission.class, permission)) {
-            dPermission = HPermission.valueOf(permission);
+            hPermission = HPermission.valueOf(permission);
 
         } else if (HPermission.getByNode(permission) != null) {
-            dPermission = HPermission.getByNode(permission);
+            hPermission = HPermission.getByNode(permission);
         }
 
-        if (dPermission == null) {
+        if (hPermission == null) {
             return false;
         }
 
         for (HPermission parent : HPermission.values()) {
-            if (parent.getChildren().contains(dPermission) && sender.hasPermission(parent.getNode())) {
+            if (parent.getChildren().contains(hPermission) && sender.hasPermission(parent.getNode())) {
                 return true;
             }
         }

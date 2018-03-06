@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 Daniel Saukel
+ * Copyright (C) 2016-2018 Daniel Saukel
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,6 @@
  */
 package de.erethon.holographicmenus.hologram;
 
-import de.erethon.holographicmenus.HolographicMenus;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -28,8 +27,6 @@ import org.bukkit.inventory.ItemStack;
  * @author Daniel Saukel
  */
 public abstract class HologramWrapper {
-
-    protected static HolographicMenus plugin = HolographicMenus.getInstance();
 
     protected List<Object> holograms = new ArrayList<>();
 
