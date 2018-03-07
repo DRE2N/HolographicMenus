@@ -81,6 +81,7 @@ public class HolographicMenus extends DREPlugin {
     }
 
     public void initFolders() {
+        getDataFolder().mkdir();
         LANGUAGES = new File(getDataFolder(), "languages");
         if (!LANGUAGES.exists()) {
             LANGUAGES.mkdir();
