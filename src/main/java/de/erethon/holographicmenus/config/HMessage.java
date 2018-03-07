@@ -18,7 +18,7 @@ package de.erethon.holographicmenus.config;
 
 import de.erethon.commons.chat.MessageUtil;
 import de.erethon.commons.config.Message;
-import de.erethon.holographicmenus.HolographicMenus;
+import de.erethon.commons.javaplugin.DREPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -59,7 +59,7 @@ public enum HMessage implements Message {
 
     @Override
     public String getMessage(String... args) {
-        return HolographicMenus.getInstance().getMessageConfig().getMessage(this, args);
+        return DREPlugin.getInstance().getMessageConfig().getMessage(this, args);
     }
 
     @Override
@@ -72,7 +72,7 @@ public enum HMessage implements Message {
      * Sends the message to the console.
      */
     public void debug() {
-        MessageUtil.log(HolographicMenus.getInstance(), getMessage());
+        MessageUtil.log(DREPlugin.getInstance(), getMessage());
     }
 
     /* Statics */

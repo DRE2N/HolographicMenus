@@ -24,12 +24,15 @@ import de.erethon.commons.javaplugin.DREPluginSettings;
 import de.erethon.holographicmenus.command.HCommandCache;
 import de.erethon.holographicmenus.config.HConfig;
 import de.erethon.holographicmenus.config.HMessage;
-import de.erethon.holographicmenus.hologram.HologramProvider;
+import de.erethon.holographicmenus.hologram.HologramProviderManager;
 import de.erethon.holographicmenus.hologram.HologramWrapper;
 import de.erethon.holographicmenus.menu.HMenuCache;
+import de.erethon.holographicmenus.player.HPlayerCache;
 import java.io.File;
 
 /**
+ * The main class of HolographicMenus
+ *
  * @author Daniel Saukel
  */
 public class HolographicMenus extends DREPlugin {
@@ -39,15 +42,17 @@ public class HolographicMenus extends DREPlugin {
     public static File LANGUAGES;
     public static File MENUS;
 
-    private HConfig hConfig;
-    private HologramProvider hologramProvider;
+    private HConfig config;
+    private HologramProviderManager providers;
+    private HologramWrapper hologramProvider;
     private HMenuCache menus;
-    private HCommandCache hCommands;
+    private HCommandCache commands;
+    private HPlayerCache players;
 
     public HolographicMenus() {
         /*
          * ##########################
-         * ####~BRPluginSettings~####
+         * ####~DREPluginSettings####
          * ##########################
          * #~Internals~##~~~INDEP~~~#
          * #~SpigotAPI~##~~~false~~~#
@@ -66,6 +71,7 @@ public class HolographicMenus extends DREPlugin {
     public void onEnable() {
         super.onEnable();
         instance = this;
+        providers = new HologramProviderManager(this);
         initFolders();
 
         if (!loadHologramProvider()) {
@@ -75,9 +81,10 @@ public class HolographicMenus extends DREPlugin {
         }
         loadMessageConfig(new File(LANGUAGES, "english.yml"));
         loadHConfig(new File(getDataFolder(), "config.yml"));
-        loadMessageConfig(new File(LANGUAGES, hConfig.getLanguage() + ".yml"));
+        loadMessageConfig(new File(LANGUAGES, config.getLanguage() + ".yml"));
         loadMenuCache();
-        loadHCommands();
+        loadHCommandCache();
+        loadHPlayerCache();
     }
 
     public void initFolders() {
@@ -106,29 +113,29 @@ public class HolographicMenus extends DREPlugin {
      * the loaded instance of HConfig
      */
     public HConfig getHConfig() {
-        return hConfig;
+        return config;
     }
 
     /**
      * load / reload a new instance of HConfig
      */
     public void loadHConfig(File file) {
-        hConfig = new HConfig(file);
+        config = new HConfig(file);
     }
 
     /**
      * @return
      * the loaded HologramWrapper
      */
-    public HologramWrapper getHologramWrapper() {
-        return hologramProvider.getWrapper();
+    public HologramWrapper getHologramProvider() {
+        return hologramProvider;
     }
 
     /**
-     * load / reload a HologramProvider
+     * load / reload a HologramWrapper
      */
     public boolean loadHologramProvider() {
-        hologramProvider = HologramProvider.getProvider();
+        hologramProvider = providers.getEnabled();
         return hologramProvider != null;
     }
 
@@ -140,19 +147,20 @@ public class HolographicMenus extends DREPlugin {
     }
 
     /**
-     * @return the loaded instance of HCommandCache
+     * @return
+     * the loaded instance of HCommandCache
      */
     @Override
     public HCommandCache getCommandCache() {
-        return hCommands;
+        return commands;
     }
 
     /**
      * load / reload a new instance of HCommandCache
      */
-    public void loadHCommands() {
-        hCommands = new HCommandCache(this);
-        hCommands.register(this);
+    public void loadHCommandCache() {
+        commands = new HCommandCache(this);
+        commands.register(this);
     }
 
     /**
@@ -168,6 +176,22 @@ public class HolographicMenus extends DREPlugin {
      */
     public void loadMenuCache() {
         menus = new HMenuCache(this, MENUS);
+    }
+
+    /**
+     * return
+     * the loaded instance of HPlayerCache
+     */
+    public HPlayerCache getHPlayerCache() {
+        return players;
+    }
+
+    /**
+     * load / reload HPlayerCache
+     */
+    public void loadHPlayerCache() {
+        players = new HPlayerCache();
+        manager.registerEvents(players, this);
     }
 
 }

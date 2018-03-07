@@ -16,9 +16,6 @@
  */
 package de.erethon.holographicmenus.hologram;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -26,41 +23,36 @@ import org.bukkit.inventory.ItemStack;
 /**
  * @author Daniel Saukel
  */
-public abstract class HologramWrapper {
-
-    protected List<Object> holograms = new ArrayList<>();
+public interface HologramWrapper {
 
     /**
-     * @param id
-     * the hologram identifier
-     */
-    public void deleteHologram(int id) {
-        holograms.remove(id);
-    }
-
-    /* Abstracts */
-    /**
-     * @param viewers
-     * the Players who can see the menu. null means public
      * @param location
      * the Location where the menu shall be opened
      * @param label
      * the text String to show
+     * @param viewers
+     * the Players who can see the menu. null means public
      * @return
-     * a hologram ID which can be used to delete the hologram later
+     * a HolographicMenus hologram
      */
-    public abstract int createHologram(Set<Player> viewers, Location location, String label);
+    public Hologram createHologram(Location location, String label, Player... viewers);
 
     /**
-     * @param viewers
-     * the players who can see the menu. null means public
      * @param location
      * the location where the menu shall be opened
      * @param item
      * the ItemStack to show (instead of a text)
+     * @param viewers
+     * the players who can see the menu. null means public
      * @return
-     * a hologram ID which can be used to delete the hologram later
+     * a HolographicMenus hologram
      */
-    public abstract int createHologram(Set<Player> viewers, Location location, ItemStack item);
+    public Hologram createHologram(Location location, ItemStack item, Player... viewers);
+
+    /**
+     * @param hologram
+     * a HolographicMenus hologram wrapper object created trough a HologramWrapper
+     */
+    public void deleteHologram(Hologram hologram);
 
 }

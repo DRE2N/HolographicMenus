@@ -17,9 +17,8 @@
 package de.erethon.holographicmenus.menu;
 
 import de.erethon.commons.misc.EnumUtil;
-import de.erethon.holographicmenus.HolographicMenus;
+import de.erethon.holographicmenus.hologram.Hologram;
 import de.erethon.holographicmenus.hologram.HologramWrapper;
-import java.util.Set;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -28,11 +27,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 /**
+ * This class contains properties that apply to one button.
+ * HButton represents one button as fetched from the scripts.
+ * It does NOT represent a spawned hologram.
+ * An instance of HButton may be held by an instance of HMenuPage or, if it is a static button, HMenu.
+ *
  * @author Daniel Saukel
  */
 public class HButton {
-
-    HologramWrapper hologramWrapper = HolographicMenus.getInstance().getHologramWrapper();
 
     public enum Type {
         TITLE,
@@ -181,50 +183,24 @@ public class HButton {
     }
 
     /**
+     * @param provider
+     * the HologramWrapper of the loaded hologram provider plugin
      * @param viewers
      * the players that can see the holograms
      * @param location
      * the location where the menu will open
      * @param direction
      * the facing direction
+     * @return
+     * the created Hologram
      */
-    public int open(Set<Player> viewers, Location anchor, Vector direction) {
+    public Hologram open(HologramWrapper provider, Location anchor, Vector direction, Player[] viewers) {
         Vector orthogonal = direction.getCrossProduct(new Vector(0, 1, 0)).multiply(x);
         Vector position = direction.setY(0).add(orthogonal);
         Location location = anchor.clone().add(0, y, 0).add(position);
-        return hologramWrapper.createHologram(viewers, location, getLabel());
-    }
-
-    /**
-     * @param player
-     * the Player who clicked the button
-     */
-    public void click(Player player) {
-        switch (type) {
-            case BUTTON:
-                player.performCommand(command);
-                break;
-
-            case FIRST_PAGE:
-                // FIRST_PAGE
-                break;
-
-            case PREVIOUS_PAGE:
-                // Previous page
-                break;
-
-            case NEXT_PAGE:
-                // Next page
-                break;
-
-            case LAST_PAGE:
-                // Last page
-                break;
-
-            case CLOSE:
-                //close;
-                break;
-        }
+        Hologram hologram = provider.createHologram(location, getLabel(), viewers);
+        hologram.setButton(this);
+        return hologram;
     }
 
 }

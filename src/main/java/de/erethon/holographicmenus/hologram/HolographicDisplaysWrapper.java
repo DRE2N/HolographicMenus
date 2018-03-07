@@ -18,8 +18,10 @@ package de.erethon.holographicmenus.hologram;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import com.gmail.filoghost.holographicdisplays.api.handler.TouchHandler;
+import com.gmail.filoghost.holographicdisplays.api.line.ItemLine;
+import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 import de.erethon.holographicmenus.HolographicMenus;
-import java.util.Set;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -27,28 +29,44 @@ import org.bukkit.inventory.ItemStack;
 /**
  * @author Daniel Saukel
  */
-public class HolographicDisplaysWrapper extends HologramWrapper {
+public class HolographicDisplaysWrapper implements HologramWrapper {
 
-    @Override
-    public int createHologram(Set<Player> viewers, Location location, String label) {
-        Hologram hologram = createHologram(viewers, location);
-        hologram.appendTextLine(label);
+    private HolographicMenus plugin;
 
-        holograms.add(hologram);
-        return holograms.indexOf(hologram);
+    public HolographicDisplaysWrapper(HolographicMenus plugin) {
+        this.plugin = plugin;
     }
 
     @Override
-    public int createHologram(Set<Player> viewers, Location location, ItemStack item) {
-        Hologram hologram = createHologram(viewers, location);
-        hologram.appendItemLine(item);
-
-        holograms.add(hologram);
-        return holograms.indexOf(hologram);
+    public de.erethon.holographicmenus.hologram.Hologram createHologram(Location location, String label, Player... viewers) {
+        Hologram hdHolo = createHologram(viewers, location);
+        de.erethon.holographicmenus.hologram.Hologram hmHolo = new de.erethon.holographicmenus.hologram.Hologram(plugin, hdHolo);
+        TextLine line = hdHolo.appendTextLine(label);
+        line.setTouchHandler(new TouchHandler() {
+            @Override
+            public void onTouch(Player player) {
+                hmHolo.click(plugin.getHPlayerCache().getByPlayer(player));
+            }
+        });
+        return hmHolo;
     }
 
-    public Hologram createHologram(Set<Player> viewers, Location location) {
-        Hologram hologram = HologramsAPI.createHologram(HolographicMenus.getInstance(), location);
+    @Override
+    public de.erethon.holographicmenus.hologram.Hologram createHologram(Location location, ItemStack item, Player... viewers) {
+        Hologram hdHolo = createHologram(viewers, location);
+        de.erethon.holographicmenus.hologram.Hologram hmHolo = new de.erethon.holographicmenus.hologram.Hologram(plugin, hdHolo);
+        ItemLine line = hdHolo.appendItemLine(item);
+        line.setTouchHandler(new TouchHandler() {
+            @Override
+            public void onTouch(Player player) {
+                hmHolo.click(plugin.getHPlayerCache().getByPlayer(player));
+            }
+        });
+        return hmHolo;
+    }
+
+    public Hologram createHologram(Player[] viewers, Location location) {
+        Hologram hologram = HologramsAPI.createHologram(plugin, location);
         if (viewers != null) {
             hologram.getVisibilityManager().setVisibleByDefault(false);
             for (Player player : viewers) {
@@ -56,6 +74,11 @@ public class HolographicDisplaysWrapper extends HologramWrapper {
             }
         }
         return hologram;
+    }
+
+    @Override
+    public void deleteHologram(de.erethon.holographicmenus.hologram.Hologram hologram) {
+        ((Hologram) hologram.getRawHologram()).delete();
     }
 
 }

@@ -17,9 +17,13 @@
 package de.erethon.holographicmenus.menu;
 
 import de.erethon.commons.misc.EnumUtil;
+import de.erethon.holographicmenus.HolographicMenus;
+import de.erethon.holographicmenus.hologram.Hologram;
+import de.erethon.holographicmenus.player.HPlayer;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,6 +34,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 /**
+ * This class contains properties that apply to the menu as a whole.
+ * HMenu represents one menu type as fetched from the scripts.
+ * It does NOT represent a collection of spawned holograms.
+ *
  * @author Daniel Saukel
  */
 public class HMenu {
@@ -204,11 +212,17 @@ public class HMenu {
     /**
      * @param player
      * the opener
-     * @param page
-     * the page to open
      */
-    public void open(Player player) {
-        open(player, 1);
+    public void open(HolographicMenus plugin, HPlayer player) {
+        open(plugin, player.getPlayer());
+    }
+
+    /**
+     * @param player
+     * the opener
+     */
+    public void open(HolographicMenus plugin, Player player) {
+        open(plugin, player, 1);
     }
 
     /**
@@ -217,11 +231,23 @@ public class HMenu {
      * @param page
      * the page to open
      */
-    public void open(Player player, int page) {
-        open(new HashSet<>(Arrays.asList(player)), page, player.getEyeLocation(), player.getEyeLocation().getDirection().multiply(distance));
+    public void open(HolographicMenus plugin, HPlayer player, int page) {
+        open(plugin, player.getPlayer(), page);
     }
 
     /**
+     * @param player
+     * the opener
+     * @param page
+     * the page to open
+     */
+    public void open(HolographicMenus plugin, Player player, int page) {
+        open(plugin, page, player.getEyeLocation(), player.getEyeLocation().getDirection().multiply(distance), player);
+    }
+
+    /**
+     * @param plugin
+     * the plugin instance
      * @param viewers
      * the players that can see the holograms
      * @param page
@@ -230,15 +256,21 @@ public class HMenu {
      * the Location where the menu will be opened
      * @param direction
      * the direction to set the buttons
+     * @return
+     * a Collection of all spawned Holograms
      */
-    public void open(Set<Player> viewers, int page, Location location, Vector direction) {
-        for (HButton button : buttons) {
-            button.open(type == Type.PRIVATE ? viewers : null, location, direction);
-        }
+    public Collection<Hologram> open(HolographicMenus plugin, int page, Location location, Vector direction, Player... viewers) {
+        Collection<Hologram> associated = new ArrayList<>();
+        buttons.forEach(b -> associated.add(b.open(plugin.getHologramProvider(), location, direction, type == Type.PRIVATE ? viewers : null)));
 
-        if (menuPages.size() >= page) {
-            menuPages.get(page - 1).open(viewers, location, direction);
+        if (menuPages.size() >= page && page >= 1) {
+            associated.addAll(menuPages.get(page - 1).open(plugin.getHologramProvider(), location, direction, type == Type.PRIVATE ? viewers : null));
         }
+        associated.forEach(h -> h.setAssociatedHolograms(associated));
+        for (Player player : viewers) {
+            plugin.getHPlayerCache().getByPlayer(player).setOpenedMenu(this, page);
+        }
+        return associated;
     }
 
 }

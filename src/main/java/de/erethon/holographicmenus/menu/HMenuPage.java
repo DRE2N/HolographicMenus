@@ -16,7 +16,11 @@
  */
 package de.erethon.holographicmenus.menu;
 
+import de.erethon.holographicmenus.hologram.Hologram;
+import de.erethon.holographicmenus.hologram.HologramWrapper;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import org.bukkit.Location;
@@ -26,6 +30,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 /**
+ * This class contains properties that apply to one page of a menu as a whole.
+ * HMenuPage represents one menu page type as fetched from the scripts.
+ * It does NOT represent a collection of spawned holograms.
+ *
  * @author Daniel Saukel
  */
 public class HMenuPage {
@@ -82,17 +90,21 @@ public class HMenuPage {
     }
 
     /**
-     * @param viewers
-     * the players that can see the holograms
+     * @param provider
+     * the HologramWrapper of the loaded hologram provider plugin
      * @param location
      * the Location to open the menu
      * @param direction
      * the direction to set the buttons
+     * @param viewers
+     * the players that can see the holograms
+     * @return
+     * a Collection of all spawned Holograms
      */
-    public void open(Set<Player> viewers, Location location, Vector direction) {
-        for (HButton button : buttons) {
-            button.open(viewers, location, direction);
-        }
+    public Collection<Hologram> open(HologramWrapper provider, Location location, Vector direction, Player[] viewers) {
+        Collection<Hologram> associated = new ArrayList<>();
+        buttons.forEach(b -> associated.add(b.open(provider, location, direction, viewers)));
+        return associated;
     }
 
 }
