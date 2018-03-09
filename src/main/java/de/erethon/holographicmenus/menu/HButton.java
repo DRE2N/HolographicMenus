@@ -49,13 +49,15 @@ public class HButton {
     private String label;
     private Type type;
     private String command;
+    private String sound;
     private double x;
     private double y;
 
-    public HButton(String label, Type type, String command, double x, double y) {
+    public HButton(String label, Type type, String command, String sound, double x, double y) {
         this.label = label;
         this.type = type;
         this.command = command;
+        this.sound = sound;
         this.x = x;
         this.y = y;
     }
@@ -73,6 +75,10 @@ public class HButton {
 
         if (config.contains("command")) {
             command = config.getString("command");
+        }
+
+        if (config.contains("sound")) {
+            sound = config.getString("sound");
         }
 
         if (config.contains("x")) {
@@ -135,6 +141,22 @@ public class HButton {
 
     /**
      * @return
+     * the sound to play
+     */
+    public String getSound() {
+        return sound;
+    }
+
+    /**
+     * @param sound
+     * the sound name to set
+     */
+    public void setSound(String sound) {
+        this.sound = sound;
+    }
+
+    /**
+     * @return
      * the relative X value of the button
      */
     public double getX() {
@@ -176,6 +198,7 @@ public class HButton {
         config.set("label", label);
         config.set("type", type);
         config.set("command", command);
+        config.set("sound", sound);
         config.set("x", x);
         config.set("y", y);
 

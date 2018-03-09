@@ -109,6 +109,10 @@ public class Hologram {
             return;
         }
 
+        if (button.getSound() != null) {
+            player.getPlayer().playSound(player.getPlayer().getLocation(), button.getSound(), 1, 1);
+        }
+
         switch (button.getType()) {
             case BUTTON:
                 if (button.getCommand() != null) {
