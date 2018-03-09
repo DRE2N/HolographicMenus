@@ -49,19 +49,19 @@ public class InfoCommand extends DRECommand {
         PluginManager plugins = Bukkit.getServer().getPluginManager();
 
         String holographicdisplays = new String();
-        if (plugins.getPlugin("HolographicDisplays") != null) {
+        if (plugins.isPluginEnabled("HolographicDisplays")) {
             holographicdisplays = plugins.getPlugin("HolographicDisplays").getDescription().getVersion();
         }
 
-        MessageUtil.sendCenteredMessage(sender, "&6" + H[0] + M[4]);
-        MessageUtil.sendCenteredMessage(sender, "&6" + H[1] + M[4]);
-        MessageUtil.sendCenteredMessage(sender, "&6" + H[2] + M[4]);
-        MessageUtil.sendCenteredMessage(sender, "&6" + H[3] + M[4]);
-        MessageUtil.sendCenteredMessage(sender, "&6" + H[4] + M[4]);
+        MessageUtil.sendCenteredMessage(sender, "&6" + H[0] + M[0] + "&4" + I[0] + I[0]);
+        MessageUtil.sendCenteredMessage(sender, "&6" + H[1] + M[1] + "&4" + I[1] + I[1]);
+        MessageUtil.sendCenteredMessage(sender, "&6" + H[2] + M[2] + "&4" + I[2] + I[2]);
+        MessageUtil.sendCenteredMessage(sender, "&6" + H[3] + M[3] + "&4" + I[3] + I[3]);
+        MessageUtil.sendCenteredMessage(sender, "&6" + H[4] + M[4] + "&4" + I[4] + I[4]);
         MessageUtil.sendCenteredMessage(sender, "&b&l###### " + HMessage.CMD_INFO_WELCOME.getMessage() + "&7 v" + plugin.getDescription().getVersion() + " &b&l######");
         MessageUtil.sendCenteredMessage(sender, HMessage.CMD_INFO_LOADED.getMessage(holographicdisplays));
         MessageUtil.sendCenteredMessage(sender, HMessage.CMD_INFO_HELP.getMessage());
-        MessageUtil.sendCenteredMessage(sender, "&7\u00a92016-2018 Daniel Saukel; lcsd. under GPLv3.");
+        MessageUtil.sendCenteredMessage(sender, "&7\u00a92016-2018 Daniel Saukel; licensed under GPLv3.");
     }
 
 }
