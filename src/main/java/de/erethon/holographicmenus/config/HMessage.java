@@ -36,7 +36,8 @@ public enum HMessage implements Message {
     ERROR_NO_SUCH_PLAYER("error.noSuchPlayer", "&4The player &6&v1&4 does not exist."),
     HELP_HELP("help.help", "/hm help [page] - Shows the help page"),
     HELP_INFO("help.info", "/hm info - General status information"),
-    HELP_MENU("help.menu", "/hm menu ([name]) - Opens a holographic menu");
+    HELP_MENU("help.menu", "/hm menu ([name]) - Opens a holographic menu"),
+    HELP_RELOAD("help.reload", "/hm reload");
 
     private String identifier;
     private String message;

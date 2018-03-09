@@ -29,15 +29,18 @@ public class HCommandCache extends DRECommandCache {
     public HelpCommand help;
     public InfoCommand info;
     public MainCommand main;
+    public ReloadCommand reload;
 
     public HCommandCache(HolographicMenus plugin) {
         super("holographicmenus", plugin);
         help = new HelpCommand(plugin);
         info = new InfoCommand(plugin);
         main = new MainCommand(plugin);
+        reload = new ReloadCommand(plugin);
         addCommand(help);
         addCommand(info);
         addCommand(main);
+        addCommand(reload);
     }
 
 }

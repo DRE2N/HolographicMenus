@@ -27,6 +27,7 @@ import de.erethon.holographicmenus.config.HMessage;
 import de.erethon.holographicmenus.hologram.HologramProviderManager;
 import de.erethon.holographicmenus.hologram.HologramWrapper;
 import de.erethon.holographicmenus.menu.HMenuCache;
+import de.erethon.holographicmenus.player.HPermission;
 import de.erethon.holographicmenus.player.HPlayerCache;
 import java.io.File;
 
@@ -73,17 +74,13 @@ public class HolographicMenus extends DREPlugin {
         instance = this;
         providers = new HologramProviderManager(this);
         initFolders();
-
         if (!loadHologramProvider()) {
             MessageUtil.log(this, "&4[SEVERE] No hologram provider found! Disabling plugin...");
             instance = null;
             getServer().getPluginManager().disablePlugin(this);
         }
-        loadMessageConfig(new File(LANGUAGES, "english.yml"));
-        loadHConfig(new File(getDataFolder(), "config.yml"));
-        loadMessageConfig(new File(LANGUAGES, config.getLanguage() + ".yml"));
-        loadMenuCache();
-        loadHCommandCache();
+        HPermission.register();
+        loadCore();
         loadHPlayerCache();
     }
 
@@ -98,6 +95,14 @@ public class HolographicMenus extends DREPlugin {
         if (!MENUS.exists()) {
             MENUS.mkdir();
         }
+    }
+
+    public void loadCore() {
+        loadMessageConfig(new File(LANGUAGES, "english.yml"));
+        loadHConfig(new File(getDataFolder(), "config.yml"));
+        loadMessageConfig(new File(LANGUAGES, config.getLanguage() + ".yml"));
+        loadMenuCache();
+        loadHCommandCache();
     }
 
     /* Getters and loaders */
