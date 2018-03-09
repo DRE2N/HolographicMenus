@@ -196,7 +196,7 @@ public class HButton {
      */
     public Hologram open(HologramWrapper provider, Location anchor, Vector direction, Player[] viewers) {
         Vector orthogonal = direction.getCrossProduct(new Vector(0, 1, 0)).multiply(x);
-        Vector position = direction.setY(0).add(orthogonal);
+        Vector position = direction.clone().setY(0).add(orthogonal);
         Location location = anchor.clone().add(0, y, 0).add(position);
         Hologram hologram = provider.createHologram(location, getLabel(), viewers);
         hologram.setButton(this);
