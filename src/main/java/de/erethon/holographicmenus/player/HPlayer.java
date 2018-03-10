@@ -17,7 +17,7 @@
 package de.erethon.holographicmenus.player;
 
 import de.erethon.commons.player.PlayerWrapper;
-import de.erethon.holographicmenus.menu.HMenu;
+import de.erethon.holographicmenus.hologram.HologramCollection;
 import java.util.UUID;
 import org.bukkit.entity.Player;
 
@@ -27,8 +27,7 @@ import org.bukkit.entity.Player;
 public class HPlayer implements PlayerWrapper {
 
     private Player player;
-    private HMenu openedMenu;
-    private int openedPage;
+    private HologramCollection openedMenu;
 
     public HPlayer(Player player) {
         this.player = player;
@@ -59,35 +58,19 @@ public class HPlayer implements PlayerWrapper {
 
     /**
      * @return
-     * the menu the player has opened
+     * the menu the player has opened,
+     * null if none
      */
-    public HMenu getOpenedMenu() {
+    public HologramCollection getOpenedHolograms() {
         return openedMenu;
     }
 
     /**
-     * @return
-     * the menu the player has opened
+     * @param holograms
+     * a HologramCollection that holds the opened buttons
      */
-    public void setOpenedMenu(HMenu menu, int page) {
-        openedMenu = menu;
-        openedPage = page;
-    }
-
-    /**
-     * @return
-     * the opened menu page
-     */
-    public int getOpenedPage() {
-        return openedPage;
-    }
-
-    /**
-     * @return
-     * the menu page the player has opened
-     */
-    public void setOpenedPage(int page) {
-        openedPage = page;
+    public void setOpenedHolograms(HologramCollection holograms) {
+        openedMenu = holograms;
     }
 
 }

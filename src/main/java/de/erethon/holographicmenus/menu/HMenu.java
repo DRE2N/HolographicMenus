@@ -19,6 +19,7 @@ package de.erethon.holographicmenus.menu;
 import de.erethon.commons.misc.EnumUtil;
 import de.erethon.holographicmenus.HolographicMenus;
 import de.erethon.holographicmenus.hologram.Hologram;
+import de.erethon.holographicmenus.hologram.HologramCollection;
 import de.erethon.holographicmenus.player.HPlayer;
 import java.io.File;
 import java.util.ArrayList;
@@ -257,18 +258,18 @@ public class HMenu {
      * @param direction
      * the direction to set the buttons
      * @return
-     * a Collection of all spawned Holograms
+     * a HologramCollection of all spawned Holograms
      */
-    public Collection<Hologram> open(HolographicMenus plugin, int page, Location location, Vector direction, Player... viewers) {
-        Collection<Hologram> associated = new ArrayList<>();
+    public HologramCollection open(HolographicMenus plugin, int page, Location location, Vector direction, Player... viewers) {
+        HologramCollection associated = new HologramCollection(this, page);
         buttons.forEach(b -> associated.add(b.open(plugin.getHologramProvider(), location, direction, type == Type.PRIVATE ? viewers : null)));
 
         if (menuPages.size() >= page && page >= 1) {
             associated.addAll(menuPages.get(page - 1).open(plugin.getHologramProvider(), location, direction, type == Type.PRIVATE ? viewers : null));
         }
-        associated.forEach(h -> h.setAssociatedHolograms(associated));
+        associated.get().forEach(h -> h.setAssociatedHolograms(associated));
         for (Player player : viewers) {
-            plugin.getHPlayerCache().getByPlayer(player).setOpenedMenu(this, page);
+            plugin.getHPlayerCache().getByPlayer(player).setOpenedHolograms(associated);
         }
         return associated;
     }

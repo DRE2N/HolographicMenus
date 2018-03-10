@@ -19,7 +19,8 @@ package de.erethon.holographicmenus.hologram;
 import de.erethon.holographicmenus.HolographicMenus;
 import de.erethon.holographicmenus.menu.HButton;
 import de.erethon.holographicmenus.player.HPlayer;
-import java.util.Collection;
+import org.bukkit.Location;
+import org.bukkit.util.Vector;
 
 /**
  * This class wraps hologram objects created by a hologram provider plugin.
@@ -34,7 +35,7 @@ public class Hologram {
     private HologramWrapper provider;
 
     private HButton button;
-    private Collection<Hologram> associated;
+    private HologramCollection associated;
     private Object hologram;
 
     public Hologram(HolographicMenus plugin, Object hologram) {
@@ -43,6 +44,7 @@ public class Hologram {
         this.hologram = hologram;
     }
 
+    /* Getters and setters */
     /**
      * @return
      * the button that formed this hologram
@@ -69,19 +71,19 @@ public class Hologram {
 
     /**
      * @return
-     * a Collection of Holograms containing the associated holograms.
+     * a HologramCollection containing the associated holograms.
      * These may be other holograms of the same menu.
      */
-    public Collection<Hologram> getAssociatedHolograms() {
+    public HologramCollection getAssociatedHolograms() {
         return associated;
     }
 
     /**
      * @param associated
-     * a Collection of Holograms containing the associated holograms.
+     * a HologramCollection containing the associated holograms.
      * These may be other holograms of the same menu.
      */
-    public void setAssociatedHolograms(Collection<Hologram> associated) {
+    public void setAssociatedHolograms(HologramCollection associated) {
         this.associated = associated;
     }
 
@@ -105,7 +107,7 @@ public class Hologram {
      * the HPlayer who clicked the button
      */
     public void click(HPlayer player) {
-        if (button == null) {
+        if (button == null || associated == null) {
             return;
         }
 
@@ -122,36 +124,36 @@ public class Hologram {
 
             case FIRST_PAGE:
                 if (player.hasOpenedMenu()) {
-                    player.getOpenedMenu().open(plugin, player, 1);
+                    associated.getMenu().open(plugin, player, 1);
                 }
                 break;
 
             case PREVIOUS_PAGE:
                 if (player.hasOpenedMenu()) {
-                    int previous = player.getOpenedPage() - 1;
-                    int last = player.getOpenedMenu().getMenuPages().size();
-                    player.getOpenedMenu().open(plugin, player, previous < 1 ? last : previous);
+                    int previous = associated.getPage() - 1;
+                    int last = associated.getMenu().getMenuPages().size();
+                    associated.getMenu().open(plugin, player, previous < 1 ? last : previous);
                 }
                 break;
 
             case NEXT_PAGE:
                 if (player.hasOpenedMenu()) {
-                    int next = player.getOpenedPage() + 1;
-                    int last = player.getOpenedMenu().getMenuPages().size();
-                    player.getOpenedMenu().open(plugin, player, next > last ? 1 : next);
+                    int next = associated.getPage() + 1;
+                    int last = associated.getMenu().getMenuPages().size();
+                    associated.getMenu().open(plugin, player, next > last ? 1 : next);
                 }
                 break;
 
             case LAST_PAGE:
                 if (player.hasOpenedMenu()) {
-                    player.getOpenedMenu().open(plugin, player, player.getOpenedMenu().getMenuPages().size());
+                    associated.getMenu().open(plugin, player, associated.getMenu().getMenuPages().size());
                 }
                 break;
         }
 
         if (button.getType() != HButton.Type.BUTTON && button.getType() != HButton.Type.TITLE) {
             if (hasAssociatedHolograms()) {
-                associated.forEach(h -> h.delete());
+                associated.deleteAll();
             } else {
                 delete();
             }
