@@ -111,7 +111,9 @@ public class HologramCollection {
      * Deletes all holograms
      */
     public void deleteAll() {
-        holograms.forEach(h -> h.delete());
+        for (Hologram hologram : holograms.toArray(new Hologram[]{})) {
+            hologram.delete();
+        }
     }
 
 }
