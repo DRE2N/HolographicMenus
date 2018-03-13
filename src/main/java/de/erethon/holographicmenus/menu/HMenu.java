@@ -283,7 +283,11 @@ public class HMenu {
         }
         associated.get().forEach(h -> h.setAssociatedHolograms(associated));
         for (Player player : viewers) {
-            plugin.getHPlayerCache().getByPlayer(player).setOpenedHolograms(associated);
+            HPlayer hPlayer = plugin.getHPlayerCache().getByPlayer(player);
+            if (hPlayer.hasOpenedMenu()) {
+                hPlayer.getOpenedHolograms().deleteAll();
+            }
+            hPlayer.setOpenedHolograms(associated);
         }
         return associated;
     }

@@ -56,11 +56,15 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
+    public void onQuit(PlayerQuitEvent event) {
         HPlayer quitting = players.getByPlayer(event.getPlayer(), false);
-        if (quitting != null) {
-            players.getPlayers().remove(quitting);
+        if (quitting == null) {
+            return;
         }
+        if (quitting.hasOpenedMenu()) {
+            quitting.getOpenedHolograms().deleteAll();
+        }
+        players.getPlayers().remove(quitting);
     }
 
 }
