@@ -19,7 +19,7 @@ package de.erethon.holographicmenus.menu;
 import de.erethon.commons.misc.EnumUtil;
 import de.erethon.holographicmenus.hologram.Hologram;
 import de.erethon.holographicmenus.hologram.HologramWrapper;
-import org.bukkit.ChatColor;
+import de.erethon.holographicmenus.util.Placeholder;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -92,11 +92,13 @@ public class HButton {
 
     /* Getters and setters */
     /**
+     * @param player
+     * the player to replace the placeholders
      * @return
-     * the button text; color codes are replaced.
+     * the button text; placeholders are replaced.
      */
-    public String getLabel() {
-        return ChatColor.translateAlternateColorCodes('&', label);
+    public String getLabel(Player player) {
+        return Placeholder.parse(player, label);
     }
 
     /**
@@ -218,7 +220,7 @@ public class HButton {
      * the created Hologram
      */
     public Hologram open(HologramWrapper provider, Location anchor, Vector direction, Player[] viewers) {
-        Hologram hologram = provider.createHologram(getLocation(anchor, direction), getLabel(), viewers);
+        Hologram hologram = provider.createHologram(getLocation(anchor, direction), getLabel(viewers[0]), viewers);
         hologram.setButton(this);
         return hologram;
     }
