@@ -36,11 +36,13 @@ public class Hologram {
 
     private HButton button;
     private HologramCollection associated;
+    private Location location;
     private Object hologram;
 
-    public Hologram(HolographicMenus plugin, Object hologram) {
+    public Hologram(HolographicMenus plugin, Location location, Object hologram) {
         this.plugin = plugin;
         provider = plugin.getHologramProvider();
+        this.location = location;
         this.hologram = hologram;
     }
 
@@ -89,16 +91,39 @@ public class Hologram {
 
     /**
      * @return
+     * a copy of the location of the hologram
+     */
+    public Location getLocation() {
+        return location.clone();
+    }
+
+    /**
+     * @return
      * the raw hologram created by the HologramWrapper
      */
     public Object getRawHologram() {
         return hologram;
     }
 
+    /* Actions */
+    /**
+     * Moves the hologram to the location
+     *
+     * @param location
+     * the target location
+     */
+    public void move(Location location) {
+        this.location = location;
+        provider.moveHologram(this, location);
+    }
+
     /**
      * Deletes this hologram
      */
     public void delete() {
+        if (associated != null) {
+            associated.remove(this);
+        }
         provider.deleteHologram(this);
     }
 

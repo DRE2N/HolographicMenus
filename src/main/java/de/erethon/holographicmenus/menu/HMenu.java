@@ -18,13 +18,11 @@ package de.erethon.holographicmenus.menu;
 
 import de.erethon.commons.misc.EnumUtil;
 import de.erethon.holographicmenus.HolographicMenus;
-import de.erethon.holographicmenus.hologram.Hologram;
 import de.erethon.holographicmenus.hologram.HologramCollection;
 import de.erethon.holographicmenus.player.HPlayer;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,6 +51,7 @@ public class HMenu {
     private List<HMenuPage> menuPages = new ArrayList<>();
     private Set<HButton> buttons = new HashSet<>();
     private double distance;
+    private boolean followingOnMove;
 
     public HMenu(String name, Type type, List<HMenuPage> menuPages, double distance) {
         if (name.endsWith(".yml")) {
@@ -81,16 +80,14 @@ public class HMenu {
                 menuPages.add(new HMenuPage(config.getConfigurationSection("menuPages." + page)));
             }
         }
-
         if (config.contains("staticButtons")) {
             for (String button : config.getConfigurationSection("staticButtons").getKeys(false)) {
                 buttons.add(new HButton(config.getConfigurationSection("staticButtons." + button)));
             }
         }
 
-        if (config.contains("distance")) {
-            distance = config.getDouble("distance");
-        }
+        distance = config.getDouble("distance", 1.75);
+        followingOnMove = type == Type.PRIVATE && config.getBoolean("followingOnMove", true);
     }
 
     public HMenu(File file) {
@@ -186,6 +183,22 @@ public class HMenu {
         this.distance = distance;
     }
 
+    /**
+     * @return
+     * if the menu follows when a player moves
+     */
+    public boolean isFollowingOnMove() {
+        return followingOnMove;
+    }
+
+    /**
+     * @param followingOnMove
+     * if the menu follows when a player moves
+     */
+    public void setFollowingOnMove(boolean followingOnMove) {
+        this.followingOnMove = followingOnMove;
+    }
+
     /* Actions */
     /**
      * @return
@@ -196,6 +209,7 @@ public class HMenu {
 
         config.set("type", type);
         config.set("distance", distance);
+        config.set("followingOnMove", followingOnMove);
 
         for (HMenuPage page : menuPages) {
             config.set("menuPages." + menuPages.indexOf(page), page.serialize());
@@ -261,7 +275,7 @@ public class HMenu {
      * a HologramCollection of all spawned Holograms
      */
     public HologramCollection open(HolographicMenus plugin, int page, Location location, Vector direction, Player... viewers) {
-        HologramCollection associated = new HologramCollection(this, page);
+        HologramCollection associated = new HologramCollection(plugin, this, page, location);
         buttons.forEach(b -> associated.add(b.open(plugin.getHologramProvider(), location, direction, type == Type.PRIVATE ? viewers : null)));
 
         if (menuPages.size() >= page && page >= 1) {

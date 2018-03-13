@@ -16,9 +16,12 @@
  */
 package de.erethon.holographicmenus.hologram;
 
+import de.erethon.holographicmenus.HolographicMenus;
 import de.erethon.holographicmenus.menu.HMenu;
+import de.erethon.holographicmenus.player.HPlayer;
 import java.util.ArrayList;
 import java.util.Collection;
+import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 /**
@@ -30,18 +33,19 @@ import org.bukkit.util.Vector;
  */
 public class HologramCollection {
 
+    private HolographicMenus plugin;
+
     private Collection<Hologram> holograms;
     private HMenu menu;
     private int page;
+    private Location location;
 
-    public HologramCollection(Collection<Hologram> holograms) {
-        this.holograms = holograms;
-    }
-
-    public HologramCollection(HMenu menu, int page) {
+    public HologramCollection(HolographicMenus plugin, HMenu menu, int page, Location location) {
+        this.plugin = plugin;
         holograms = new ArrayList<>();
         this.menu = menu;
         this.page = page;
+        this.location = location;
     }
 
     /* Getters and setters */
@@ -86,7 +90,26 @@ public class HologramCollection {
         this.page = page;
     }
 
+    /**
+     * @return
+     * a copy of the location that matchs 0,0 of the menu
+     */
+    public Location getLocation() {
+        return location.clone();
+    }
+
     /* Actions  */
+    /**
+     * @param anchor
+     * a fix point for the holograms
+     * @param direction
+     * the direction to orientate the holograms
+     */
+    public void moveAll(Location anchor, Vector direction) {
+        location = anchor;
+        holograms.forEach(h -> h.move(h.getButton().getLocation(anchor, direction)));
+    }
+
     public void add(Hologram hologram) {
         holograms.add(hologram);
     }
@@ -111,6 +134,11 @@ public class HologramCollection {
      * Deletes all holograms
      */
     public void deleteAll() {
+        for (HPlayer player : plugin.getHPlayerCache().getPlayers()) {
+            if (player.getOpenedHolograms() == this) {
+                player.setOpenedHolograms(null);
+            }
+        }
         for (Hologram hologram : holograms.toArray(new Hologram[]{})) {
             hologram.delete();
         }

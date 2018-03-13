@@ -218,12 +218,15 @@ public class HButton {
      * the created Hologram
      */
     public Hologram open(HologramWrapper provider, Location anchor, Vector direction, Player[] viewers) {
-        Vector orthogonal = direction.getCrossProduct(new Vector(0, 1, 0)).multiply(x);
-        Vector position = direction.clone().setY(0).add(orthogonal);
-        Location location = anchor.clone().add(0, y, 0).add(position);
-        Hologram hologram = provider.createHologram(location, getLabel(), viewers);
+        Hologram hologram = provider.createHologram(getLocation(anchor, direction), getLabel(), viewers);
         hologram.setButton(this);
         return hologram;
+    }
+
+    public Location getLocation(Location anchor, Vector direction) {
+        Vector orthogonal = direction.getCrossProduct(new Vector(0, 1, 0)).multiply(x);
+        Vector position = direction.clone().setY(0).add(orthogonal);
+        return anchor.clone().add(0, y, 0).add(position);
     }
 
 }

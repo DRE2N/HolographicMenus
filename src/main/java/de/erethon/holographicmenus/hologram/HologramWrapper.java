@@ -55,4 +55,14 @@ public interface HologramWrapper {
      */
     public void deleteHologram(Hologram hologram);
 
+    /**
+     * Moves the hologram to a new position
+     *
+     * @param hologram
+     * a HolographicMenus hologram wrapper object created trough a HologramWrapper
+     * @param location
+     * the target location
+     */
+    public void moveHologram(Hologram hologram, Location location);
+
 }

@@ -29,6 +29,7 @@ import de.erethon.holographicmenus.hologram.HologramWrapper;
 import de.erethon.holographicmenus.menu.HMenuCache;
 import de.erethon.holographicmenus.player.HPermission;
 import de.erethon.holographicmenus.player.HPlayerCache;
+import de.erethon.holographicmenus.player.PlayerListener;
 import java.io.File;
 
 /**
@@ -82,6 +83,7 @@ public class HolographicMenus extends DREPlugin {
         HPermission.register();
         loadCore();
         loadHPlayerCache();
+        manager.registerEvents(new PlayerListener(this), this);
     }
 
     public void initFolders() {
@@ -196,7 +198,6 @@ public class HolographicMenus extends DREPlugin {
      */
     public void loadHPlayerCache() {
         players = new HPlayerCache();
-        manager.registerEvents(players, this);
     }
 
 }

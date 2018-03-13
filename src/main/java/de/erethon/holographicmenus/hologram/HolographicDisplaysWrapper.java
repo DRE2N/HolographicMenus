@@ -40,7 +40,7 @@ public class HolographicDisplaysWrapper implements HologramWrapper {
     @Override
     public de.erethon.holographicmenus.hologram.Hologram createHologram(Location location, String label, Player... viewers) {
         Hologram hdHolo = createHologram(viewers, location);
-        de.erethon.holographicmenus.hologram.Hologram hmHolo = new de.erethon.holographicmenus.hologram.Hologram(plugin, hdHolo);
+        de.erethon.holographicmenus.hologram.Hologram hmHolo = new de.erethon.holographicmenus.hologram.Hologram(plugin, location, hdHolo);
         TextLine line = hdHolo.appendTextLine(label);
         line.setTouchHandler(new TouchHandler() {
             @Override
@@ -54,7 +54,7 @@ public class HolographicDisplaysWrapper implements HologramWrapper {
     @Override
     public de.erethon.holographicmenus.hologram.Hologram createHologram(Location location, ItemStack item, Player... viewers) {
         Hologram hdHolo = createHologram(viewers, location);
-        de.erethon.holographicmenus.hologram.Hologram hmHolo = new de.erethon.holographicmenus.hologram.Hologram(plugin, hdHolo);
+        de.erethon.holographicmenus.hologram.Hologram hmHolo = new de.erethon.holographicmenus.hologram.Hologram(plugin, location, hdHolo);
         ItemLine line = hdHolo.appendItemLine(item);
         line.setTouchHandler(new TouchHandler() {
             @Override
@@ -79,6 +79,11 @@ public class HolographicDisplaysWrapper implements HologramWrapper {
     @Override
     public void deleteHologram(de.erethon.holographicmenus.hologram.Hologram hologram) {
         ((Hologram) hologram.getRawHologram()).delete();
+    }
+
+    @Override
+    public void moveHologram(de.erethon.holographicmenus.hologram.Hologram hologram, Location location) {
+        ((Hologram) hologram.getRawHologram()).teleport(location);
     }
 
 }

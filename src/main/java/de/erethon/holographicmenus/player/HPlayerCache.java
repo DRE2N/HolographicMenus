@@ -19,14 +19,11 @@ package de.erethon.holographicmenus.player;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
  * @author Daniel Saukel
  */
-public class HPlayerCache implements Listener {
+public class HPlayerCache {
 
     private Collection<HPlayer> players = new ArrayList<>();
 
@@ -47,27 +44,29 @@ public class HPlayerCache implements Listener {
      * the matching HPlayer wrapper instance
      */
     public HPlayer getByPlayer(Player player) {
+        return getByPlayer(player, true);
+    }
+
+    /**
+     * @param player
+     * a Bukkit Player object
+     * @param create
+     * if a new instance shall be created if none is cached
+     * @return
+     * the matching HPlayer wrapper instance
+     */
+    public HPlayer getByPlayer(Player player, boolean create) {
         for (HPlayer hPlayer : players) {
             if (hPlayer.getUniqueId().equals(player.getUniqueId())) {
                 return hPlayer;
             }
         }
+        if (!create) {
+            return null;
+        }
         HPlayer hPlayer = new HPlayer(player);
         players.add(hPlayer);
         return hPlayer;
-    }
-
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        HPlayer quitting = null;
-        for (HPlayer player : players) {
-            if (player.getUniqueId().equals(event.getPlayer().getUniqueId())) {
-                quitting = player;
-            }
-        }
-        if (quitting != null) {
-            players.remove(quitting);
-        }
     }
 
 }
