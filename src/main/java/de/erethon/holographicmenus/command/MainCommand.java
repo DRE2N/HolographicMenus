@@ -54,7 +54,7 @@ public class MainCommand extends DRECommand {
         } else {
             menu = menus.getMainMenu();
         }
-        if (menu != null) {
+        if (menu != null && HPermission.hasPermission(sender, HPermission.MENU.getNode() + "." + menu.getName())) {
             menu.open(plugin, (Player) sender);
         } else {
             MessageUtil.sendMessage(sender, HMessage.ERROR_NO_SUCH_MENU.getMessage(args.length == 1 ? args[0] : plugin.getHConfig().getMainMenuName()));

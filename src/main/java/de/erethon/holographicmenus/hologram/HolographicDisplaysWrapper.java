@@ -22,6 +22,7 @@ import com.gmail.filoghost.holographicdisplays.api.handler.TouchHandler;
 import com.gmail.filoghost.holographicdisplays.api.line.ItemLine;
 import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 import de.erethon.holographicmenus.HolographicMenus;
+import java.util.Collection;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -38,7 +39,7 @@ public class HolographicDisplaysWrapper implements HologramWrapper {
     }
 
     @Override
-    public de.erethon.holographicmenus.hologram.Hologram createHologram(Location location, String label, Player... viewers) {
+    public de.erethon.holographicmenus.hologram.Hologram createHologram(Location location, String label, Collection<Player> viewers) {
         Hologram hdHolo = createHologram(viewers, location);
         de.erethon.holographicmenus.hologram.Hologram hmHolo = new de.erethon.holographicmenus.hologram.Hologram(plugin, location, hdHolo);
         TextLine line = hdHolo.appendTextLine(label);
@@ -52,7 +53,7 @@ public class HolographicDisplaysWrapper implements HologramWrapper {
     }
 
     @Override
-    public de.erethon.holographicmenus.hologram.Hologram createHologram(Location location, ItemStack item, Player... viewers) {
+    public de.erethon.holographicmenus.hologram.Hologram createHologram(Location location, ItemStack item, Collection<Player> viewers) {
         Hologram hdHolo = createHologram(viewers, location);
         de.erethon.holographicmenus.hologram.Hologram hmHolo = new de.erethon.holographicmenus.hologram.Hologram(plugin, location, hdHolo);
         ItemLine line = hdHolo.appendItemLine(item);
@@ -65,7 +66,7 @@ public class HolographicDisplaysWrapper implements HologramWrapper {
         return hmHolo;
     }
 
-    public Hologram createHologram(Player[] viewers, Location location) {
+    public Hologram createHologram(Collection<Player> viewers, Location location) {
         Hologram hologram = HologramsAPI.createHologram(plugin, location);
         if (viewers != null) {
             hologram.getVisibilityManager().setVisibleByDefault(false);

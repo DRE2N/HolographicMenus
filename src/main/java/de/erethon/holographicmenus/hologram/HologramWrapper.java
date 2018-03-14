@@ -16,6 +16,7 @@
  */
 package de.erethon.holographicmenus.hologram;
 
+import java.util.Collection;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -35,7 +36,7 @@ public interface HologramWrapper {
      * @return
      * a HolographicMenus hologram
      */
-    public Hologram createHologram(Location location, String label, Player... viewers);
+    public Hologram createHologram(Location location, String label, Collection<Player> viewers);
 
     /**
      * @param location
@@ -47,7 +48,7 @@ public interface HologramWrapper {
      * @return
      * a HolographicMenus hologram
      */
-    public Hologram createHologram(Location location, ItemStack item, Player... viewers);
+    public Hologram createHologram(Location location, ItemStack item, Collection<Player> viewers);
 
     /**
      * @param hologram

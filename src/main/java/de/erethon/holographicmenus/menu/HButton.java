@@ -19,7 +19,11 @@ package de.erethon.holographicmenus.menu;
 import de.erethon.commons.misc.EnumUtil;
 import de.erethon.holographicmenus.hologram.Hologram;
 import de.erethon.holographicmenus.hologram.HologramWrapper;
+import de.erethon.holographicmenus.player.HPermission;
 import de.erethon.holographicmenus.util.Placeholder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -50,6 +54,7 @@ public class HButton {
     private Type type;
     private String command;
     private String sound;
+    private String permission;
     private double x;
     private double y;
 
@@ -63,31 +68,16 @@ public class HButton {
     }
 
     public HButton(ConfigurationSection config) {
-        if (config.contains("label")) {
-            label = config.getString("label");
+        label = config.getString("label", new String());
+        type = EnumUtil.getEnum(Type.class, config.getString("type", null));
+        if (type == null) {
+            type = Type.BUTTON;
         }
-
-        if (config.contains("type")) {
-            if (EnumUtil.isValidEnum(Type.class, config.getString("type"))) {
-                type = Type.valueOf(config.getString("type"));
-            }
-        }
-
-        if (config.contains("command")) {
-            command = config.getString("command");
-        }
-
-        if (config.contains("sound")) {
-            sound = config.getString("sound");
-        }
-
-        if (config.contains("x")) {
-            x = config.getDouble("x");
-        }
-
-        if (config.contains("y")) {
-            y = config.getDouble("y");
-        }
+        command = config.getString("command", null);
+        sound = config.getString("sound", null);
+        permission = config.getString("permission", null);
+        x = config.getDouble("x", 0);
+        y = config.getDouble("y", 0);
     }
 
     /* Getters and setters */
@@ -159,6 +149,30 @@ public class HButton {
 
     /**
      * @return
+     * the permission to see the button
+     */
+    public boolean hasPermission() {
+        return permission != null;
+    }
+
+    /**
+     * @return
+     * the permission to see the button
+     */
+    public String getPermission() {
+        return permission;
+    }
+
+    /**
+     * @param permission
+     * the permission to set
+     */
+    public void setPermission(String permission) {
+        this.permission = permission;
+    }
+
+    /**
+     * @return
      * the relative X value of the button
      */
     public double getX() {
@@ -201,6 +215,7 @@ public class HButton {
         config.set("type", type);
         config.set("command", command);
         config.set("sound", sound);
+        config.set("permission", permission);
         config.set("x", x);
         config.set("y", y);
 
@@ -220,7 +235,15 @@ public class HButton {
      * the created Hologram
      */
     public Hologram open(HologramWrapper provider, Location anchor, Vector direction, Player[] viewers) {
-        Hologram hologram = provider.createHologram(getLocation(anchor, direction), getLabel(viewers[0]), viewers);
+        Collection<Player> allowedViewers = hasPermission() ? new ArrayList<>() : new ArrayList<>(Arrays.asList(viewers));
+        if (hasPermission()) {
+            for (Player viewer : viewers) {
+                if (HPermission.hasPermission(viewer, getPermission())) {
+                    allowedViewers.add(viewer);
+                }
+            }
+        }
+        Hologram hologram = provider.createHologram(getLocation(anchor, direction), getLabel(viewers[0]), allowedViewers);
         hologram.setButton(this);
         return hologram;
     }
