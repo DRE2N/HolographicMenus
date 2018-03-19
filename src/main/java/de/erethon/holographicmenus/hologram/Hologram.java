@@ -20,7 +20,6 @@ import de.erethon.holographicmenus.HolographicMenus;
 import de.erethon.holographicmenus.menu.HButton;
 import de.erethon.holographicmenus.player.HPlayer;
 import org.bukkit.Location;
-import org.bukkit.util.Vector;
 
 /**
  * This class wraps hologram objects created by a hologram provider plugin.
@@ -143,7 +142,11 @@ public class Hologram {
         switch (button.getType()) {
             case BUTTON:
                 if (button.getCommand() != null) {
-                    player.getPlayer().performCommand(button.getCommand());
+                    if (button.hasCommandVariables()) {
+                        player.setPendingCommand(button);
+                    } else {
+                        player.getPlayer().performCommand(button.getCommand());
+                    }
                 }
                 break;
 
@@ -176,7 +179,7 @@ public class Hologram {
                 break;
         }
 
-        if (button.getType() != HButton.Type.BUTTON && button.getType() != HButton.Type.TITLE) {
+        if (button.isClosingMenu()) {
             if (hasAssociatedHolograms()) {
                 associated.deleteAll();
             } else {

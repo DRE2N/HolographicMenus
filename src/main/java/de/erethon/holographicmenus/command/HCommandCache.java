@@ -26,6 +26,7 @@ import de.erethon.holographicmenus.HolographicMenus;
  */
 public class HCommandCache extends DRECommandCache {
 
+    public CancelInputCommand cancelInput;
     public HelpCommand help;
     public InfoCommand info;
     public MainCommand main;
@@ -33,10 +34,12 @@ public class HCommandCache extends DRECommandCache {
 
     public HCommandCache(HolographicMenus plugin) {
         super("holographicmenus", plugin);
+        cancelInput = new CancelInputCommand(plugin);
         help = new HelpCommand(plugin);
         info = new InfoCommand(plugin);
         main = new MainCommand(plugin);
         reload = new ReloadCommand(plugin);
+        addCommand(cancelInput);
         addCommand(help);
         addCommand(info);
         addCommand(main);

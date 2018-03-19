@@ -22,8 +22,10 @@ import de.erethon.holographicmenus.menu.HMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 /**
@@ -31,9 +33,11 @@ import org.bukkit.util.Vector;
  */
 public class PlayerListener implements Listener {
 
+    private HolographicMenus plugin;
     private HPlayerCache players;
 
     public PlayerListener(HolographicMenus plugin) {
+        this.plugin = plugin;
         players = plugin.getHPlayerCache();
     }
 
@@ -52,6 +56,26 @@ public class PlayerListener implements Listener {
         if (menu.isFollowingOnMove()) {
             Vector direction = player.getEyeLocation().getDirection().multiply(menu.getDistance());
             opened.moveAll(player.getEyeLocation(), direction);
+        }
+    }
+
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent event) {
+        HPlayer hPlayer = players.getByPlayer(event.getPlayer(), false);
+        if (hPlayer == null || !hPlayer.hasPendingCommand()) {
+            return;
+        }
+        event.setCancelled(true);
+        hPlayer.replaceCommandVariable(event.getMessage());
+        if (hPlayer.getPendingCommandVariables() == 0) {
+            String cmd = hPlayer.getPendingCommand();
+            hPlayer.setPendingCommand(null);
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    hPlayer.getPlayer().performCommand(cmd);
+                }
+            }.runTask(plugin);
         }
     }
 

@@ -32,12 +32,18 @@ public enum HMessage implements Message {
     CMD_INFO_LOADED("cmd.info.loaded", "&eHolographicDisplays: &o[&v1]"),
     CMD_INFO_WELCOME("cmd.info.welcome", "&7Welcome to &4HolographicMenus"),
     CMD_RELOAD_DONE("cmd.reload.done", "&7Successfully reloaded HolographicMenus."),
+    ERROR_NO_PENDING_CMD("error.noPendingCmd", "&4You do not have a pending command."),
     ERROR_NO_SUCH_MENU("error.noSuchMenu", "&4The menu &6&v1&4 does not exist."),
     ERROR_NO_SUCH_PLAYER("error.noSuchPlayer", "&4The player &6&v1&4 does not exist."),
+    HELP_CANCEL_INPUT("help.cancelInput", "/hm cancelInput - Cancels pending command input requests"),
     HELP_HELP("help.help", "/hm help [page] - Shows the help page"),
     HELP_INFO("help.info", "/hm info - General status information"),
     HELP_MENU("help.menu", "/hm menu ([name]) - Opens a holographic menu"),
-    HELP_RELOAD("help.reload", "/hm reload");
+    HELP_RELOAD("help.reload", "/hm reload"),
+    PENDING_CANCEL("pending.cancel", "&4[Cancel]"),
+    PENDING_CANCEL_NO_SPIGOT("pending.cancelNoSpigot", "&4Use /m cancelInput to cancel"),
+    PENDING_CANCELLED("pending.cancelled", "&4The pending command has been cancelled."),
+    PENDING_ENTER_COMMAND_VARIABLE("pending.enterCommandVariable", "&ePlease enter command variable no.&v1.");
 
     private String identifier;
     private String message;

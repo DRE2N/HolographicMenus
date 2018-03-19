@@ -24,6 +24,7 @@ import de.erethon.holographicmenus.util.Placeholder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -46,23 +47,28 @@ public class HButton {
         FIRST_PAGE,
         PREVIOUS_PAGE,
         NEXT_PAGE,
-        LAST_PAGE,
-        CLOSE
+        LAST_PAGE
     }
 
     private String label;
     private Type type;
     private String command;
+    private int commandVariables = -1;
+    private List<String> varMsgs;
     private String sound;
     private String permission;
+    private boolean closeMenu;
     private double x;
     private double y;
 
-    public HButton(String label, Type type, String command, String sound, double x, double y) {
+    public HButton(String label, Type type, String command, List<String> varMsgs, String sound, String permission, boolean closeMenu, double x, double y) {
         this.label = label;
         this.type = type;
         this.command = command;
+        this.varMsgs = varMsgs;
         this.sound = sound;
+        this.permission = permission;
+        this.closeMenu = closeMenu;
         this.x = x;
         this.y = y;
     }
@@ -74,8 +80,10 @@ public class HButton {
             type = Type.BUTTON;
         }
         command = config.getString("command", null);
+        varMsgs = config.getStringList("variableMessages");
         sound = config.getString("sound", null);
         permission = config.getString("permission", null);
+        closeMenu = config.getBoolean("closeMenu", false);
         x = config.getDouble("x", 0);
         y = config.getDouble("y", 0);
     }
@@ -133,6 +141,55 @@ public class HButton {
 
     /**
      * @return
+     * if the command contains command variables that are to be replaced with chat input
+     */
+    public boolean hasCommandVariables() {
+        return command != null && command.contains("%v1%");
+    }
+
+    /**
+     * @return
+     * the amount of variables that are to be replaced with chat input
+     */
+    public int getCommandVariables() {
+        if (command == null) {
+            return 0;
+        }
+        if (commandVariables != -1) {
+            return commandVariables;
+        }
+        commandVariables = 1;
+        while (true) {
+            String v = "%v" + commandVariables + "%";
+            if (command.contains(v)) {
+                commandVariables++;
+            } else {
+                commandVariables--;
+                return commandVariables;
+            }
+        }
+    }
+
+    /**
+     * @return
+     * the messages sent to a player to ask for command arguments
+     */
+    public List<String> getVariableMessages() {
+        return varMsgs;
+    }
+
+    /**
+     * @param i
+     * the command argument number
+     * @return
+     * the message to sent to a player to ask for the command argument at index i - 1
+     */
+    public String getVariableMessage(int i) {
+        return varMsgs.get(i - 1);
+    }
+
+    /**
+     * @return
      * the sound to play
      */
     public String getSound() {
@@ -169,6 +226,22 @@ public class HButton {
      */
     public void setPermission(String permission) {
         this.permission = permission;
+    }
+
+    /**
+     * @return
+     * if the button closes the menu
+     */
+    public boolean isClosingMenu() {
+        return closeMenu;
+    }
+
+    /**
+     * @param closeMenu
+     * if the button shall close the menu
+     */
+    public void setClosingMenu(boolean closeMenu) {
+        this.closeMenu = closeMenu;
     }
 
     /**
@@ -214,8 +287,10 @@ public class HButton {
         config.set("label", label);
         config.set("type", type);
         config.set("command", command);
+        config.set("varMsgs", varMsgs);
         config.set("sound", sound);
         config.set("permission", permission);
+        config.set("closeMenu", closeMenu);
         config.set("x", x);
         config.set("y", y);
 
