@@ -310,15 +310,21 @@ public class HButton {
      * the created Hologram
      */
     public Hologram open(HologramWrapper provider, Location anchor, Vector direction, Player[] viewers) {
-        Collection<Player> allowedViewers = hasPermission() ? new ArrayList<>() : new ArrayList<>(Arrays.asList(viewers));
-        if (hasPermission()) {
-            for (Player viewer : viewers) {
-                if (HPermission.hasPermission(viewer, getPermission())) {
-                    allowedViewers.add(viewer);
+        Collection<Player> allowedViewers = null;
+        if (viewers != null && viewers.length != 0) {
+            if (hasPermission()) {
+                allowedViewers = new ArrayList<>();
+                for (Player viewer : viewers) {
+                    if (HPermission.hasPermission(viewer, getPermission())) {
+                        allowedViewers.add(viewer);
+                    }
                 }
+            } else {
+                allowedViewers = new ArrayList<>(Arrays.asList(viewers));
             }
         }
-        Hologram hologram = provider.createHologram(getLocation(anchor, direction), getLabel(viewers[0]), allowedViewers);
+        Player opener = viewers != null && viewers.length != 0 ? viewers[0] : null;
+        Hologram hologram = provider.createHologram(getLocation(anchor, direction), getLabel(opener), allowedViewers);
         hologram.setButton(this);
         return hologram;
     }
