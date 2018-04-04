@@ -16,18 +16,24 @@
  */
 package de.erethon.holographicmenus.menu;
 
+import de.erethon.commons.chat.MessageUtil;
 import de.erethon.commons.misc.EnumUtil;
 import de.erethon.holographicmenus.HolographicMenus;
 import de.erethon.holographicmenus.hologram.HologramCollection;
 import de.erethon.holographicmenus.player.HPlayer;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -52,6 +58,7 @@ public class HMenu {
     private Set<HButton> buttons = new HashSet<>();
     private double distance;
     private boolean followingOnMove;
+    private Collection<HologramCollection> permas;
 
     public HMenu(String name, Type type, List<HMenuPage> menuPages, double distance) {
         if (name.endsWith(".yml")) {
@@ -59,11 +66,14 @@ public class HMenu {
         }
         this.name = name;
         this.type = type;
+        if (type == Type.PUBLIC) {
+            permas = new ArrayList<>();
+        }
         this.menuPages = menuPages;
         this.distance = distance;
     }
 
-    public HMenu(String name, ConfigurationSection config) {
+    public HMenu(HolographicMenus plugin, String name, ConfigurationSection config) {
         if (name.endsWith(".yml")) {
             name = name.substring(0, name.length() - 4);
         }
@@ -88,10 +98,21 @@ public class HMenu {
 
         distance = config.getDouble("distance", 1.75);
         followingOnMove = type == Type.PRIVATE && config.getBoolean("followingOnMove", true);
+
+        if (type == Type.PUBLIC) {
+            permas = new ArrayList<>();
+        }
+        if (config.contains("permanentInstances") && type == Type.PUBLIC) {
+            for (Object object : config.getList("permanentInstances")) {
+                if (object instanceof Map) {
+                    permas.add(open(plugin, 1, (Location) ((Map) object).get("location"), (Vector) ((Map) object).get("direction")));
+                }
+            }
+        }
     }
 
-    public HMenu(File file) {
-        this(file.getName(), YamlConfiguration.loadConfiguration(file));
+    public HMenu(HolographicMenus plugin, File file) {
+        this(plugin, file.getName(), YamlConfiguration.loadConfiguration(file));
     }
 
     /* Getters and setters */
@@ -199,15 +220,24 @@ public class HMenu {
         this.followingOnMove = followingOnMove;
     }
 
+    /**
+     * @return
+     * the instances of this menu that are spawned permanently
+     * null if this is a PRIVATE menu
+     */
+    public Collection<HologramCollection> getPermanentInstances() {
+        return permas;
+    }
+
     /* Actions */
     /**
      * @return
      * the menuPage as a ConfigurationSection
      */
-    public ConfigurationSection serialize() {
+    public FileConfiguration serialize() {
         YamlConfiguration config = new YamlConfiguration();
 
-        config.set("type", type);
+        config.set("type", type.toString());
         config.set("distance", distance);
         config.set("followingOnMove", followingOnMove);
 
@@ -215,13 +245,27 @@ public class HMenu {
             config.set("menuPages." + menuPages.indexOf(page), page.serialize());
         }
 
-        HashSet<ConfigurationSection> buttons = new HashSet<>();
+        Map<Integer, ConfigurationSection> buttons = new HashMap<>();
+        int i = 0;
         for (HButton button : this.buttons) {
-            buttons.add(button.serialize());
+            buttons.put(i, button.serialize());
+            i++;
         }
         config.set("staticButtons", buttons);
 
+        List<Map<String, Object>> permasSerialized = new ArrayList<>();
+        permas.forEach(m -> permasSerialized.add(m.serialize()));
+        config.set("permanentInstances", permasSerialized);
+
         return config;
+    }
+
+    public void save() throws IOException {
+        File file = new File(HolographicMenus.MENUS, name + ".yml");
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        serialize().save(file);
     }
 
     /**
@@ -263,19 +307,19 @@ public class HMenu {
     /**
      * @param plugin
      * the plugin instance
-     * @param viewers
-     * the players that can see the holograms
      * @param page
      * the page to open
      * @param location
      * the Location where the menu will be opened
      * @param direction
      * the direction to set the buttons
+     * @param viewers
+     * the players that can see the holograms
      * @return
      * a HologramCollection of all spawned Holograms
      */
     public HologramCollection open(HolographicMenus plugin, int page, Location location, Vector direction, Player... viewers) {
-        HologramCollection associated = new HologramCollection(plugin, this, page, location);
+        HologramCollection associated = new HologramCollection(plugin, this, page, location, direction);
         buttons.forEach(b -> associated.add(b.open(plugin.getHologramProvider(), location, direction, type == Type.PRIVATE ? viewers : null)));
 
         if (menuPages.size() >= page && page >= 1) {
@@ -290,6 +334,36 @@ public class HMenu {
             hPlayer.setOpenedHolograms(associated);
         }
         return associated;
+    }
+
+    /**
+     * Opens the menu; saves it persistently
+     *
+     * @param plugin
+     * the plugin instance
+     * @param page
+     * the page to open
+     * @param location
+     * the Location where the menu will be opened
+     * @param direction
+     * the direction to set the buttons
+     * @return
+     * a HologramCollection of all spawned Holograms;
+     * null if the menu is PRIVATE
+     */
+    public HologramCollection openPermanently(HolographicMenus plugin, int page, Location location, Vector direction) {
+        if (type != Type.PUBLIC) {
+            return null;
+        }
+        HologramCollection opened = open(plugin, page, location, direction);
+        permas.add(opened);
+        try {
+            save();
+        } catch (IOException exception) {
+            MessageUtil.log(plugin, "&4Could not save menu " + name + ".");
+            exception.printStackTrace();
+        }
+        return opened;
     }
 
 }

@@ -21,13 +21,15 @@ import de.erethon.holographicmenus.menu.HMenu;
 import de.erethon.holographicmenus.player.HPlayer;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 /**
  * HologramCollection represents the collectivity of all components
  * of a menu page (including all static buttons) in their spawned form as a hologram.
- * It does NOT represent a button as fetched from config.
+ * It does NOT represent a menu or menu page as fetched from config.
  *
  * @author Daniel Saukel
  */
@@ -39,13 +41,15 @@ public class HologramCollection {
     private HMenu menu;
     private int page;
     private Location location;
+    private Vector direction;
 
-    public HologramCollection(HolographicMenus plugin, HMenu menu, int page, Location location) {
+    public HologramCollection(HolographicMenus plugin, HMenu menu, int page, Location location, Vector direction) {
         this.plugin = plugin;
         holograms = new ArrayList<>();
         this.menu = menu;
         this.page = page;
         this.location = location;
+        this.direction = direction;
     }
 
     /* Getters and setters */
@@ -92,13 +96,28 @@ public class HologramCollection {
 
     /**
      * @return
-     * a copy of the location that matchs 0,0 of the menu
+     * a copy of the location that matchs the opener's eye loation
      */
     public Location getLocation() {
         return location.clone();
     }
 
+    /**
+     * @return
+     * a copy of the vector that matchs the opener's view direction
+     */
+    public Vector getDirection() {
+        return direction;
+    }
+
     /* Actions  */
+    public Map<String, Object> serialize() {
+        Map<String, Object> serialized = new HashMap<>();
+        serialized.put("location", location);
+        serialized.put("direction", direction);
+        return serialized;
+    }
+
     /**
      * @param anchor
      * a fix point for the holograms
@@ -107,6 +126,7 @@ public class HologramCollection {
      */
     public void moveAll(Location anchor, Vector direction) {
         location = anchor;
+        this.direction = direction;
         holograms.forEach(h -> h.move(h.getButton().getLocation(anchor, direction)));
     }
 

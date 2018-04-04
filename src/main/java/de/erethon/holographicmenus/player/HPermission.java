@@ -35,6 +35,7 @@ public enum HPermission {
     HELP("help", TRUE),
     INFO("info", TRUE),
     MENU("menu", TRUE),
+    PERMA_MENU("permamenu", OP),
     RELOAD("reload", OP),
     // Kits
     ADMINISTRATOR("*", OP),

@@ -30,6 +30,7 @@ public class HCommandCache extends DRECommandCache {
     public HelpCommand help;
     public InfoCommand info;
     public MainCommand main;
+    public OpenPermanentlyCommand openPermanently;
     public ReloadCommand reload;
 
     public HCommandCache(HolographicMenus plugin) {
@@ -38,11 +39,13 @@ public class HCommandCache extends DRECommandCache {
         help = new HelpCommand(plugin);
         info = new InfoCommand(plugin);
         main = new MainCommand(plugin);
+        openPermanently = new OpenPermanentlyCommand(plugin);
         reload = new ReloadCommand(plugin);
         addCommand(cancelInput);
         addCommand(help);
         addCommand(info);
         addCommand(main);
+        addCommand(openPermanently);
         addCommand(reload);
     }
 

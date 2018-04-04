@@ -39,6 +39,7 @@ public enum HMessage implements Message {
     HELP_HELP("help.help", "/hm help [page] - Shows the help page"),
     HELP_INFO("help.info", "/hm info - General status information"),
     HELP_MENU("help.menu", "/hm menu ([name]) - Opens a holographic menu"),
+    HELP_OPEN_PERMANENTLY("help.openPermanently", "/hm openPermanently ([name]) - Opens a holographic menu persistently"),
     HELP_RELOAD("help.reload", "/hm reload"),
     PENDING_CANCEL("pending.cancel", "&4[Cancel]"),
     PENDING_CANCEL_NO_SPIGOT("pending.cancelNoSpigot", "&4Use /m cancelInput to cancel"),

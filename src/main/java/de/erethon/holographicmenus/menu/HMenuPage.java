@@ -21,7 +21,9 @@ import de.erethon.holographicmenus.hologram.HologramWrapper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -80,9 +82,11 @@ public class HMenuPage {
     public ConfigurationSection serialize() {
         YamlConfiguration config = new YamlConfiguration();
 
-        HashSet<ConfigurationSection> buttons = new HashSet<>();
+        Map<Integer, ConfigurationSection> buttons = new HashMap<>();
+        int i = 0;
         for (HButton button : this.buttons) {
-            buttons.add(button.serialize());
+            buttons.put(i, button.serialize());
+            i++;
         }
         config.set("buttons", buttons);
 

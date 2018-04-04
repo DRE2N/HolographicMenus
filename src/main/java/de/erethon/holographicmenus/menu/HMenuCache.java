@@ -34,7 +34,7 @@ public class HMenuCache {
     public HMenuCache(HolographicMenus plugin, File folder) {
         this.plugin = plugin;
         for (File file : FileUtil.getFilesForFolder(folder)) {
-            menus.add(new HMenu(file));
+            menus.add(new HMenu(plugin, file));
         }
     }
 

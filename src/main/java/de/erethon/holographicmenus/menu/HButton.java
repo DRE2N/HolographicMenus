@@ -285,9 +285,9 @@ public class HButton {
         YamlConfiguration config = new YamlConfiguration();
 
         config.set("label", label);
-        config.set("type", type);
+        config.set("type", type.toString());
         config.set("command", command);
-        config.set("varMsgs", varMsgs);
+        config.set("variableMessages", varMsgs);
         config.set("sound", sound);
         config.set("permission", permission);
         config.set("closeMenu", closeMenu);
