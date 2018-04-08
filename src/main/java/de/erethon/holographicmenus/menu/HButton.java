@@ -17,6 +17,7 @@
 package de.erethon.holographicmenus.menu;
 
 import de.erethon.commons.misc.EnumUtil;
+import de.erethon.commons.misc.NumberUtil;
 import de.erethon.holographicmenus.hologram.Hologram;
 import de.erethon.holographicmenus.hologram.HologramWrapper;
 import de.erethon.holographicmenus.player.HPermission;
@@ -26,9 +27,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 /**
@@ -51,6 +54,7 @@ public class HButton {
     }
 
     private String label;
+    private ItemStack item;
     private Type type;
     private String command;
     private int commandVariables = -1;
@@ -61,8 +65,7 @@ public class HButton {
     private double x;
     private double y;
 
-    public HButton(String label, Type type, String command, List<String> varMsgs, String sound, String permission, boolean closeMenu, double x, double y) {
-        this.label = label;
+    private HButton(Type type, String command, List<String> varMsgs, String sound, String permission, boolean closeMenu, double x, double y) {
         this.type = type;
         this.command = command;
         this.varMsgs = varMsgs;
@@ -73,8 +76,20 @@ public class HButton {
         this.y = y;
     }
 
+    public HButton(String label, Type type, String command, List<String> varMsgs, String sound, String permission, boolean closeMenu, double x, double y) {
+        this(type, command, varMsgs, sound, permission, closeMenu, x, y);
+        this.label = label;
+    }
+
+    public HButton(ItemStack item, Type type, String command, List<String> varMsgs, String sound, String permission, boolean closeMenu, double x, double y) {
+        this(type, command, varMsgs, sound, permission, closeMenu, x, y);
+        this.label = new String();
+        this.item = item;
+    }
+
     public HButton(ConfigurationSection config) {
         label = config.getString("label", new String());
+        item = deserializeItemStack(config.getString("item"));
         type = EnumUtil.getEnum(Type.class, config.getString("type", null));
         if (type == null) {
             type = Type.BUTTON;
@@ -105,6 +120,22 @@ public class HButton {
      */
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    /**
+     * @return item
+     * the button item
+     */
+    public ItemStack getItem() {
+        return item;
+    }
+
+    /**
+     * @param item
+     * the button item to set
+     */
+    public void setItem(ItemStack item) {
+        this.item = item;
     }
 
     /**
@@ -285,6 +316,7 @@ public class HButton {
         YamlConfiguration config = new YamlConfiguration();
 
         config.set("label", label);
+        config.set("item", serializeItemStack(item));
         config.set("type", type.toString());
         config.set("command", command);
         config.set("variableMessages", varMsgs);
@@ -324,7 +356,12 @@ public class HButton {
             }
         }
         Player opener = viewers != null && viewers.length != 0 ? viewers[0] : null;
-        Hologram hologram = provider.createHologram(getLocation(anchor, direction), getLabel(opener), allowedViewers);
+        Hologram hologram = null;
+        if (item != null) {
+            hologram = provider.createHologram(getLocation(anchor, direction), item, allowedViewers);
+        } else {
+            hologram = provider.createHologram(getLocation(anchor, direction), getLabel(opener), allowedViewers);
+        }
         hologram.setButton(this);
         return hologram;
     }
@@ -333,6 +370,34 @@ public class HButton {
         Vector orthogonal = direction.getCrossProduct(new Vector(0, 1, 0)).multiply(x);
         Vector position = direction.clone().setY(0).add(orthogonal);
         return anchor.clone().add(0, y, 0).add(position);
+    }
+
+    @Deprecated
+    public static String serializeItemStack(ItemStack item) {
+        if (item == null) {
+            return null;
+        }
+        return item.getDurability() != 0 ? item.getType().name() + ":" + item.getDurability() : item.getType().name();
+    }
+
+    @Deprecated
+    public static ItemStack deserializeItemStack(String string) {
+        if (string == null) {
+            return null;
+        }
+        String[] args = string.split(":");
+        if (args.length >= 1) {
+            Material material = EnumUtil.getEnumIgnoreCase(Material.class, args[0]);
+            if (material == null) {
+                return null;
+            }
+            if (args.length == 2) {
+                return new ItemStack(material, 1, (short) NumberUtil.parseInt(args[1]));
+            } else if (args.length == 1) {
+                return new ItemStack(material);
+            }
+        }
+        return null;
     }
 
 }
