@@ -367,9 +367,26 @@ public class HButton {
     }
 
     public Location getLocation(Location anchor, Vector direction) {
-        Vector orthogonal = direction.getCrossProduct(new Vector(0, 1, 0)).multiply(x);
+        Vector orthogonal = getCrossProduct(direction, new Vector(0, 1, 0)).multiply(x);
         Vector position = direction.clone().setY(0).add(orthogonal);
         return anchor.clone().add(0, y, 0).add(position);
+    }
+
+    /**
+     * The Bukkit method didn't exist in earlier versions :(
+     *
+     * @param v1
+     * a vector
+     * @param v2
+     * another vector
+     * @return
+     * the cross product of the vectors
+     */
+    private static Vector getCrossProduct(Vector v1, Vector v2) {
+        double x = v1.getY() * v2.getZ() - v2.getY() * v1.getZ();
+        double y = v1.getZ() * v2.getX() - v2.getZ() * v1.getX();
+        double z = v1.getX() * v2.getY() - v2.getX() * v1.getY();
+        return new Vector(x, y, z);
     }
 
     @Deprecated
