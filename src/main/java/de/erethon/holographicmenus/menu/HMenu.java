@@ -200,6 +200,14 @@ public class HMenu {
     }
 
     /**
+     * @param distance
+     * set the distance between the opener and the menu
+     */
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    /**
      * @return
      * how many degrees a player may turn until the menu follows the movement
      */
@@ -209,10 +217,10 @@ public class HMenu {
 
     /**
      * @param distance
-     * set the distance between the opener and the menu
+     * set how many degrees a player may turn until the menu follows the movement
      */
-    public void setDistance(double distance) {
-        this.distance = distance;
+    public void setRotationTolerance(float rotationTolerance) {
+        this.rotationTolerance = rotationTolerance;
     }
 
     /**
