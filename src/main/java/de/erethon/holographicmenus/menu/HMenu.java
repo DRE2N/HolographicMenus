@@ -57,10 +57,11 @@ public class HMenu {
     private List<HMenuPage> menuPages = new ArrayList<>();
     private Set<HButton> buttons = new HashSet<>();
     private double distance;
+    private float rotationTolerance;
     private boolean followingOnMove;
     private Collection<HologramCollection> permas;
 
-    public HMenu(String name, Type type, List<HMenuPage> menuPages, double distance) {
+    public HMenu(String name, Type type, List<HMenuPage> menuPages, double distance, float rotationTolerance) {
         if (name.endsWith(".yml")) {
             name = name.substring(0, name.length() - 4);
         }
@@ -71,6 +72,7 @@ public class HMenu {
         }
         this.menuPages = menuPages;
         this.distance = distance;
+        this.rotationTolerance = rotationTolerance;
     }
 
     public HMenu(HolographicMenus plugin, String name, ConfigurationSection config) {
@@ -97,6 +99,7 @@ public class HMenu {
         }
 
         distance = config.getDouble("distance", 1.75);
+        rotationTolerance = (float) config.getDouble("rotationTolerance", 0);
         followingOnMove = type == Type.PRIVATE && config.getBoolean("followingOnMove", true);
 
         if (type == Type.PUBLIC) {
@@ -197,6 +200,14 @@ public class HMenu {
     }
 
     /**
+     * @return
+     * how many degrees a player may turn until the menu follows the movement
+     */
+    public float getRotationTolerance() {
+        return rotationTolerance;
+    }
+
+    /**
      * @param distance
      * set the distance between the opener and the menu
      */
@@ -239,6 +250,7 @@ public class HMenu {
 
         config.set("type", type.toString());
         config.set("distance", distance);
+        config.set("rotationTolerance", rotationTolerance);
         config.set("followingOnMove", followingOnMove);
 
         for (HMenuPage page : menuPages) {

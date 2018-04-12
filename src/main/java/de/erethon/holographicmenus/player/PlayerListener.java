@@ -19,6 +19,7 @@ package de.erethon.holographicmenus.player;
 import de.erethon.holographicmenus.HolographicMenus;
 import de.erethon.holographicmenus.hologram.HologramCollection;
 import de.erethon.holographicmenus.menu.HMenu;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -53,10 +54,20 @@ public class PlayerListener implements Listener {
             return;
         }
         HMenu menu = opened.getMenu();
-        if (menu.isFollowingOnMove()) {
-            Vector direction = player.getEyeLocation().getDirection().multiply(menu.getDistance());
-            opened.moveAll(player.getEyeLocation(), direction);
+        if (!menu.isFollowingOnMove()) {
+            return;
         }
+        Location from = opened.getLocation();
+        Location to = player.getEyeLocation();
+        if (isRotationTolerated(from, to, menu.getRotationTolerance())) {
+            return;
+        }
+        Vector direction = to.getDirection().multiply(menu.getDistance());
+        opened.moveAll(to, direction);
+    }
+
+    private boolean isRotationTolerated(Location from, Location to, float tolerance) {
+        return from.getX() == to.getX() && from.getZ() == to.getZ() && (to.getYaw() <= from.getYaw() + tolerance && to.getYaw() >= from.getYaw() - tolerance);
     }
 
     @EventHandler

@@ -18,6 +18,7 @@ package de.erethon.holographicmenus.hologram;
 
 import de.erethon.holographicmenus.HolographicMenus;
 import de.erethon.holographicmenus.menu.HButton;
+import de.erethon.holographicmenus.menu.HMenu;
 import de.erethon.holographicmenus.player.HPlayer;
 import org.bukkit.Location;
 
@@ -152,7 +153,7 @@ public class Hologram {
 
             case FIRST_PAGE:
                 if (player.hasOpenedMenu()) {
-                    associated.getMenu().open(plugin, player, 1);
+                    associated.getMenu().open(plugin, 1, associated.getLocation(), associated.getDirection(), player.getPlayer());
                 }
                 break;
 
@@ -160,7 +161,7 @@ public class Hologram {
                 if (player.hasOpenedMenu()) {
                     int previous = associated.getPage() - 1;
                     int last = associated.getMenu().getMenuPages().size();
-                    associated.getMenu().open(plugin, player, previous < 1 ? last : previous);
+                    associated.getMenu().open(plugin, previous < 1 ? last : previous, associated.getLocation(), associated.getDirection(), player.getPlayer());
                 }
                 break;
 
@@ -168,13 +169,13 @@ public class Hologram {
                 if (player.hasOpenedMenu()) {
                     int next = associated.getPage() + 1;
                     int last = associated.getMenu().getMenuPages().size();
-                    associated.getMenu().open(plugin, player, next > last ? 1 : next);
+                    associated.getMenu().open(plugin, next > last ? 1 : next, associated.getLocation(), associated.getDirection(), player.getPlayer());
                 }
                 break;
 
             case LAST_PAGE:
                 if (player.hasOpenedMenu()) {
-                    associated.getMenu().open(plugin, player, associated.getMenu().getMenuPages().size());
+                    associated.getMenu().open(plugin, associated.getMenu().getMenuPages().size(), associated.getLocation(), associated.getDirection(), player.getPlayer());
                 }
                 break;
         }
