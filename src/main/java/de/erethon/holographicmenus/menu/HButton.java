@@ -18,9 +18,12 @@ package de.erethon.holographicmenus.menu;
 
 import de.erethon.commons.misc.EnumUtil;
 import de.erethon.commons.misc.NumberUtil;
+import de.erethon.holographicmenus.HolographicMenus;
 import de.erethon.holographicmenus.hologram.Hologram;
+import de.erethon.holographicmenus.hologram.HologramCollection;
 import de.erethon.holographicmenus.hologram.HologramWrapper;
 import de.erethon.holographicmenus.player.HPermission;
+import de.erethon.holographicmenus.player.HPlayer;
 import de.erethon.holographicmenus.util.Placeholder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,13 +47,76 @@ import org.bukkit.util.Vector;
  */
 public class HButton {
 
-    public enum Type {
+    private interface ClickHandler {
+        default void onClick(HolographicMenus plugin, HPlayer player, Hologram hologram) {
+        }
+    }
+
+    public enum Type implements ClickHandler {
+        /**
+         * A button that is not supposed to be touched.
+         */
         TITLE,
-        BUTTON,
-        FIRST_PAGE,
-        PREVIOUS_PAGE,
-        NEXT_PAGE,
-        LAST_PAGE
+        /**
+         * A button that runs a command when touched.
+         */
+        BUTTON {
+            @Override
+            public void onClick(HolographicMenus plugin, HPlayer player, Hologram hologram) {
+                HButton button = hologram.getButton();
+                if (button.getCommand() != null) {
+                    if (button.hasCommandVariables()) {
+                        player.setPendingCommand(button);
+                    } else {
+                        player.getPlayer().performCommand(button.getCommand());
+                    }
+                }
+            }
+        },
+        /**
+         * Link button to the very first page.
+         */
+        FIRST_PAGE {
+            @Override
+            public void onClick(HolographicMenus plugin, HPlayer player, Hologram hologram) {
+                HologramCollection associated = hologram.getAssociatedHolograms();
+                associated.getMenu().open(plugin, 1, associated.getLocation(), associated.getDirection(), player.getPlayer());
+            }
+        },
+        /**
+         * Link button to the page before the currently opened one.
+         */
+        PREVIOUS_PAGE {
+            @Override
+            public void onClick(HolographicMenus plugin, HPlayer player, Hologram hologram) {
+                HologramCollection associated = hologram.getAssociatedHolograms();
+                int previous = associated.getPage() - 1;
+                int last = associated.getMenu().getMenuPages().size();
+                associated.getMenu().open(plugin, previous < 1 ? last : previous, associated.getLocation(), associated.getDirection(), player.getPlayer());
+            }
+        },
+        /**
+         * Link button to the page after the currently opened one.
+         */
+        NEXT_PAGE {
+            @Override
+            public void onClick(HolographicMenus plugin, HPlayer player, Hologram hologram) {
+                HologramCollection associated = hologram.getAssociatedHolograms();
+                int next = associated.getPage() + 1;
+                int last = associated.getMenu().getMenuPages().size();
+                associated.getMenu().open(plugin, next > last ? 1 : next, associated.getLocation(), associated.getDirection(), player.getPlayer());
+            }
+        },
+        /**
+         * Link button to the very last page.
+         */
+        LAST_PAGE {
+            @Override
+            public void onClick(HolographicMenus plugin, HPlayer player, Hologram hologram) {
+                HologramCollection associated = hologram.getAssociatedHolograms();
+                associated.getMenu().open(plugin, associated.getMenu().getMenuPages().size(), associated.getLocation(), associated.getDirection(), player.getPlayer());
+            }
+        };
     }
 
     private String label;
@@ -65,26 +131,32 @@ public class HButton {
     private double x;
     private double y;
 
-    private HButton(Type type, String command, List<String> varMsgs, String sound, String permission, boolean closeMenu, double x, double y) {
+    HButton(HButtonBuilder builder) {
+        label = builder.label != null ? builder.label : new String();
+        item = builder.item;
+        type = builder.type;
+        command = builder.command;
+        varMsgs = builder.varMsgs;
+        sound = builder.sound;
+        permission = builder.permission;
+        closeMenu = builder.closeMenu;
+        x = builder.x;
+        y = builder.y;
+    }
+
+    public HButton(String label, Type type, double x, double y) {
+        this.label = label;
         this.type = type;
-        this.command = command;
-        this.varMsgs = varMsgs;
-        this.sound = sound;
-        this.permission = permission;
-        this.closeMenu = closeMenu;
         this.x = x;
         this.y = y;
     }
 
-    public HButton(String label, Type type, String command, List<String> varMsgs, String sound, String permission, boolean closeMenu, double x, double y) {
-        this(type, command, varMsgs, sound, permission, closeMenu, x, y);
-        this.label = label;
-    }
-
-    public HButton(ItemStack item, Type type, String command, List<String> varMsgs, String sound, String permission, boolean closeMenu, double x, double y) {
-        this(type, command, varMsgs, sound, permission, closeMenu, x, y);
+    public HButton(ItemStack item, Type type, double x, double y) {
         this.label = new String();
         this.item = item;
+        this.type = type;
+        this.x = x;
+        this.y = y;
     }
 
     public HButton(ConfigurationSection config) {

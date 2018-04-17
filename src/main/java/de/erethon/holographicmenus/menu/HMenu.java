@@ -56,12 +56,12 @@ public class HMenu {
     private Type type;
     private List<HMenuPage> menuPages = new ArrayList<>();
     private Set<HButton> buttons = new HashSet<>();
-    private double distance;
-    private float rotationTolerance;
+    private double distance = 1.75;
+    private float rotationTolerance = 0;
     private boolean followingOnMove;
     private Collection<HologramCollection> permas;
 
-    public HMenu(String name, Type type, List<HMenuPage> menuPages, double distance, float rotationTolerance) {
+    public HMenu(String name, Type type) {
         if (name.endsWith(".yml")) {
             name = name.substring(0, name.length() - 4);
         }
@@ -70,7 +70,10 @@ public class HMenu {
         if (type == Type.PUBLIC) {
             permas = new ArrayList<>();
         }
-        this.menuPages = menuPages;
+    }
+
+    public HMenu(String name, Type type, double distance, float rotationTolerance) {
+        this(name, type);
         this.distance = distance;
         this.rotationTolerance = rotationTolerance;
     }
@@ -98,8 +101,8 @@ public class HMenu {
             }
         }
 
-        distance = config.getDouble("distance", 1.75);
-        rotationTolerance = (float) config.getDouble("rotationTolerance", 0);
+        distance = config.getDouble("distance", distance);
+        rotationTolerance = (float) config.getDouble("rotationTolerance", rotationTolerance);
         followingOnMove = type == Type.PRIVATE && config.getBoolean("followingOnMove", true);
 
         if (type == Type.PUBLIC) {

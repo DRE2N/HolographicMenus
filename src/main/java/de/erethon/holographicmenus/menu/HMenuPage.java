@@ -40,13 +40,18 @@ import org.bukkit.util.Vector;
  */
 public class HMenuPage {
 
-    private Set<HButton> buttons = new HashSet<>();
+    private Set<HButton> buttons;
 
     public HMenuPage(Set<HButton> buttons) {
         this.buttons = buttons;
     }
 
+    public HMenuPage(HButton... buttons) {
+        this.buttons = new HashSet<>(Arrays.asList(buttons));
+    }
+
     public HMenuPage(ConfigurationSection config) {
+        buttons = new HashSet<>();
         if (config.contains("buttons")) {
             for (String button : config.getConfigurationSection("buttons").getKeys(false)) {
                 buttons.add(new HButton(config.getConfigurationSection("buttons." + button)));

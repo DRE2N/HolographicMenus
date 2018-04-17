@@ -18,7 +18,8 @@ package de.erethon.holographicmenus.hologram;
 
 import de.erethon.holographicmenus.HolographicMenus;
 import de.erethon.holographicmenus.menu.HButton;
-import de.erethon.holographicmenus.menu.HMenu;
+import de.erethon.holographicmenus.menu.HButton.Type;
+import de.erethon.holographicmenus.menu.HButtonClickEvent;
 import de.erethon.holographicmenus.player.HPlayer;
 import org.bukkit.Location;
 
@@ -140,44 +141,12 @@ public class Hologram {
             player.getPlayer().playSound(player.getPlayer().getLocation(), button.getSound(), 1, 1);
         }
 
-        switch (button.getType()) {
-            case BUTTON:
-                if (button.getCommand() != null) {
-                    if (button.hasCommandVariables()) {
-                        player.setPendingCommand(button);
-                    } else {
-                        player.getPlayer().performCommand(button.getCommand());
-                    }
-                }
-                break;
-
-            case FIRST_PAGE:
-                if (player.hasOpenedMenu()) {
-                    associated.getMenu().open(plugin, 1, associated.getLocation(), associated.getDirection(), player.getPlayer());
-                }
-                break;
-
-            case PREVIOUS_PAGE:
-                if (player.hasOpenedMenu()) {
-                    int previous = associated.getPage() - 1;
-                    int last = associated.getMenu().getMenuPages().size();
-                    associated.getMenu().open(plugin, previous < 1 ? last : previous, associated.getLocation(), associated.getDirection(), player.getPlayer());
-                }
-                break;
-
-            case NEXT_PAGE:
-                if (player.hasOpenedMenu()) {
-                    int next = associated.getPage() + 1;
-                    int last = associated.getMenu().getMenuPages().size();
-                    associated.getMenu().open(plugin, next > last ? 1 : next, associated.getLocation(), associated.getDirection(), player.getPlayer());
-                }
-                break;
-
-            case LAST_PAGE:
-                if (player.hasOpenedMenu()) {
-                    associated.getMenu().open(plugin, associated.getMenu().getMenuPages().size(), associated.getLocation(), associated.getDirection(), player.getPlayer());
-                }
-                break;
+        if (player.hasOpenedMenu() || button.getType() == Type.BUTTON) {
+            HButtonClickEvent event = new HButtonClickEvent(this, player);
+            plugin.getServer().getPluginManager().callEvent(event);
+            if (!event.isCancelled()) {
+                button.getType().onClick(plugin, player, this);
+            }
         }
 
         if (button.isClosingMenu()) {
