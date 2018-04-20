@@ -85,7 +85,7 @@ public enum HMessage implements Message {
 
     /* Statics */
     /**
-     * @param identifer
+     * @param identifier
      * the identifer to set
      */
     public static Message getByIdentifier(String identifier) {
