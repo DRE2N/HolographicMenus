@@ -16,6 +16,7 @@
  */
 package de.erethon.holographicmenus.hologram;
 
+import com.gmail.filoghost.holographicdisplays.HolographicDisplays;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.gmail.filoghost.holographicdisplays.api.handler.TouchHandler;
@@ -24,18 +25,24 @@ import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 import de.erethon.holographicmenus.HolographicMenus;
 import java.util.Collection;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
  * @author Daniel Saukel
  */
-public class HolographicDisplaysWrapper implements HologramWrapper {
+public class HolographicDisplaysWrapper implements HologramWrapper, Listener {
 
     private HolographicMenus plugin;
 
     public HolographicDisplaysWrapper(HolographicMenus plugin) {
         this.plugin = plugin;
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @Override
@@ -85,6 +92,28 @@ public class HolographicDisplaysWrapper implements HologramWrapper {
     @Override
     public void moveHologram(de.erethon.holographicmenus.hologram.Hologram hologram, Location location) {
         ((Hologram) hologram.getRawHologram()).teleport(location);
+    }
+
+    // This method cancels the interact event if a button is touched sothat protection plugins don't send error messages.
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPlayerInteractEntityLowest(PlayerInteractEntityEvent event) {
+        Hologram hologram = getByEntity(event.getRightClicked());
+        if (hologram != null && HologramsAPI.getHolograms(plugin).contains(hologram)) {
+            event.setCancelled(true);
+        }
+    }
+
+    // This methods un-cancels the event again sothat touch handlers get invoked.
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerInteractEntityHighest(PlayerInteractEntityEvent event) {
+        Hologram hologram = getByEntity(event.getRightClicked());
+        if (hologram != null && HologramsAPI.getHolograms(plugin).contains(hologram)) {
+            event.setCancelled(false);
+        }
+    }
+
+    private static Hologram getByEntity(Entity entity) {
+        return HolographicDisplays.getNMSManager().getNMSEntityBase(entity).getHologramLine().getParent();
     }
 
 }
