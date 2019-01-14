@@ -16,10 +16,7 @@
  */
 package de.erethon.holographicmenus.config;
 
-import de.erethon.commons.chat.MessageUtil;
 import de.erethon.commons.config.Message;
-import de.erethon.commons.javaplugin.DREPlugin;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -61,13 +58,8 @@ public enum HMessage implements Message {
     }
 
     @Override
-    public String getMessage() {
-        return ChatColor.translateAlternateColorCodes('&', message);
-    }
-
-    @Override
-    public String getMessage(String... args) {
-        return DREPlugin.getInstance().getMessageConfig().getMessage(this, args);
+    public String getRaw() {
+        return message;
     }
 
     @Override
@@ -75,18 +67,10 @@ public enum HMessage implements Message {
         this.message = message;
     }
 
-    /* Actions */
-    /**
-     * Sends the message to the console.
-     */
-    public void debug() {
-        MessageUtil.log(DREPlugin.getInstance(), getMessage());
-    }
-
     /* Statics */
     /**
-     * @param identifier
-     * the identifer to set
+     * @param identifier the identifier to set
+     * @return the message
      */
     public static Message getByIdentifier(String identifier) {
         for (Message message : values()) {
@@ -94,7 +78,6 @@ public enum HMessage implements Message {
                 return message;
             }
         }
-
         return null;
     }
 
@@ -106,7 +89,6 @@ public enum HMessage implements Message {
         for (HMessage message : values()) {
             config.set(message.getIdentifier(), message.message);
         }
-
         return config;
     }
 

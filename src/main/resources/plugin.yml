@@ -5,6 +5,7 @@ author: Daniel Saukel
 description: ${project.description}
 website: ${project.url}
 softdepend: [HolographicDisplays, ProtocolLib]
+api-version: 1.13
 commands:
   holographicmenus:
     description: Reference command for Holographic Menus.

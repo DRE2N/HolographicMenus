@@ -16,17 +16,17 @@
  */
 package de.erethon.holographicmenus.player;
 
+import de.erethon.commons.chat.BaseComponent;
+import de.erethon.commons.chat.ClickEvent;
+import de.erethon.commons.chat.ClickEvent.Action;
 import de.erethon.commons.chat.MessageUtil;
+import de.erethon.commons.chat.TextComponent;
 import de.erethon.commons.compatibility.CompatibilityHandler;
 import de.erethon.commons.player.PlayerWrapper;
 import de.erethon.holographicmenus.config.HMessage;
 import de.erethon.holographicmenus.hologram.HologramCollection;
 import de.erethon.holographicmenus.menu.HButton;
 import java.util.UUID;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ClickEvent.Action;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 
 /**
