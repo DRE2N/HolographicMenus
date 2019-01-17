@@ -19,7 +19,6 @@ package de.erethon.holographicmenus.hologram;
 import com.gmail.filoghost.holographicdisplays.HolographicDisplays;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import com.gmail.filoghost.holographicdisplays.api.handler.TouchHandler;
 import com.gmail.filoghost.holographicdisplays.api.line.ItemLine;
 import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 import de.erethon.holographicmenus.HolographicMenus;
@@ -50,12 +49,7 @@ public class HolographicDisplaysWrapper implements HologramWrapper, Listener {
         Hologram hdHolo = createHologram(viewers, location);
         de.erethon.holographicmenus.hologram.Hologram hmHolo = new de.erethon.holographicmenus.hologram.Hologram(plugin, location, hdHolo);
         TextLine line = hdHolo.appendTextLine(label);
-        line.setTouchHandler(new TouchHandler() {
-            @Override
-            public void onTouch(Player player) {
-                hmHolo.click(plugin.getHPlayerCache().getByPlayer(player));
-            }
-        });
+        line.setTouchHandler(p -> hmHolo.click(plugin.getHPlayerCache().getByPlayer(p)));
         return hmHolo;
     }
 
@@ -64,12 +58,7 @@ public class HolographicDisplaysWrapper implements HologramWrapper, Listener {
         Hologram hdHolo = createHologram(viewers, location);
         de.erethon.holographicmenus.hologram.Hologram hmHolo = new de.erethon.holographicmenus.hologram.Hologram(plugin, location, hdHolo);
         ItemLine line = hdHolo.appendItemLine(item);
-        line.setTouchHandler(new TouchHandler() {
-            @Override
-            public void onTouch(Player player) {
-                hmHolo.click(plugin.getHPlayerCache().getByPlayer(player));
-            }
-        });
+        line.setTouchHandler(p -> hmHolo.click(plugin.getHPlayerCache().getByPlayer(p)));
         return hmHolo;
     }
 
@@ -77,9 +66,7 @@ public class HolographicDisplaysWrapper implements HologramWrapper, Listener {
         Hologram hologram = HologramsAPI.createHologram(plugin, location);
         if (viewers != null) {
             hologram.getVisibilityManager().setVisibleByDefault(false);
-            for (Player player : viewers) {
-                hologram.getVisibilityManager().showTo(player);
-            }
+            viewers.forEach(hologram.getVisibilityManager()::showTo);
         }
         return hologram;
     }
