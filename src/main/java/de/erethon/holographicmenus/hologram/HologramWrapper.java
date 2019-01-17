@@ -36,7 +36,7 @@ public interface HologramWrapper {
      * @return
      * a HolographicMenus hologram
      */
-    public Hologram createHologram(Location location, String label, Collection<Player> viewers);
+    Hologram createHologram(Location location, String label, Collection<Player> viewers);
 
     /**
      * @param location
@@ -48,13 +48,13 @@ public interface HologramWrapper {
      * @return
      * a HolographicMenus hologram
      */
-    public Hologram createHologram(Location location, ItemStack item, Collection<Player> viewers);
+    Hologram createHologram(Location location, ItemStack item, Collection<Player> viewers);
 
     /**
      * @param hologram
      * a HolographicMenus hologram wrapper object created trough a HologramWrapper
      */
-    public void deleteHologram(Hologram hologram);
+    void deleteHologram(Hologram hologram);
 
     /**
      * Moves the hologram to a new position
@@ -64,6 +64,6 @@ public interface HologramWrapper {
      * @param location
      * the target location
      */
-    public void moveHologram(Hologram hologram, Location location);
+    void moveHologram(Hologram hologram, Location location);
 
 }
