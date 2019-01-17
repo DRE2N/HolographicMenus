@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2018 Daniel Saukel
+ * Copyright (C) 2016-2019 Daniel Saukel
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,7 +61,7 @@ public class InfoCommand extends DRECommand {
         MessageUtil.sendCenteredMessage(sender, "&b&l###### " + HMessage.CMD_INFO_WELCOME.getMessage() + "&7 v" + plugin.getDescription().getVersion() + " &b&l######");
         MessageUtil.sendCenteredMessage(sender, HMessage.CMD_INFO_LOADED.getMessage(holographicdisplays));
         MessageUtil.sendCenteredMessage(sender, HMessage.CMD_INFO_HELP.getMessage());
-        MessageUtil.sendCenteredMessage(sender, "&7\u00a92016-2018 Daniel Saukel; licensed under GPLv3.");
+        MessageUtil.sendCenteredMessage(sender, "&7\u00a92016-2019 Daniel Saukel; licensed under GPLv3.");
     }
 
 }
